@@ -12,7 +12,7 @@
         "name": "ex01_add",
         "title": "ex01 add",
         "prompt": "Return a plus b.",
-        "starterCode": "def ex01_add(a, b):\n    \"\"\"Return a plus b.\"\"\"\n    raise TODO",
+        "starterCode": "def ex01_add(a, b):\n    \"\"\"Return a plus b.\"\"\"\n    return a + b        # <-- SOLVED FOR YOU. This is what an answer looks like.",
         "kind": "function",
         "params": [
           "a",
@@ -550,7 +550,7 @@
         "name": "Dog",
         "title": "Dog",
         "prompt": "Give Dog an __init__ that stores `name` and `age` on the object,\nand a method `speak()` returning '<name> says woof'.",
-        "starterCode": "class Dog:\n    \"\"\"Give Dog an __init__ that stores `name` and `age` on the object,\n    and a method `speak()` returning '<name> says woof'.\"\"\"\n    pass        # replace this whole class body",
+        "starterCode": "class Dog:\n    \"\"\"Give Dog an __init__ that stores `name` and `age` on the object,\n    and a method `speak()` returning '<name> says woof'.\"\"\"\n    pass",
         "kind": "class",
         "params": []
       },
@@ -561,7 +561,7 @@
         "name": "Counter2",
         "title": "Counter2",
         "prompt": "A counter starting at 0.\n.increment()  adds 1\n.value        the current count",
-        "starterCode": "class Counter2:\n    \"\"\"A counter starting at 0.\n      .increment()  adds 1\n      .value        the current count\n    \"\"\"\n    pass        # replace this whole class body",
+        "starterCode": "class Counter2:\n    \"\"\"A counter starting at 0.\n      .increment()  adds 1\n      .value        the current count\n    \"\"\"\n    pass",
         "kind": "class",
         "params": []
       },

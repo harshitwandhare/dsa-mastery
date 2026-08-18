@@ -166,6 +166,33 @@ def build_problems() -> list[dict]:
 
 
 # ----------------------------------------------------------------- drills --
+# Exercises whose body is published exactly as written. File 00 opens with one
+# worked example so a complete beginner can see the shape of an answer before
+# being asked for one; everything else must ship as an unsolved stub.
+WORKED_EXAMPLES = frozenset({"day0_python.ex01_add"})
+
+
+def canonical_starter(node: ast.FunctionDef | ast.ClassDef, lines: list[str]) -> str:
+    """Rebuild an exercise as its signature, its docstring, and `raise TODO`.
+
+    The drill files are a working directory: solving an exercise replaces its
+    body in place. Copying that body into the published starter would leak the
+    answer to every reader as soon as the solved file was committed, so the
+    starter is regenerated from the parts that are actually the question.
+    """
+    first = node.body[0]
+    has_doc = isinstance(first, ast.Expr) and isinstance(first.value, ast.Constant)
+
+    # Slice the signature and the docstring straight out of the source rather
+    # than re-rendering them, so their original wrapping and indentation survive.
+    head_end = (first.end_lineno or first.lineno) if has_doc else first.lineno - 1
+    head = "\n".join(lines[node.lineno - 1 : head_end]).rstrip()
+
+    # A class exercise asks for methods, so it needs a body that still parses.
+    stub = "    pass" if isinstance(node, ast.ClassDef) else "    raise TODO"
+    return f"{head}\n{stub}"
+
+
 def build_drills() -> list[dict]:
     drills = []
     drill_dir = ROOT / "practice" / "drills"
@@ -197,10 +224,14 @@ def build_drills() -> list[dict]:
                 continue
             doc = ast.get_docstring(node) or ""
             start, end = node.lineno, (node.end_lineno or node.lineno)
-            starter = "\n".join(lines[start - 1 : end])
+            exercise_id = f"{path.stem}.{node.name}"
+            if exercise_id in WORKED_EXAMPLES:
+                starter = "\n".join(lines[start - 1 : end])
+            else:
+                starter = canonical_starter(node, lines)
             exercises.append(
                 {
-                    "id": f"{path.stem}.{node.name}",
+                    "id": exercise_id,
                     "drillId": path.stem,
                     "day": day_of_line.get(start, 1),
                     "name": node.name,
