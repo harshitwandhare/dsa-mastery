@@ -21,11 +21,12 @@ updates:
     commit-message:
       prefix: "ci"
 
-  # The web app lands in web/ during the platform build; uncomment then.
-  # - package-ecosystem: "npm"
-  #   directory: "/web"
-  #   schedule:
-  #     interval: "weekly"
-  #   groups:
-  #     web-deps:
-  #       patterns: ["*"]
+  - package-ecosystem: "npm"
+    directory: "/web"
+    schedule:
+      interval: "weekly"
+    groups:
+      web-deps:
+        patterns: ["*"]
+    commit-message:
+      prefix: "deps"

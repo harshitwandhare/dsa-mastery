@@ -43,27 +43,9 @@ uv run pytest -m practice        # your own progress through the problems
 
 The curriculum is written against a specific plan: a fixed daily time budget, a
 target hiring cycle, and Python as the interview language. That plan lives in
-[PLAN.md](PLAN.md) — read it if you want to know what assumptions the schedules
-below are built on, or adapt it to your own timeline.
-
----
-
-## 0. Read this first: the timing situation
-
-| Company | Summer 2027 application window |
-|---|---|
-| **Google (SWE Intern)** | **Posted July 20, 2026**: already live. Google historically closes intern reqs 2–3 weeks after opening. |
-| Google STEP | Follows SWE intern posting, typically Aug–Sep |
-| Amazon | July–September (rolling, first-come) |
-| Meta | August–September |
-| Microsoft | September–October |
-| Apple / Netflix | Rolling, year-round |
-| Quant (Jane Street, HRT, Citadel) | August–September, closes fast |
-| Startups / AI labs | Rolling, often Oct–Feb |
-
-**Implication:** you cannot "finish studying, then apply." Applications and studying run in parallel starting today. Rolling admissions means an application sent in August is worth several sent in November.
-
-**Also true:** an internship is the highest-probability path to a full-time offer, but it is not the only one. New-grad reqs open Aug–Oct 2027 for 2028 starts, and the identical skill set serves both. If Summer 2027 doesn't land, the work is not wasted — it is 90% of the new-grad pipeline. Nothing in this curriculum is throwaway.
+[PLAN.md](PLAN.md), along with the application-timing research it was built
+from. Read it if you want to know what assumptions the schedules below make, or
+adapt it to your own timeline.
 
 ---
 

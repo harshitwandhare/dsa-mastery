@@ -23,8 +23,8 @@ sustainable.
 
 **Applications run in parallel with studying, from day one.** Internship
 hiring is rolling and the windows open in July. Waiting until the curriculum is
-finished means applying after the reqs have closed. See
-[the timing situation](README.md#0-read-this-first-the-timing-situation).
+finished means applying after the reqs have closed. The windows below are what
+that conclusion was drawn from.
 
 **Python, decided once.** Revisiting the language choice is the most common way
 to lose two weeks. The reasoning is in
@@ -38,3 +38,24 @@ cut the [phase plan](README.md#4-phase-plan) from the back, not the front: the
 first three files carry roughly 40% of what interviews actually ask.
 
 Progress is tracked in [tracker.md](tracker.md).
+
+## Application timing, as researched in August 2026
+
+This is a snapshot, not a standing fact. Windows shift year to year, so treat
+the shape of it — that the big windows open in July and August and close fast —
+rather than the exact dates.
+
+| Company | Summer 2027 application window |
+|---|---|
+| **Google (SWE Intern)** | **Posted July 20, 2026**: already live. Google historically closes intern reqs 2–3 weeks after opening. |
+| Google STEP | Follows SWE intern posting, typically Aug–Sep |
+| Amazon | July–September (rolling, first-come) |
+| Meta | August–September |
+| Microsoft | September–October |
+| Apple / Netflix | Rolling, year-round |
+| Quant (Jane Street, HRT, Citadel) | August–September, closes fast |
+| Startups / AI labs | Rolling, often Oct–Feb |
+
+**Implication:** you cannot "finish studying, then apply." Applications and studying run in parallel starting today. Rolling admissions means an application sent in August is worth several sent in November.
+
+**Also true:** an internship is the highest-probability path to a full-time offer, but it is not the only one. New-grad reqs open Aug–Oct 2027 for 2028 starts, and the identical skill set serves both. If Summer 2027 doesn't land, the work is not wasted — it is 90% of the new-grad pipeline. Nothing in this curriculum is throwaway.
