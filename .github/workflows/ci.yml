@@ -211,15 +211,19 @@ jobs:
       - name: Count solved problems
         run: |
           set +e
-          uv run pytest -m practice -q --tb=no > progress.txt 2>&1
+          # No -q here: addopts already sets it, and a second one makes -qq,
+          # which suppresses the very tally this job exists to report.
+          uv run pytest -m practice --tb=no --no-header -p no:cacheprovider > progress.txt 2>&1
           set -e
-          tail -1 progress.txt
+          # pytest prints the tally as its own line; the short-summary FAILED
+          # lines around it are noise, so match the tally rather than tailing.
+          tally=$(grep -oE '[0-9]+ (passed|failed)(, [0-9]+ (passed|failed|deselected))*' progress.txt | tail -1)
+          [ -n "$tally" ] || tally="could not read a tally from pytest"
+          echo "$tally"
           {
             echo "### Practice progress"
             echo ""
-            echo '```'
-            tail -1 progress.txt
-            echo '```'
+            echo "**$tally**"
             echo ""
             echo "Failures here are expected: each per-problem test goes green"
             echo "when that problem is solved. This job never blocks a merge."
