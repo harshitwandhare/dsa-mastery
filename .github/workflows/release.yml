@@ -1,0 +1,68 @@
+# Cut a release by pushing a SemVer tag:
+#
+#     git tag -a v0.2.0 -m "..." && git push origin v0.2.0
+#
+# The notes come from CHANGELOG.md rather than from commit subjects, so what a
+# reader sees is what was deliberately written for them.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Publish the GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the release
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Extract the notes for this version from the changelog
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          # The section between "## [x.y.z]" and the next "## [" heading.
+          # index() is used rather than a regex so the brackets need no escaping
+          # and the behaviour is the same across awk implementations.
+          awk -v ver="$version" '
+            index($0, "## [" ver "]") == 1 { flag=1; next }
+            flag && index($0, "## [") == 1 { exit }
+            flag { print }
+          ' CHANGELOG.md | sed '/./,$!d' > RELEASE_NOTES.md
+
+          if [ ! -s RELEASE_NOTES.md ]; then
+            echo "::error::No CHANGELOG.md section found for $GITHUB_REF_NAME."
+            echo "Add a '## [$version]' heading before tagging."
+            exit 1
+          fi
+
+          {
+            echo ""
+            echo "---"
+            echo ""
+            echo "Read the curriculum: <https://dsa-mastery-delta.vercel.app>"
+          } >> RELEASE_NOTES.md
+
+          echo "----- release notes -----"
+          cat RELEASE_NOTES.md
+
+      # Idempotent: a release may already exist if the tag was cut by hand.
+      # Creating it again is a hard error in `gh`, so update it instead.
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG exists; updating its notes."
+            gh release edit "$TAG" --notes-file RELEASE_NOTES.md
+          else
+            gh release create "$TAG" \
+              --title "$TAG" \
+              --notes-file RELEASE_NOTES.md \
+              --verify-tag
+          fi
