@@ -72,6 +72,20 @@ uv run pytest                     # everything
 If you add a test that must always pass, put it in `tests/` at the repository
 root.
 
+## Deployment
+
+`main` deploys itself. Every push to `main` that touches `web/` builds and ships
+to Vercel through `.github/workflows/deploy.yml`, and every pull request gets its
+own preview URL in the run summary. Nothing needs to be deployed by hand.
+
+The workflow needs three repository secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID` and
+`VERCEL_PROJECT_ID`. The two IDs come from `web/.vercel/project.json` after
+`vercel link`; the token comes from <https://vercel.com/account/tokens>.
+
+A deploy is only trusted once it has been fetched back: the workflow requests the
+deployed URL and fails if it does not return 200 with the app on it, because a
+successful upload is not the same thing as a working site.
+
 ## Commits and pull requests
 
 - Branch off `main`; do not commit to it directly.

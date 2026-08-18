@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/ci.yml/badge.svg)](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/codeql.yml/badge.svg)](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/codeql.yml)
+[![Deploy](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/deploy.yml/badge.svg)](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/deploy.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/harshitwandhare/dsa-mastery/badge)](https://scorecard.dev/viewer/?uri=github.com/harshitwandhare/dsa-mastery)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org/)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230)](https://github.com/astral-sh/ruff)
@@ -11,6 +12,9 @@ A complete interview-preparation curriculum written from first principles: 21
 lessons, 315 indexed problems, 75 graded Python drills, and a runnable practice
 environment. Everything is generated from the markdown, so the lessons and the
 tooling can never disagree.
+
+**Read it in the browser:** <https://dsa-mastery-delta.vercel.app> — the lessons
+render as pages, and the Python examples run where you read them.
 
 **New here?** Start with [Python From Zero](00-python-from-zero.md) if you have
 never programmed, or [Foundations](01-foundations.md) if you have.
