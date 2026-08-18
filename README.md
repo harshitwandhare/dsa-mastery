@@ -41,11 +41,10 @@ uv run pytest -m practice        # your own progress through the problems
 
 ---
 
-**Owner:** Harshit Wandhare
-**Started:** 2026-08-13
-**Goal:** Summer 2027 SWE internship → full-time offer at a top company (FAANG / AI lab / high-tier startup)
-**Budget:** 90 minutes/day, 6 days/week + one 2-hour weekend block
-**Language:** Python (interviews) + TypeScript (product work)
+The curriculum is written against a specific plan: a fixed daily time budget, a
+target hiring cycle, and Python as the interview language. That plan lives in
+[PLAN.md](PLAN.md) — read it if you want to know what assumptions the schedules
+below are built on, or adapt it to your own timeline.
 
 ---
 
