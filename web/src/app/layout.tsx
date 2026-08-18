@@ -33,7 +33,15 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+// Typed explicitly rather than with Next's generated `LayoutProps` global. That
+// helper only exists after a build has written .next/types, so relying on it
+// makes `tsc --noEmit` pass locally on a stale build directory and fail in CI,
+// where type-checking runs before the build.
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable} h-full`}>
       <body className="flex min-h-full flex-col bg-bg text-text">
