@@ -30,3 +30,17 @@ updates:
         patterns: ["*"]
     commit-message:
       prefix: "deps"
+    ignore:
+      # typescript-eslint refuses to load under TS 7 ("does not support TS 7.0")
+      # and takes the whole lint step down with it. Hold at 6.x until it ships
+      # support; the same wall is documented in job-sentinel.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      # eslint 10 moves ahead of what eslint-config-next pins, so the config
+      # fails to resolve. Follow Next's supported major rather than the newest.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      # @types/node must track the Node the runtime actually uses (22 in CI,
+      # 24 on Vercel), not the newest major on npm.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
