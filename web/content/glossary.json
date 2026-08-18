@@ -1,0 +1,522 @@
+[
+  {
+    "term": "in-place",
+    "meaning": "modifies the input directly, using O(1) extra memory, instead of building a new structure",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "stable (sorting)",
+    "meaning": "equal elements keep their original relative order",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "invariant",
+    "meaning": "something that stays true throughout a loop or structure",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "canonical form",
+    "meaning": "a normalised representation so equivalent things become identical — e.g. sorting a word's letters so all anagrams share one key",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "monotonic",
+    "meaning": "only ever moves one direction — never increases, or never decreases",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "sentinel",
+    "meaning": "a fake element added to remove edge cases, e.g. a dummy head node so \"delete the first item\" needs no special case",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "brute force",
+    "meaning": "the obvious, exhaustive, usually-too-slow solution. Always your starting point",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "heuristic",
+    "meaning": "a rule that usually works but isn't guaranteed optimal",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "deterministic",
+    "meaning": "same input always gives the same output",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "idempotent",
+    "meaning": "doing it twice has the same effect as doing it once",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "contiguous",
+    "meaning": "stored in one unbroken block of memory (arrays) or adjacent in a sequence (subarrays)",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "aliasing",
+    "meaning": "two names pointing at the same object, so changing one changes \"both\"",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "reference vs value",
+    "meaning": "a variable holds a reference (an arrow to an object) for lists/dicts/objects, and behaves like a value for ints/strings. This is why b = a doesn't copy a list",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "pointer",
+    "meaning": "a variable holding a memory address. Python has no explicit pointers, but linked-list .next is exactly this idea",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "allocate",
+    "meaning": "reserve memory for something",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "stack frame",
+    "meaning": "the memory holding one function call's local variables. Nested calls stack up; too many = RecursionError",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "DAG",
+    "meaning": "Directed Acyclic Graph — arrows have direction and there are no cycles. Required for topological sort",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "acyclic",
+    "meaning": "contains no cycles (no path that loops back to where it started)",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "bipartite",
+    "meaning": "a graph whose nodes can be split into two groups with every edge crossing between them",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "indegree",
+    "meaning": "how many arrows point into a node. Used by Kahn's topological sort",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "NP-hard",
+    "meaning": "no known efficient (polynomial-time) algorithm exists. If you can identify a problem as NP-hard, that itself is the right interview answer",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "polynomial time",
+    "meaning": "O(n^k) for some fixed k — considered \"tractable\"",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "hash function",
+    "meaning": "turns a key into a number, so you can jump straight to a slot instead of searching",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "collision",
+    "meaning": "two different keys hashing to the same slot",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "load factor",
+    "meaning": "how full a hash table is. Python resizes at about 2/3 to keep collisions rare",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "cache",
+    "meaning": "a small fast store of recently or frequently used data",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "cache locality",
+    "meaning": "how close together in memory the data you access is. Arrays have great locality; linked lists have terrible locality — this is why arrays are faster in practice despite identical Big-O",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "garbage collection",
+    "meaning": "automatic freeing of memory you're no longer using",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "compile vs interpret",
+    "meaning": "compiled languages (C++, Java) translate to machine code ahead of time; Python interprets line by line at runtime. This is why Python is slower and why LeetCode gives it more generous time limits",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "runtime",
+    "meaning": "(1) when the program is running, as opposed to when it's written; (2) how long it takes",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "two's complement",
+    "meaning": "how computers represent negative numbers in binary. Relevant only to bit-manipulation problems",
+    "section": "19.2 CS vocabulary, decoded"
+  },
+  {
+    "term": "client / server",
+    "meaning": "the client asks (your browser, a phone app); the server answers",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "request / response",
+    "meaning": "one round trip: client sends a request, server sends a response",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "API",
+    "meaning": "Application Programming Interface — the set of operations one program exposes to another. \"Call the API\" = ask another program to do something",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "endpoint",
+    "meaning": "one specific address in an API, e.g. GET /users/42",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "REST",
+    "meaning": "a convention for APIs: resources as URLs, HTTP verbs for actions (GET reads, POST creates, DELETE removes)",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "HTTP",
+    "meaning": "the protocol browsers and APIs speak",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "JSON",
+    "meaning": "the standard text format for sending structured data: {\"name\": \"Harshit\", \"age\": 22}. Looks exactly like a Python dict",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "latency",
+    "meaning": "how long one operation takes (a single request: 200 ms)",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "throughput",
+    "meaning": "how many operations per second in total (10,000 requests/sec). They are different and often traded against each other",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "QPS",
+    "meaning": "queries per second — throughput for a service",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "scaling up / out",
+    "meaning": "up = a bigger machine; out = more machines",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "stateless",
+    "meaning": "the server keeps no memory between requests, so any server can handle any request. Required for horizontal scaling",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "schema",
+    "meaning": "the structure of your data: which tables, which columns, which types",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "index (database)",
+    "meaning": "a lookup structure that makes searching a column fast — the same idea as binary search, applied to disk",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "transaction",
+    "meaning": "a group of database operations that all succeed or all fail together",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "ACID",
+    "meaning": "Atomicity, Consistency, Isolation, Durability — the guarantees a relational database gives a transaction",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "shard",
+    "meaning": "split data across several machines",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "replica",
+    "meaning": "a copy of the data, usually for serving reads",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "load balancer",
+    "meaning": "sits in front of many servers and distributes incoming requests",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "CDN",
+    "meaning": "Content Delivery Network — geographically distributed caches for images, video, and static files",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "proxy",
+    "meaning": "a server that sits between two parties and forwards traffic",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "middleware",
+    "meaning": "code that runs on every request before your handler (auth checks, logging)",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "container / Docker",
+    "meaning": "a packaged app plus its dependencies, so it runs identically everywhere",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "CI/CD",
+    "meaning": "Continuous Integration / Deployment — automation that runs your tests and ships your code on every push",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "thread / process",
+    "meaning": "a process is a running program with its own memory; a thread is one execution path inside it",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "race condition",
+    "meaning": "two things touch shared data at once and the result depends on timing. The bug class that concurrency exists to manage",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "atomic",
+    "meaning": "happens completely or not at all; cannot be interrupted halfway",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "mutex / lock",
+    "meaning": "a mechanism ensuring only one thread enters a section at a time",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "deadlock",
+    "meaning": "two threads each holding what the other needs, both stuck forever",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "serialize",
+    "meaning": "convert an object into a string or bytes so it can be stored or sent (and deserialize to reverse it)",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "regression",
+    "meaning": "something that used to work and now doesn't. \"Regression test\" = a test that stops it recurring",
+    "section": "19.3 The engineering vocabulary"
+  },
+  {
+    "term": "OA",
+    "meaning": "Online Assessment — an automated coding test, usually the first technical filter. Your TikTok CodeSignal is one",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "phone screen",
+    "meaning": "a 45-minute technical interview, typically one or two coding problems over video",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "onsite / loop",
+    "meaning": "the final round: 4–6 back-to-back interviews in one day. \"Loop\" means the whole set",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "new grad",
+    "meaning": "a full-time role for someone graduating within the year (as opposed to an internship)",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "req",
+    "meaning": "requisition — an open, approved job slot. \"The req closed\" = they stopped accepting applications",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "rolling",
+    "meaning": "applications are reviewed as they arrive rather than after a deadline. Applying early genuinely helps",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "referral",
+    "meaning": "an existing employee submits you. Worth roughly 5–10 cold applications",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "recruiter",
+    "meaning": "the person managing your process. Not an engineer; ask them about timeline and logistics, not technical detail",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "hiring manager",
+    "meaning": "the person who'd be your boss and who makes the call",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "STAR",
+    "meaning": "Situation, Task, Action, Result — the standard structure for behavioural answers",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "behavioural",
+    "meaning": "the non-coding interview about how you work with people",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "LP",
+    "meaning": "Leadership Principle — Amazon's named values, which they interview against explicitly",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "L3 / L4 / L5",
+    "meaning": "seniority levels. L3 is typically new grad, L4 mid, L5 senior. Terminology varies by company",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "editorial",
+    "meaning": "LeetCode's official written solution",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "mock",
+    "meaning": "a practice interview under real conditions",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "Blind 75 / NeetCode 150",
+    "meaning": "the two standard curated problem lists",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "grinding",
+    "meaning": "working through problems in volume",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "TC",
+    "meaning": "total compensation — base + bonus + equity",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "exploding offer",
+    "meaning": "an offer with a short deadline, used to stop you interviewing elsewhere",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "ghosting",
+    "meaning": "a company going silent. Common and rarely personal",
+    "section": "19.4 The interview lexicon"
+  },
+  {
+    "term": "repository (repo)",
+    "meaning": "a project tracked by git",
+    "section": "19.5 Terminal and Git survival"
+  },
+  {
+    "term": "commit",
+    "meaning": "one saved snapshot, with a message describing it",
+    "section": "19.5 Terminal and Git survival"
+  },
+  {
+    "term": "branch",
+    "meaning": "a parallel line of work; main is the default",
+    "section": "19.5 Terminal and Git survival"
+  },
+  {
+    "term": "merge",
+    "meaning": "combine one branch into another",
+    "section": "19.5 Terminal and Git survival"
+  },
+  {
+    "term": "push / pull",
+    "meaning": "send your commits to GitHub / fetch others' commits down",
+    "section": "19.5 Terminal and Git survival"
+  },
+  {
+    "term": "pull request (PR)",
+    "meaning": "a proposal to merge your branch, where others review it",
+    "section": "19.5 Terminal and Git survival"
+  },
+  {
+    "term": "clone",
+    "meaning": "download a repo for the first time",
+    "section": "19.5 Terminal and Git survival"
+  },
+  {
+    "term": "diff",
+    "meaning": "the lines that changed",
+    "section": "19.5 Terminal and Git survival"
+  },
+  {
+    "term": "staging",
+    "meaning": "choosing which changes go into the next commit",
+    "section": "19.5 Terminal and Git survival"
+  },
+  {
+    "term": "arr[i]",
+    "meaning": "the element at index i (counting from 0)",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "arr[i:j]",
+    "meaning": "the slice from i up to but not including j",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "arr[-1]",
+    "meaning": "the last element",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "n",
+    "meaning": "the size of the input, almost always",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "k",
+    "meaning": "a second, usually smaller quantity (\"the k largest\")",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "V, E",
+    "meaning": "vertices (nodes) and edges, in graph complexity",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "h",
+    "meaning": "the height of a tree",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "O(1)",
+    "meaning": "constant — independent of input size",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "dp[i]",
+    "meaning": "the dynamic-programming table entry for state i",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "lo, hi",
+    "meaning": "the low and high bounds of a search range",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "->",
+    "meaning": "\"leads to\" in prose; in Python type hints, the return type",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "⭐ / 🔥",
+    "meaning": "in file 12: also in Blind 75 / asked very frequently",
+    "section": "19.6 Notation used in this curriculum"
+  },
+  {
+    "term": "# O(n) time, O(1) space",
+    "meaning": "the complexity of the code above it",
+    "section": "19.6 Notation used in this curriculum"
+  }
+]

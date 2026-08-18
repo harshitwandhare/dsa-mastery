@@ -1,0 +1,4733 @@
+[
+  {
+    "slug": "contains-duplicate",
+    "title": "Contains Duplicate",
+    "difficulty": "easy",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "hash set"
+    ],
+    "insight": "len(set(nums)) != len(nums)",
+    "leetcodeUrl": "https://leetcode.com/problems/contains-duplicate/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 1
+  },
+  {
+    "slug": "valid-anagram",
+    "title": "Valid Anagram",
+    "difficulty": "easy",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "frequency"
+    ],
+    "insight": "Counter(s) == Counter(t)",
+    "leetcodeUrl": "https://leetcode.com/problems/valid-anagram/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 2
+  },
+  {
+    "slug": "two-sum",
+    "title": "Two Sum",
+    "difficulty": "easy",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "hash map"
+    ],
+    "insight": "store value→index; check complement before inserting",
+    "leetcodeUrl": "https://leetcode.com/problems/two-sum/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 3
+  },
+  {
+    "slug": "group-anagrams",
+    "title": "Group Anagrams",
+    "difficulty": "medium",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "hash + canonical key"
+    ],
+    "insight": "key = sorted string, or a 26-length count tuple for O(n·k)",
+    "leetcodeUrl": "https://leetcode.com/problems/group-anagrams/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 4
+  },
+  {
+    "slug": "top-k-frequent-elements",
+    "title": "Top K Frequent Elements",
+    "difficulty": "medium",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "heap / bucket"
+    ],
+    "insight": "bucket by frequency → O(n), beats the heap's O(n log k)",
+    "leetcodeUrl": "https://leetcode.com/problems/top-k-frequent-elements/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 5
+  },
+  {
+    "slug": "encode-and-decode-strings",
+    "title": "Encode and Decode Strings",
+    "difficulty": "medium",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "serialization"
+    ],
+    "insight": "length-prefix each string (4#word); delimiters alone are ambiguous",
+    "leetcodeUrl": "https://leetcode.com/problems/encode-and-decode-strings/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 6
+  },
+  {
+    "slug": "product-of-array-except-self",
+    "title": "Product of Array Except Self",
+    "difficulty": "medium",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "prefix/suffix"
+    ],
+    "insight": "left pass then right pass, O(1) extra space",
+    "leetcodeUrl": "https://leetcode.com/problems/product-of-array-except-self/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 7
+  },
+  {
+    "slug": "valid-sudoku",
+    "title": "Valid Sudoku",
+    "difficulty": "medium",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "hash sets"
+    ],
+    "insight": "three dicts of sets; box key is (r//3, c//3)",
+    "leetcodeUrl": "https://leetcode.com/problems/valid-sudoku/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 8
+  },
+  {
+    "slug": "longest-consecutive-sequence",
+    "title": "Longest Consecutive Sequence",
+    "difficulty": "medium",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "hash set"
+    ],
+    "insight": "only start counting from x where x-1 isn't in the set",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-consecutive-sequence/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 9
+  },
+  {
+    "slug": "valid-palindrome",
+    "title": "Valid Palindrome",
+    "difficulty": "easy",
+    "topic": "Two Pointers",
+    "patterns": [
+      "converging"
+    ],
+    "insight": "skip non-alphanumeric, compare lowercase",
+    "leetcodeUrl": "https://leetcode.com/problems/valid-palindrome/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 10
+  },
+  {
+    "slug": "two-sum-ii-sorted",
+    "title": "Two Sum II — Sorted",
+    "difficulty": "medium",
+    "topic": "Two Pointers",
+    "patterns": [
+      "converging"
+    ],
+    "insight": "sum too small → move left up; too big → move right down",
+    "leetcodeUrl": "https://leetcode.com/problems/two-sum-ii-sorted/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 11
+  },
+  {
+    "slug": "3sum",
+    "title": "3Sum",
+    "difficulty": "medium",
+    "topic": "Two Pointers",
+    "patterns": [
+      "sort + two pointers"
+    ],
+    "insight": "fix one anchor; dedup twice (anchors and after a hit)",
+    "leetcodeUrl": "https://leetcode.com/problems/3sum/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 12
+  },
+  {
+    "slug": "container-with-most-water",
+    "title": "Container With Most Water",
+    "difficulty": "medium",
+    "topic": "Two Pointers",
+    "patterns": [
+      "converging greedy"
+    ],
+    "insight": "always move the shorter line — moving the taller can't help",
+    "leetcodeUrl": "https://leetcode.com/problems/container-with-most-water/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 13
+  },
+  {
+    "slug": "trapping-rain-water",
+    "title": "Trapping Rain Water",
+    "difficulty": "hard",
+    "topic": "Two Pointers",
+    "patterns": [
+      "two pointers"
+    ],
+    "insight": "water at i = min(left_max, right_max) - h[i]; advance the smaller side",
+    "leetcodeUrl": "https://leetcode.com/problems/trapping-rain-water/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 14
+  },
+  {
+    "slug": "best-time-to-buy-and-sell-stock",
+    "title": "Best Time to Buy and Sell Stock",
+    "difficulty": "easy",
+    "topic": "Sliding Window",
+    "patterns": [
+      "running min"
+    ],
+    "insight": "track the min so far; profit = price − min",
+    "leetcodeUrl": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 15
+  },
+  {
+    "slug": "longest-substring-without-repeating",
+    "title": "Longest Substring Without Repeating",
+    "difficulty": "medium",
+    "topic": "Sliding Window",
+    "patterns": [
+      "variable window"
+    ],
+    "insight": "last-seen index map; guard last[c] >= left",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-substring-without-repeating/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 16
+  },
+  {
+    "slug": "longest-repeating-character-replacement",
+    "title": "Longest Repeating Character Replacement",
+    "difficulty": "medium",
+    "topic": "Sliding Window",
+    "patterns": [
+      "variable window"
+    ],
+    "insight": "valid iff window_len - max_freq <= k",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-repeating-character-replacement/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 17
+  },
+  {
+    "slug": "permutation-in-string",
+    "title": "Permutation in String",
+    "difficulty": "medium",
+    "topic": "Sliding Window",
+    "patterns": [
+      "fixed window"
+    ],
+    "insight": "window of len(s1), compare frequency counts",
+    "leetcodeUrl": "https://leetcode.com/problems/permutation-in-string/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 18
+  },
+  {
+    "slug": "minimum-window-substring",
+    "title": "Minimum Window Substring",
+    "difficulty": "hard",
+    "topic": "Sliding Window",
+    "patterns": [
+      "variable window"
+    ],
+    "insight": "formed/required counters make validity O(1)",
+    "leetcodeUrl": "https://leetcode.com/problems/minimum-window-substring/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 19
+  },
+  {
+    "slug": "sliding-window-maximum",
+    "title": "Sliding Window Maximum",
+    "difficulty": "hard",
+    "topic": "Sliding Window",
+    "patterns": [
+      "monotonic deque"
+    ],
+    "insight": "deque of indices, values decreasing; front is the max",
+    "leetcodeUrl": "https://leetcode.com/problems/sliding-window-maximum/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 20
+  },
+  {
+    "slug": "valid-parentheses",
+    "title": "Valid Parentheses",
+    "difficulty": "easy",
+    "topic": "Stack",
+    "patterns": [
+      "stack"
+    ],
+    "insight": "push openers; on a closer, the top must match",
+    "leetcodeUrl": "https://leetcode.com/problems/valid-parentheses/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 21
+  },
+  {
+    "slug": "min-stack",
+    "title": "Min Stack",
+    "difficulty": "medium",
+    "topic": "Stack",
+    "patterns": [
+      "auxiliary stack"
+    ],
+    "insight": "parallel stack of running minimums",
+    "leetcodeUrl": "https://leetcode.com/problems/min-stack/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 22
+  },
+  {
+    "slug": "evaluate-reverse-polish-notation",
+    "title": "Evaluate Reverse Polish Notation",
+    "difficulty": "medium",
+    "topic": "Stack",
+    "patterns": [
+      "stack"
+    ],
+    "insight": "pop two, apply, push; int(a/b) truncates toward zero",
+    "leetcodeUrl": "https://leetcode.com/problems/evaluate-reverse-polish-notation/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 23
+  },
+  {
+    "slug": "generate-parentheses",
+    "title": "Generate Parentheses",
+    "difficulty": "medium",
+    "topic": "Stack",
+    "patterns": [
+      "backtracking"
+    ],
+    "insight": "rule: open < n to add '(', close < open to add ')'",
+    "leetcodeUrl": "https://leetcode.com/problems/generate-parentheses/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 24
+  },
+  {
+    "slug": "daily-temperatures",
+    "title": "Daily Temperatures",
+    "difficulty": "medium",
+    "topic": "Stack",
+    "patterns": [
+      "monotonic stack"
+    ],
+    "insight": "decreasing stack of indices; answer is the index distance",
+    "leetcodeUrl": "https://leetcode.com/problems/daily-temperatures/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 25
+  },
+  {
+    "slug": "car-fleet",
+    "title": "Car Fleet",
+    "difficulty": "medium",
+    "topic": "Stack",
+    "patterns": [
+      "monotonic stack"
+    ],
+    "insight": "sort by position descending; a slower car ahead absorbs you",
+    "leetcodeUrl": "https://leetcode.com/problems/car-fleet/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 26
+  },
+  {
+    "slug": "largest-rectangle-in-histogram",
+    "title": "Largest Rectangle in Histogram",
+    "difficulty": "hard",
+    "topic": "Stack",
+    "patterns": [
+      "monotonic stack"
+    ],
+    "insight": "increasing stack of (start_index, height), then drain",
+    "leetcodeUrl": "https://leetcode.com/problems/largest-rectangle-in-histogram/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 27
+  },
+  {
+    "slug": "binary-search",
+    "title": "Binary Search",
+    "difficulty": "easy",
+    "topic": "Binary Search",
+    "patterns": [
+      "template"
+    ],
+    "insight": "inclusive bounds, lo <= hi, always exclude mid",
+    "leetcodeUrl": "https://leetcode.com/problems/binary-search/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 28
+  },
+  {
+    "slug": "search-a-2d-matrix",
+    "title": "Search a 2D Matrix",
+    "difficulty": "medium",
+    "topic": "Binary Search",
+    "patterns": [
+      "flatten"
+    ],
+    "insight": "treat as one array: row = i // cols, col = i % cols",
+    "leetcodeUrl": "https://leetcode.com/problems/search-a-2d-matrix/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 29
+  },
+  {
+    "slug": "koko-eating-bananas",
+    "title": "Koko Eating Bananas",
+    "difficulty": "medium",
+    "topic": "Binary Search",
+    "patterns": [
+      "search the answer"
+    ],
+    "insight": "monotonic: if speed k works, every speed > k works",
+    "leetcodeUrl": "https://leetcode.com/problems/koko-eating-bananas/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 30
+  },
+  {
+    "slug": "find-minimum-in-rotated-sorted-array",
+    "title": "Find Minimum in Rotated Sorted Array",
+    "difficulty": "medium",
+    "topic": "Binary Search",
+    "patterns": [
+      "modified BS"
+    ],
+    "insight": "compare nums[mid] to nums[hi], never to nums[lo]",
+    "leetcodeUrl": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 31
+  },
+  {
+    "slug": "search-in-rotated-sorted-array",
+    "title": "Search in Rotated Sorted Array",
+    "difficulty": "medium",
+    "topic": "Binary Search",
+    "patterns": [
+      "modified BS"
+    ],
+    "insight": "one half is always sorted — find it, then test containment",
+    "leetcodeUrl": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 32
+  },
+  {
+    "slug": "time-based-key-value-store",
+    "title": "Time Based Key-Value Store",
+    "difficulty": "medium",
+    "topic": "Binary Search",
+    "patterns": [
+      "BS on timestamps"
+    ],
+    "insight": "dict of sorted lists + bisect_right - 1",
+    "leetcodeUrl": "https://leetcode.com/problems/time-based-key-value-store/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 33
+  },
+  {
+    "slug": "median-of-two-sorted-arrays",
+    "title": "Median of Two Sorted Arrays",
+    "difficulty": "hard",
+    "topic": "Binary Search",
+    "patterns": [
+      "BS on partition"
+    ],
+    "insight": "binary search the split point of the smaller array",
+    "leetcodeUrl": "https://leetcode.com/problems/median-of-two-sorted-arrays/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 34
+  },
+  {
+    "slug": "reverse-linked-list",
+    "title": "Reverse Linked List",
+    "difficulty": "easy",
+    "topic": "Linked List",
+    "patterns": [
+      "pointer reversal"
+    ],
+    "insight": "prev / curr / next, 4 lines — memorize",
+    "leetcodeUrl": "https://leetcode.com/problems/reverse-linked-list/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 35
+  },
+  {
+    "slug": "merge-two-sorted-lists",
+    "title": "Merge Two Sorted Lists",
+    "difficulty": "easy",
+    "topic": "Linked List",
+    "patterns": [
+      "dummy head"
+    ],
+    "insight": "compare heads, advance the smaller",
+    "leetcodeUrl": "https://leetcode.com/problems/merge-two-sorted-lists/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 36
+  },
+  {
+    "slug": "reorder-list",
+    "title": "Reorder List",
+    "difficulty": "medium",
+    "topic": "Linked List",
+    "patterns": [
+      "composition"
+    ],
+    "insight": "find middle → reverse second half → interleave",
+    "leetcodeUrl": "https://leetcode.com/problems/reorder-list/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 37
+  },
+  {
+    "slug": "remove-nth-node-from-end",
+    "title": "Remove Nth Node From End",
+    "difficulty": "medium",
+    "topic": "Linked List",
+    "patterns": [
+      "gap pointers"
+    ],
+    "insight": "fast leads slow by n; dummy head handles head removal",
+    "leetcodeUrl": "https://leetcode.com/problems/remove-nth-node-from-end/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 38
+  },
+  {
+    "slug": "copy-list-with-random-pointer",
+    "title": "Copy List With Random Pointer",
+    "difficulty": "medium",
+    "topic": "Linked List",
+    "patterns": [
+      "hash map"
+    ],
+    "insight": "old→new map, then a second pass wiring pointers",
+    "leetcodeUrl": "https://leetcode.com/problems/copy-list-with-random-pointer/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 39
+  },
+  {
+    "slug": "add-two-numbers",
+    "title": "Add Two Numbers",
+    "difficulty": "medium",
+    "topic": "Linked List",
+    "patterns": [
+      "dummy + carry"
+    ],
+    "insight": "loop while either list or a carry remains",
+    "leetcodeUrl": "https://leetcode.com/problems/add-two-numbers/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 40
+  },
+  {
+    "slug": "linked-list-cycle",
+    "title": "Linked List Cycle",
+    "difficulty": "easy",
+    "topic": "Linked List",
+    "patterns": [
+      "fast/slow"
+    ],
+    "insight": "they meet iff a cycle exists",
+    "leetcodeUrl": "https://leetcode.com/problems/linked-list-cycle/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 41
+  },
+  {
+    "slug": "find-the-duplicate-number",
+    "title": "Find the Duplicate Number",
+    "difficulty": "medium",
+    "topic": "Linked List",
+    "patterns": [
+      "Floyd's"
+    ],
+    "insight": "treat values as next pointers → cycle detection",
+    "leetcodeUrl": "https://leetcode.com/problems/find-the-duplicate-number/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 42
+  },
+  {
+    "slug": "lru-cache",
+    "title": "LRU Cache",
+    "difficulty": "medium",
+    "topic": "Linked List",
+    "patterns": [
+      "hashmap + DLL"
+    ],
+    "insight": "sentinel head/tail; nodes must store their key for eviction",
+    "leetcodeUrl": "https://leetcode.com/problems/lru-cache/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 43
+  },
+  {
+    "slug": "merge-k-sorted-lists",
+    "title": "Merge K Sorted Lists",
+    "difficulty": "hard",
+    "topic": "Linked List",
+    "patterns": [
+      "heap"
+    ],
+    "insight": "heap of k heads, (val, i, node) — index breaks ties",
+    "leetcodeUrl": "https://leetcode.com/problems/merge-k-sorted-lists/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 44
+  },
+  {
+    "slug": "reverse-nodes-in-k-group",
+    "title": "Reverse Nodes in K-Group",
+    "difficulty": "hard",
+    "topic": "Linked List",
+    "patterns": [
+      "pointer surgery"
+    ],
+    "insight": "count k ahead first; reverse the block; reconnect",
+    "leetcodeUrl": "https://leetcode.com/problems/reverse-nodes-in-k-group/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 45
+  },
+  {
+    "slug": "invert-binary-tree",
+    "title": "Invert Binary Tree",
+    "difficulty": "easy",
+    "topic": "Trees",
+    "patterns": [
+      "any traversal"
+    ],
+    "insight": "swap children, recurse",
+    "leetcodeUrl": "https://leetcode.com/problems/invert-binary-tree/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 46
+  },
+  {
+    "slug": "maximum-depth-of-binary-tree",
+    "title": "Maximum Depth of Binary Tree",
+    "difficulty": "easy",
+    "topic": "Trees",
+    "patterns": [
+      "postorder"
+    ],
+    "insight": "1 + max(left, right)",
+    "leetcodeUrl": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 47
+  },
+  {
+    "slug": "diameter-of-binary-tree",
+    "title": "Diameter of Binary Tree",
+    "difficulty": "easy",
+    "topic": "Trees",
+    "patterns": [
+      "postorder"
+    ],
+    "insight": "record l + r, return 1 + max(l, r)",
+    "leetcodeUrl": "https://leetcode.com/problems/diameter-of-binary-tree/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 48
+  },
+  {
+    "slug": "balanced-binary-tree",
+    "title": "Balanced Binary Tree",
+    "difficulty": "easy",
+    "topic": "Trees",
+    "patterns": [
+      "postorder"
+    ],
+    "insight": "fuse height + balance; -1 sentinel propagates failure",
+    "leetcodeUrl": "https://leetcode.com/problems/balanced-binary-tree/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 49
+  },
+  {
+    "slug": "same-tree",
+    "title": "Same Tree",
+    "difficulty": "easy",
+    "topic": "Trees",
+    "patterns": [
+      "parallel recursion"
+    ],
+    "insight": "compare structure and value simultaneously",
+    "leetcodeUrl": "https://leetcode.com/problems/same-tree/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 50
+  },
+  {
+    "slug": "subtree-of-another-tree",
+    "title": "Subtree of Another Tree",
+    "difficulty": "easy",
+    "topic": "Trees",
+    "patterns": [
+      "nested recursion"
+    ],
+    "insight": "at each node, run isSameTree",
+    "leetcodeUrl": "https://leetcode.com/problems/subtree-of-another-tree/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 51
+  },
+  {
+    "slug": "lowest-common-ancestor-of-a-bst",
+    "title": "Lowest Common Ancestor of a BST",
+    "difficulty": "medium",
+    "topic": "Trees",
+    "patterns": [
+      "BST property"
+    ],
+    "insight": "walk down while both targets are on the same side",
+    "leetcodeUrl": "https://leetcode.com/problems/lowest-common-ancestor-of-a-bst/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 52
+  },
+  {
+    "slug": "binary-tree-level-order-traversal",
+    "title": "Binary Tree Level Order Traversal",
+    "difficulty": "medium",
+    "topic": "Trees",
+    "patterns": [
+      "BFS"
+    ],
+    "insight": "snapshot len(q) to process exactly one level",
+    "leetcodeUrl": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 53
+  },
+  {
+    "slug": "binary-tree-right-side-view",
+    "title": "Binary Tree Right Side View",
+    "difficulty": "medium",
+    "topic": "Trees",
+    "patterns": [
+      "BFS"
+    ],
+    "insight": "last node of each level",
+    "leetcodeUrl": "https://leetcode.com/problems/binary-tree-right-side-view/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 54
+  },
+  {
+    "slug": "count-good-nodes-in-binary-tree",
+    "title": "Count Good Nodes in Binary Tree",
+    "difficulty": "medium",
+    "topic": "Trees",
+    "patterns": [
+      "preorder"
+    ],
+    "insight": "pass max_so_far down",
+    "leetcodeUrl": "https://leetcode.com/problems/count-good-nodes-in-binary-tree/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 55
+  },
+  {
+    "slug": "validate-bst",
+    "title": "Validate BST",
+    "difficulty": "medium",
+    "topic": "Trees",
+    "patterns": [
+      "preorder bounds"
+    ],
+    "insight": "inherit (low, high) — local checks are wrong",
+    "leetcodeUrl": "https://leetcode.com/problems/validate-bst/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 56
+  },
+  {
+    "slug": "kth-smallest-element-in-a-bst",
+    "title": "Kth Smallest Element in a BST",
+    "difficulty": "medium",
+    "topic": "Trees",
+    "patterns": [
+      "inorder"
+    ],
+    "insight": "iterative inorder lets you stop early, O(h+k)",
+    "leetcodeUrl": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 57
+  },
+  {
+    "slug": "construct-tree-from-preorder-inorder",
+    "title": "Construct Tree from Preorder & Inorder",
+    "difficulty": "medium",
+    "topic": "Trees",
+    "patterns": [
+      "divide & conquer"
+    ],
+    "insight": "index map for O(1) root lookup → O(n)",
+    "leetcodeUrl": "https://leetcode.com/problems/construct-tree-from-preorder-inorder/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 58
+  },
+  {
+    "slug": "binary-tree-maximum-path-sum",
+    "title": "Binary Tree Maximum Path Sum",
+    "difficulty": "hard",
+    "topic": "Trees",
+    "patterns": [
+      "postorder"
+    ],
+    "insight": "clamp negative branches to 0; return one side only",
+    "leetcodeUrl": "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 59
+  },
+  {
+    "slug": "serialize-and-deserialize-binary-tree",
+    "title": "Serialize and Deserialize Binary Tree",
+    "difficulty": "hard",
+    "topic": "Trees",
+    "patterns": [
+      "preorder + markers"
+    ],
+    "insight": "# for null encodes the shape",
+    "leetcodeUrl": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 60
+  },
+  {
+    "slug": "implement-trie",
+    "title": "Implement Trie",
+    "difficulty": "medium",
+    "topic": "Tries",
+    "patterns": [
+      "trie"
+    ],
+    "insight": "children dict + is_word flag",
+    "leetcodeUrl": "https://leetcode.com/problems/implement-trie/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 61
+  },
+  {
+    "slug": "design-add-and-search-words",
+    "title": "Design Add and Search Words",
+    "difficulty": "medium",
+    "topic": "Tries",
+    "patterns": [
+      "trie + DFS"
+    ],
+    "insight": ". recurses into every child",
+    "leetcodeUrl": "https://leetcode.com/problems/design-add-and-search-words/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 62
+  },
+  {
+    "slug": "word-search-ii",
+    "title": "Word Search II",
+    "difficulty": "hard",
+    "topic": "Tries",
+    "patterns": [
+      "trie + backtracking"
+    ],
+    "insight": "one grid DFS; prune when the prefix leaves the trie",
+    "leetcodeUrl": "https://leetcode.com/problems/word-search-ii/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 63
+  },
+  {
+    "slug": "kth-largest-element-in-a-stream",
+    "title": "Kth Largest Element in a Stream",
+    "difficulty": "easy",
+    "topic": "Heap / Priority Queue",
+    "patterns": [
+      "min-heap size k"
+    ],
+    "insight": "the root is the k-th largest",
+    "leetcodeUrl": "https://leetcode.com/problems/kth-largest-element-in-a-stream/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 64
+  },
+  {
+    "slug": "last-stone-weight",
+    "title": "Last Stone Weight",
+    "difficulty": "easy",
+    "topic": "Heap / Priority Queue",
+    "patterns": [
+      "max-heap"
+    ],
+    "insight": "negate values for Python's min-heap",
+    "leetcodeUrl": "https://leetcode.com/problems/last-stone-weight/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 65
+  },
+  {
+    "slug": "k-closest-points-to-origin",
+    "title": "K Closest Points to Origin",
+    "difficulty": "medium",
+    "topic": "Heap / Priority Queue",
+    "patterns": [
+      "heap"
+    ],
+    "insight": "compare squared distance — no sqrt needed",
+    "leetcodeUrl": "https://leetcode.com/problems/k-closest-points-to-origin/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 66
+  },
+  {
+    "slug": "kth-largest-element-in-an-array",
+    "title": "Kth Largest Element in an Array",
+    "difficulty": "medium",
+    "topic": "Heap / Priority Queue",
+    "patterns": [
+      "heap / quickselect"
+    ],
+    "insight": "heap O(n log k); quickselect O(n) average",
+    "leetcodeUrl": "https://leetcode.com/problems/kth-largest-element-in-an-array/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 67
+  },
+  {
+    "slug": "task-scheduler",
+    "title": "Task Scheduler",
+    "difficulty": "medium",
+    "topic": "Heap / Priority Queue",
+    "patterns": [
+      "greedy + heap"
+    ],
+    "insight": "most frequent task first; or the closed-form gap formula",
+    "leetcodeUrl": "https://leetcode.com/problems/task-scheduler/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 68
+  },
+  {
+    "slug": "design-twitter",
+    "title": "Design Twitter",
+    "difficulty": "medium",
+    "topic": "Heap / Priority Queue",
+    "patterns": [
+      "heap merge"
+    ],
+    "insight": "merge the k followed feeds by timestamp",
+    "leetcodeUrl": "https://leetcode.com/problems/design-twitter/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 69
+  },
+  {
+    "slug": "find-median-from-data-stream",
+    "title": "Find Median from Data Stream",
+    "difficulty": "hard",
+    "topic": "Heap / Priority Queue",
+    "patterns": [
+      "two heaps"
+    ],
+    "insight": "max-heap low half, min-heap high half, rebalance ritual",
+    "leetcodeUrl": "https://leetcode.com/problems/find-median-from-data-stream/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 70
+  },
+  {
+    "slug": "subsets",
+    "title": "Subsets",
+    "difficulty": "medium",
+    "topic": "Backtracking",
+    "patterns": [
+      "backtracking"
+    ],
+    "insight": "every node is an answer; start prevents reordering",
+    "leetcodeUrl": "https://leetcode.com/problems/subsets/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 71
+  },
+  {
+    "slug": "combination-sum",
+    "title": "Combination Sum",
+    "difficulty": "medium",
+    "topic": "Backtracking",
+    "patterns": [
+      "backtracking"
+    ],
+    "insight": "backtrack(i, ...) — same index allows reuse",
+    "leetcodeUrl": "https://leetcode.com/problems/combination-sum/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 72
+  },
+  {
+    "slug": "permutations",
+    "title": "Permutations",
+    "difficulty": "medium",
+    "topic": "Backtracking",
+    "patterns": [
+      "backtracking"
+    ],
+    "insight": "used[] array; scan all indices since order matters",
+    "leetcodeUrl": "https://leetcode.com/problems/permutations/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 73
+  },
+  {
+    "slug": "subsets-ii",
+    "title": "Subsets II",
+    "difficulty": "medium",
+    "topic": "Backtracking",
+    "patterns": [
+      "backtracking + dedup"
+    ],
+    "insight": "sort, then if i > start and a[i]==a[i-1]: continue",
+    "leetcodeUrl": "https://leetcode.com/problems/subsets-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 74
+  },
+  {
+    "slug": "combination-sum-ii",
+    "title": "Combination Sum II",
+    "difficulty": "medium",
+    "topic": "Backtracking",
+    "patterns": [
+      "backtracking + dedup"
+    ],
+    "insight": "sort + dedup + backtrack(i+1) for single use",
+    "leetcodeUrl": "https://leetcode.com/problems/combination-sum-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 75
+  },
+  {
+    "slug": "word-search",
+    "title": "Word Search",
+    "difficulty": "medium",
+    "topic": "Backtracking",
+    "patterns": [
+      "grid backtracking"
+    ],
+    "insight": "mark the cell, recurse, unmark",
+    "leetcodeUrl": "https://leetcode.com/problems/word-search/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 76
+  },
+  {
+    "slug": "palindrome-partitioning",
+    "title": "Palindrome Partitioning",
+    "difficulty": "medium",
+    "topic": "Backtracking",
+    "patterns": [
+      "backtracking"
+    ],
+    "insight": "try each prefix; recurse only if it's a palindrome",
+    "leetcodeUrl": "https://leetcode.com/problems/palindrome-partitioning/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 77
+  },
+  {
+    "slug": "letter-combinations-of-a-phone-number",
+    "title": "Letter Combinations of a Phone Number",
+    "difficulty": "medium",
+    "topic": "Backtracking",
+    "patterns": [
+      "backtracking"
+    ],
+    "insight": "digit→letters map, recurse by index",
+    "leetcodeUrl": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 78
+  },
+  {
+    "slug": "n-queens",
+    "title": "N-Queens",
+    "difficulty": "hard",
+    "topic": "Backtracking",
+    "patterns": [
+      "backtracking + pruning"
+    ],
+    "insight": "conflict sets on col, r-c, r+c",
+    "leetcodeUrl": "https://leetcode.com/problems/n-queens/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 79
+  },
+  {
+    "slug": "number-of-islands",
+    "title": "Number of Islands",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "flood fill"
+    ],
+    "insight": "sink each island on visit; count the starts",
+    "leetcodeUrl": "https://leetcode.com/problems/number-of-islands/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 80
+  },
+  {
+    "slug": "max-area-of-island",
+    "title": "Max Area of Island",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "flood fill"
+    ],
+    "insight": "DFS returns a size",
+    "leetcodeUrl": "https://leetcode.com/problems/max-area-of-island/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 81
+  },
+  {
+    "slug": "clone-graph",
+    "title": "Clone Graph",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "DFS + hash map"
+    ],
+    "insight": "old→new map doubles as the visited set",
+    "leetcodeUrl": "https://leetcode.com/problems/clone-graph/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 82
+  },
+  {
+    "slug": "walls-and-gates-islands-and-treasure",
+    "title": "Walls and Gates / Islands and Treasure",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "multi-source BFS"
+    ],
+    "insight": "seed the queue with every gate",
+    "leetcodeUrl": "https://leetcode.com/problems/walls-and-gates-islands-and-treasure/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 83
+  },
+  {
+    "slug": "rotting-oranges",
+    "title": "Rotting Oranges",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "multi-source BFS"
+    ],
+    "insight": "count levels; track remaining fresh",
+    "leetcodeUrl": "https://leetcode.com/problems/rotting-oranges/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 84
+  },
+  {
+    "slug": "pacific-atlantic-water-flow",
+    "title": "Pacific Atlantic Water Flow",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "reverse BFS/DFS"
+    ],
+    "insight": "flow outward from each ocean, then intersect",
+    "leetcodeUrl": "https://leetcode.com/problems/pacific-atlantic-water-flow/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 85
+  },
+  {
+    "slug": "surrounded-regions",
+    "title": "Surrounded Regions",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "boundary DFS"
+    ],
+    "insight": "mark from the border, then flip the rest",
+    "leetcodeUrl": "https://leetcode.com/problems/surrounded-regions/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 86
+  },
+  {
+    "slug": "course-schedule",
+    "title": "Course Schedule",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "topological sort"
+    ],
+    "insight": "processed count < n → a cycle exists",
+    "leetcodeUrl": "https://leetcode.com/problems/course-schedule/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 87
+  },
+  {
+    "slug": "course-schedule-ii",
+    "title": "Course Schedule II",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "topological sort"
+    ],
+    "insight": "Kahn's, return the order",
+    "leetcodeUrl": "https://leetcode.com/problems/course-schedule-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 88
+  },
+  {
+    "slug": "graph-valid-tree",
+    "title": "Graph Valid Tree",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "union-find / DFS"
+    ],
+    "insight": "connected and exactly n-1 edges",
+    "leetcodeUrl": "https://leetcode.com/problems/graph-valid-tree/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 89
+  },
+  {
+    "slug": "number-of-connected-components",
+    "title": "Number of Connected Components",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "union-find"
+    ],
+    "insight": "count decrements on each successful union",
+    "leetcodeUrl": "https://leetcode.com/problems/number-of-connected-components/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 90
+  },
+  {
+    "slug": "redundant-connection",
+    "title": "Redundant Connection",
+    "difficulty": "medium",
+    "topic": "Graphs",
+    "patterns": [
+      "union-find"
+    ],
+    "insight": "the edge where union returns False",
+    "leetcodeUrl": "https://leetcode.com/problems/redundant-connection/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 91
+  },
+  {
+    "slug": "word-ladder",
+    "title": "Word Ladder",
+    "difficulty": "hard",
+    "topic": "Graphs",
+    "patterns": [
+      "BFS on states"
+    ],
+    "insight": "bucket by wildcard patterns (ht) to build adjacency",
+    "leetcodeUrl": "https://leetcode.com/problems/word-ladder/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 92
+  },
+  {
+    "slug": "reconstruct-itinerary",
+    "title": "Reconstruct Itinerary",
+    "difficulty": "hard",
+    "topic": "Advanced Graphs",
+    "patterns": [
+      "Hierholzer's"
+    ],
+    "insight": "Eulerian path; append on dead-end, reverse at the end",
+    "leetcodeUrl": "https://leetcode.com/problems/reconstruct-itinerary/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 93
+  },
+  {
+    "slug": "min-cost-to-connect-all-points",
+    "title": "Min Cost to Connect All Points",
+    "difficulty": "medium",
+    "topic": "Advanced Graphs",
+    "patterns": [
+      "Prim's MST"
+    ],
+    "insight": "heap of (distance, node)",
+    "leetcodeUrl": "https://leetcode.com/problems/min-cost-to-connect-all-points/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 94
+  },
+  {
+    "slug": "network-delay-time",
+    "title": "Network Delay Time",
+    "difficulty": "medium",
+    "topic": "Advanced Graphs",
+    "patterns": [
+      "Dijkstra"
+    ],
+    "insight": "answer is the max of all final distances",
+    "leetcodeUrl": "https://leetcode.com/problems/network-delay-time/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 95
+  },
+  {
+    "slug": "swim-in-rising-water",
+    "title": "Swim in Rising Water",
+    "difficulty": "hard",
+    "topic": "Advanced Graphs",
+    "patterns": [
+      "Dijkstra variant"
+    ],
+    "insight": "minimize the maximum edge along the path",
+    "leetcodeUrl": "https://leetcode.com/problems/swim-in-rising-water/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 96
+  },
+  {
+    "slug": "alien-dictionary",
+    "title": "Alien Dictionary",
+    "difficulty": "hard",
+    "topic": "Advanced Graphs",
+    "patterns": [
+      "topological sort"
+    ],
+    "insight": "derive edges from the first differing char of adjacent words",
+    "leetcodeUrl": "https://leetcode.com/problems/alien-dictionary/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 97
+  },
+  {
+    "slug": "cheapest-flights-within-k-stops",
+    "title": "Cheapest Flights Within K Stops",
+    "difficulty": "medium",
+    "topic": "Advanced Graphs",
+    "patterns": [
+      "Bellman-Ford"
+    ],
+    "insight": "exactly k+1 rounds; relax from a snapshot",
+    "leetcodeUrl": "https://leetcode.com/problems/cheapest-flights-within-k-stops/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 98
+  },
+  {
+    "slug": "climbing-stairs",
+    "title": "Climbing Stairs",
+    "difficulty": "easy",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "linear DP"
+    ],
+    "insight": "it's Fibonacci",
+    "leetcodeUrl": "https://leetcode.com/problems/climbing-stairs/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 99
+  },
+  {
+    "slug": "min-cost-climbing-stairs",
+    "title": "Min Cost Climbing Stairs",
+    "difficulty": "easy",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "linear DP"
+    ],
+    "insight": "dp[i] = cost[i] + min(dp[i-1], dp[i-2])",
+    "leetcodeUrl": "https://leetcode.com/problems/min-cost-climbing-stairs/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 100
+  },
+  {
+    "slug": "house-robber",
+    "title": "House Robber",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "linear DP"
+    ],
+    "insight": "max(skip, rob + dp[i-2])",
+    "leetcodeUrl": "https://leetcode.com/problems/house-robber/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 101
+  },
+  {
+    "slug": "house-robber-ii",
+    "title": "House Robber II",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "linear DP ×2"
+    ],
+    "insight": "circular → run linear on nums[:-1] and nums[1:]",
+    "leetcodeUrl": "https://leetcode.com/problems/house-robber-ii/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 102
+  },
+  {
+    "slug": "longest-palindromic-substring",
+    "title": "Longest Palindromic Substring",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "expand around center"
+    ],
+    "insight": "2n−1 centers, O(1) space, beats the DP",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-palindromic-substring/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 103
+  },
+  {
+    "slug": "palindromic-substrings",
+    "title": "Palindromic Substrings",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "expand around center"
+    ],
+    "insight": "same loop, count instead of measure",
+    "leetcodeUrl": "https://leetcode.com/problems/palindromic-substrings/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 104
+  },
+  {
+    "slug": "decode-ways",
+    "title": "Decode Ways",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "linear DP"
+    ],
+    "insight": "add one-digit and two-digit options; guard leading '0'",
+    "leetcodeUrl": "https://leetcode.com/problems/decode-ways/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 105
+  },
+  {
+    "slug": "coin-change",
+    "title": "Coin Change",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "unbounded knapsack"
+    ],
+    "insight": "dp[0]=0, minimize; unreachable stays inf",
+    "leetcodeUrl": "https://leetcode.com/problems/coin-change/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 106
+  },
+  {
+    "slug": "maximum-product-subarray",
+    "title": "Maximum Product Subarray",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "linear DP"
+    ],
+    "insight": "track min and max — a negative flips them",
+    "leetcodeUrl": "https://leetcode.com/problems/maximum-product-subarray/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 107
+  },
+  {
+    "slug": "word-break",
+    "title": "Word Break",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "segmentation DP"
+    ],
+    "insight": "dp[i] true if some dp[j] true and s[j:i] is a word",
+    "leetcodeUrl": "https://leetcode.com/problems/word-break/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 108
+  },
+  {
+    "slug": "longest-increasing-subsequence",
+    "title": "Longest Increasing Subsequence",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "LIS"
+    ],
+    "insight": "dp[i] = LIS ending at i; then bisect for O(n log n)",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-increasing-subsequence/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 109
+  },
+  {
+    "slug": "partition-equal-subset-sum",
+    "title": "Partition Equal Subset Sum",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "0/1 knapsack"
+    ],
+    "insight": "reachable-sum set; odd total → immediate False",
+    "leetcodeUrl": "https://leetcode.com/problems/partition-equal-subset-sum/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 110
+  },
+  {
+    "slug": "unique-paths",
+    "title": "Unique Paths",
+    "difficulty": "medium",
+    "topic": "2-D Dynamic Programming",
+    "patterns": [
+      "grid DP"
+    ],
+    "insight": "one row rolling: dp[j] += dp[j-1]",
+    "leetcodeUrl": "https://leetcode.com/problems/unique-paths/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 111
+  },
+  {
+    "slug": "longest-common-subsequence",
+    "title": "Longest Common Subsequence",
+    "difficulty": "medium",
+    "topic": "2-D Dynamic Programming",
+    "patterns": [
+      "two-sequence"
+    ],
+    "insight": "match → diagonal+1; else max of the two neighbors",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-common-subsequence/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 112
+  },
+  {
+    "slug": "best-time-to-buy-sell-with-cooldown",
+    "title": "Best Time to Buy/Sell with Cooldown",
+    "difficulty": "medium",
+    "topic": "2-D Dynamic Programming",
+    "patterns": [
+      "state machine"
+    ],
+    "insight": "three states: hold, sold, rest",
+    "leetcodeUrl": "https://leetcode.com/problems/best-time-to-buy-sell-with-cooldown/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 113
+  },
+  {
+    "slug": "coin-change-ii",
+    "title": "Coin Change II",
+    "difficulty": "medium",
+    "topic": "2-D Dynamic Programming",
+    "patterns": [
+      "unbounded knapsack"
+    ],
+    "insight": "coin loop outside counts combinations, not permutations",
+    "leetcodeUrl": "https://leetcode.com/problems/coin-change-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 114
+  },
+  {
+    "slug": "target-sum",
+    "title": "Target Sum",
+    "difficulty": "medium",
+    "topic": "2-D Dynamic Programming",
+    "patterns": [
+      "0/1 knapsack"
+    ],
+    "insight": "dp[(index, running_sum)], memoized",
+    "leetcodeUrl": "https://leetcode.com/problems/target-sum/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 115
+  },
+  {
+    "slug": "interleaving-string",
+    "title": "Interleaving String",
+    "difficulty": "medium",
+    "topic": "2-D Dynamic Programming",
+    "patterns": [
+      "two-sequence"
+    ],
+    "insight": "dp[i][j]: can s3[:i+j] be formed from s1[:i] + s2[:j]",
+    "leetcodeUrl": "https://leetcode.com/problems/interleaving-string/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 116
+  },
+  {
+    "slug": "longest-increasing-path-in-a-matrix",
+    "title": "Longest Increasing Path in a Matrix",
+    "difficulty": "hard",
+    "topic": "2-D Dynamic Programming",
+    "patterns": [
+      "DFS + memo"
+    ],
+    "insight": "DAG by strict increase → no visited set needed",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-increasing-path-in-a-matrix/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 117
+  },
+  {
+    "slug": "distinct-subsequences",
+    "title": "Distinct Subsequences",
+    "difficulty": "hard",
+    "topic": "2-D Dynamic Programming",
+    "patterns": [
+      "two-sequence"
+    ],
+    "insight": "match → dp[i-1][j-1] + dp[i-1][j]; else dp[i-1][j]",
+    "leetcodeUrl": "https://leetcode.com/problems/distinct-subsequences/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 118
+  },
+  {
+    "slug": "edit-distance",
+    "title": "Edit Distance",
+    "difficulty": "medium",
+    "topic": "2-D Dynamic Programming",
+    "patterns": [
+      "two-sequence"
+    ],
+    "insight": "three-way min: replace, delete, insert",
+    "leetcodeUrl": "https://leetcode.com/problems/edit-distance/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 119
+  },
+  {
+    "slug": "burst-balloons",
+    "title": "Burst Balloons",
+    "difficulty": "hard",
+    "topic": "2-D Dynamic Programming",
+    "patterns": [
+      "interval DP"
+    ],
+    "insight": "think about which balloon bursts last",
+    "leetcodeUrl": "https://leetcode.com/problems/burst-balloons/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 120
+  },
+  {
+    "slug": "regular-expression-matching",
+    "title": "Regular Expression Matching",
+    "difficulty": "hard",
+    "topic": "2-D Dynamic Programming",
+    "patterns": [
+      "two-sequence"
+    ],
+    "insight": "→ zero occurrences, or one more if chars match",
+    "leetcodeUrl": "https://leetcode.com/problems/regular-expression-matching/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 121
+  },
+  {
+    "slug": "maximum-subarray",
+    "title": "Maximum Subarray",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "Kadane's"
+    ],
+    "insight": "curr = max(x, curr + x) — restart or extend",
+    "leetcodeUrl": "https://leetcode.com/problems/maximum-subarray/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 122
+  },
+  {
+    "slug": "jump-game",
+    "title": "Jump Game",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "greedy reach"
+    ],
+    "insight": "fail if i > furthest_reachable",
+    "leetcodeUrl": "https://leetcode.com/problems/jump-game/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 123
+  },
+  {
+    "slug": "jump-game-ii",
+    "title": "Jump Game II",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "greedy levels"
+    ],
+    "insight": "BFS by level without a queue",
+    "leetcodeUrl": "https://leetcode.com/problems/jump-game-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 124
+  },
+  {
+    "slug": "gas-station",
+    "title": "Gas Station",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "greedy reset"
+    ],
+    "insight": "on a deficit, no station in the failed span can start",
+    "leetcodeUrl": "https://leetcode.com/problems/gas-station/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 125
+  },
+  {
+    "slug": "hand-of-straights",
+    "title": "Hand of Straights",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "greedy"
+    ],
+    "insight": "the smallest remaining card must start a group",
+    "leetcodeUrl": "https://leetcode.com/problems/hand-of-straights/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 126
+  },
+  {
+    "slug": "merge-triplets-to-form-target",
+    "title": "Merge Triplets to Form Target",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "greedy filter"
+    ],
+    "insight": "ignore any triplet exceeding the target in any position",
+    "leetcodeUrl": "https://leetcode.com/problems/merge-triplets-to-form-target/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 127
+  },
+  {
+    "slug": "partition-labels",
+    "title": "Partition Labels",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "greedy interval"
+    ],
+    "insight": "extend to the last occurrence of every char seen",
+    "leetcodeUrl": "https://leetcode.com/problems/partition-labels/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 128
+  },
+  {
+    "slug": "valid-parenthesis-string",
+    "title": "Valid Parenthesis String",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "greedy range"
+    ],
+    "insight": "track [min_open, max_open];  widens the range",
+    "leetcodeUrl": "https://leetcode.com/problems/valid-parenthesis-string/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 129
+  },
+  {
+    "slug": "insert-interval",
+    "title": "Insert Interval",
+    "difficulty": "medium",
+    "topic": "Intervals",
+    "patterns": [
+      "interval merge"
+    ],
+    "insight": "three phases: before / absorb / after — no sort needed",
+    "leetcodeUrl": "https://leetcode.com/problems/insert-interval/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 130
+  },
+  {
+    "slug": "merge-intervals",
+    "title": "Merge Intervals",
+    "difficulty": "medium",
+    "topic": "Intervals",
+    "patterns": [
+      "sort by start"
+    ],
+    "insight": "extend the last interval when it overlaps",
+    "leetcodeUrl": "https://leetcode.com/problems/merge-intervals/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 131
+  },
+  {
+    "slug": "non-overlapping-intervals",
+    "title": "Non-overlapping Intervals",
+    "difficulty": "medium",
+    "topic": "Intervals",
+    "patterns": [
+      "sort by end"
+    ],
+    "insight": "interval scheduling — earliest end leaves the most room",
+    "leetcodeUrl": "https://leetcode.com/problems/non-overlapping-intervals/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 132
+  },
+  {
+    "slug": "meeting-rooms",
+    "title": "Meeting Rooms",
+    "difficulty": "easy",
+    "topic": "Intervals",
+    "patterns": [
+      "sort by start"
+    ],
+    "insight": "check each adjacent pair",
+    "leetcodeUrl": "https://leetcode.com/problems/meeting-rooms/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 133
+  },
+  {
+    "slug": "meeting-rooms-ii",
+    "title": "Meeting Rooms II",
+    "difficulty": "medium",
+    "topic": "Intervals",
+    "patterns": [
+      "sweep / heap"
+    ],
+    "insight": "min-heap of end times, or separate sorted start/end arrays",
+    "leetcodeUrl": "https://leetcode.com/problems/meeting-rooms-ii/",
+    "inBlind75": true,
+    "frequentlyAsked": true,
+    "neetcodeTier": 150,
+    "orderInList": 134
+  },
+  {
+    "slug": "minimum-interval-to-include-each-query",
+    "title": "Minimum Interval to Include Each Query",
+    "difficulty": "hard",
+    "topic": "Intervals",
+    "patterns": [
+      "sort + heap"
+    ],
+    "insight": "sort queries, push intervals as they become active",
+    "leetcodeUrl": "https://leetcode.com/problems/minimum-interval-to-include-each-query/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 135
+  },
+  {
+    "slug": "rotate-image",
+    "title": "Rotate Image",
+    "difficulty": "medium",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "matrix"
+    ],
+    "insight": "reverse rows, then transpose",
+    "leetcodeUrl": "https://leetcode.com/problems/rotate-image/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 136
+  },
+  {
+    "slug": "spiral-matrix",
+    "title": "Spiral Matrix",
+    "difficulty": "medium",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "matrix"
+    ],
+    "insight": "four shrinking bounds + two guards for single row/col",
+    "leetcodeUrl": "https://leetcode.com/problems/spiral-matrix/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 137
+  },
+  {
+    "slug": "set-matrix-zeroes",
+    "title": "Set Matrix Zeroes",
+    "difficulty": "medium",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "matrix",
+      "O(1) space"
+    ],
+    "insight": "use row 0 / col 0 as markers, then fill backward",
+    "leetcodeUrl": "https://leetcode.com/problems/set-matrix-zeroes/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 138
+  },
+  {
+    "slug": "happy-number",
+    "title": "Happy Number",
+    "difficulty": "easy",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "cycle detection"
+    ],
+    "insight": "fast/slow, or a seen-set",
+    "leetcodeUrl": "https://leetcode.com/problems/happy-number/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 139
+  },
+  {
+    "slug": "plus-one",
+    "title": "Plus One",
+    "difficulty": "easy",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "array math"
+    ],
+    "insight": "propagate the carry from the right",
+    "leetcodeUrl": "https://leetcode.com/problems/plus-one/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 140
+  },
+  {
+    "slug": "pow-x-n",
+    "title": "Pow(x, n)",
+    "difficulty": "medium",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "binary exponentiation"
+    ],
+    "insight": "square the base, halve the exponent",
+    "leetcodeUrl": "https://leetcode.com/problems/pow-x-n/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 141
+  },
+  {
+    "slug": "multiply-strings",
+    "title": "Multiply Strings",
+    "difficulty": "medium",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "array math"
+    ],
+    "insight": "res[i+j+1] += d1d2, then carry",
+    "leetcodeUrl": "https://leetcode.com/problems/multiply-strings/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 142
+  },
+  {
+    "slug": "detect-squares",
+    "title": "Detect Squares",
+    "difficulty": "medium",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "hash counting"
+    ],
+    "insight": "count points; for each diagonal partner, multiply counts",
+    "leetcodeUrl": "https://leetcode.com/problems/detect-squares/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 143
+  },
+  {
+    "slug": "single-number",
+    "title": "Single Number",
+    "difficulty": "easy",
+    "topic": "Bit Manipulation",
+    "patterns": [
+      "XOR"
+    ],
+    "insight": "pairs cancel to 0",
+    "leetcodeUrl": "https://leetcode.com/problems/single-number/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 144
+  },
+  {
+    "slug": "number-of-1-bits",
+    "title": "Number of 1 Bits",
+    "difficulty": "easy",
+    "topic": "Bit Manipulation",
+    "patterns": [
+      "bit trick"
+    ],
+    "insight": "n &= n-1 clears the lowest set bit",
+    "leetcodeUrl": "https://leetcode.com/problems/number-of-1-bits/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 145
+  },
+  {
+    "slug": "counting-bits",
+    "title": "Counting Bits",
+    "difficulty": "easy",
+    "topic": "Bit Manipulation",
+    "patterns": [
+      "DP + bits"
+    ],
+    "insight": "dp[i] = dp[i>>1] + (i&1)",
+    "leetcodeUrl": "https://leetcode.com/problems/counting-bits/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 146
+  },
+  {
+    "slug": "reverse-bits",
+    "title": "Reverse Bits",
+    "difficulty": "easy",
+    "topic": "Bit Manipulation",
+    "patterns": [
+      "bit trick"
+    ],
+    "insight": "shift out of one end, into the other",
+    "leetcodeUrl": "https://leetcode.com/problems/reverse-bits/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 147
+  },
+  {
+    "slug": "missing-number",
+    "title": "Missing Number",
+    "difficulty": "easy",
+    "topic": "Bit Manipulation",
+    "patterns": [
+      "XOR / math"
+    ],
+    "insight": "XOR indices with values, or n(n+1)/2 − sum",
+    "leetcodeUrl": "https://leetcode.com/problems/missing-number/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 148
+  },
+  {
+    "slug": "sum-of-two-integers",
+    "title": "Sum of Two Integers",
+    "difficulty": "medium",
+    "topic": "Bit Manipulation",
+    "patterns": [
+      "bit arithmetic"
+    ],
+    "insight": "XOR = sum without carry; (a&b)<<1 = carry; loop",
+    "leetcodeUrl": "https://leetcode.com/problems/sum-of-two-integers/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 149
+  },
+  {
+    "slug": "reverse-integer",
+    "title": "Reverse Integer",
+    "difficulty": "medium",
+    "topic": "Bit Manipulation",
+    "patterns": [
+      "overflow"
+    ],
+    "insight": "check 32-bit bounds before the final digit",
+    "leetcodeUrl": "https://leetcode.com/problems/reverse-integer/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 150,
+    "orderInList": 150
+  },
+  {
+    "slug": "two-sum-ii-3sum-closest",
+    "title": "Two Sum II / 3Sum Closest",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "two pointers"
+    ],
+    "insight": "track the closest sum seen",
+    "leetcodeUrl": "https://leetcode.com/problems/two-sum-ii-3sum-closest/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "4sum",
+    "title": "4Sum",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "two pointers"
+    ],
+    "insight": "two nested anchors → O(n³)",
+    "leetcodeUrl": "https://leetcode.com/problems/4sum/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "move-zeroes",
+    "title": "Move Zeroes",
+    "difficulty": "easy",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "read/write pointers"
+    ],
+    "insight": "swap non-zeros forward",
+    "leetcodeUrl": "https://leetcode.com/problems/move-zeroes/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "remove-duplicates-from-sorted-array",
+    "title": "Remove Duplicates from Sorted Array",
+    "difficulty": "easy",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "read/write pointers"
+    ],
+    "insight": "write index trails read",
+    "leetcodeUrl": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "sort-colors-dutch-flag",
+    "title": "Sort Colors (Dutch flag)",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "three pointers"
+    ],
+    "insight": "low/mid/high partition in one pass",
+    "leetcodeUrl": "https://leetcode.com/problems/sort-colors-dutch-flag/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "merge-sorted-array",
+    "title": "Merge Sorted Array",
+    "difficulty": "easy",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "two pointers backward"
+    ],
+    "insight": "fill from the end to avoid overwriting",
+    "leetcodeUrl": "https://leetcode.com/problems/merge-sorted-array/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "majority-element",
+    "title": "Majority Element",
+    "difficulty": "easy",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "Boyer-Moore"
+    ],
+    "insight": "candidate + count; the majority survives cancellation",
+    "leetcodeUrl": "https://leetcode.com/problems/majority-element/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "subarray-sum-equals-k",
+    "title": "Subarray Sum Equals K",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "prefix + hash"
+    ],
+    "insight": "seed {0: 1}; count running - k",
+    "leetcodeUrl": "https://leetcode.com/problems/subarray-sum-equals-k/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "longest-palindromic-subsequence",
+    "title": "Longest Palindromic Subsequence",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "2-D DP"
+    ],
+    "insight": "LCS of s and s[::-1]",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-palindromic-subsequence/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "longest-substring-with-at-most-k-distinct",
+    "title": "Longest Substring with At Most K Distinct",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "sliding window"
+    ],
+    "insight": "shrink while len(window) > k",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-substring-with-at-most-k-distinct/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "find-all-anagrams-in-a-string",
+    "title": "Find All Anagrams in a String",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "fixed window"
+    ],
+    "insight": "compare count arrays",
+    "leetcodeUrl": "https://leetcode.com/problems/find-all-anagrams-in-a-string/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "binary-tree-zigzag-level-order",
+    "title": "Binary Tree Zigzag Level Order",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "BFS"
+    ],
+    "insight": "reverse alternate levels",
+    "leetcodeUrl": "https://leetcode.com/problems/binary-tree-zigzag-level-order/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "flatten-binary-tree-to-linked-list",
+    "title": "Flatten Binary Tree to Linked List",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "reverse postorder"
+    ],
+    "insight": "build right-skewed, prev pointer",
+    "leetcodeUrl": "https://leetcode.com/problems/flatten-binary-tree-to-linked-list/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "populating-next-right-pointers",
+    "title": "Populating Next Right Pointers",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "BFS / level links"
+    ],
+    "insight": "use the already-linked level above",
+    "leetcodeUrl": "https://leetcode.com/problems/populating-next-right-pointers/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "symmetric-tree",
+    "title": "Symmetric Tree",
+    "difficulty": "easy",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "parallel recursion"
+    ],
+    "insight": "compare left.left with right.right",
+    "leetcodeUrl": "https://leetcode.com/problems/symmetric-tree/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "binary-tree-inorder-traversal-iterative",
+    "title": "Binary Tree Inorder Traversal (iterative)",
+    "difficulty": "easy",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "stack"
+    ],
+    "insight": "go left, pop, go right",
+    "leetcodeUrl": "https://leetcode.com/problems/binary-tree-inorder-traversal-iterative/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "implement-queue-using-stacks",
+    "title": "Implement Queue using Stacks",
+    "difficulty": "easy",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "two stacks"
+    ],
+    "insight": "amortized O(1) via lazy transfer",
+    "leetcodeUrl": "https://leetcode.com/problems/implement-queue-using-stacks/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "implement-stack-using-queues",
+    "title": "Implement Stack using Queues",
+    "difficulty": "easy",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "one queue"
+    ],
+    "insight": "rotate after each push",
+    "leetcodeUrl": "https://leetcode.com/problems/implement-stack-using-queues/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "number-of-provinces",
+    "title": "Number of Provinces",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "union-find"
+    ],
+    "insight": "count components in an adjacency matrix",
+    "leetcodeUrl": "https://leetcode.com/problems/number-of-provinces/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "accounts-merge",
+    "title": "Accounts Merge",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "union-find"
+    ],
+    "insight": "union by shared email, group by root",
+    "leetcodeUrl": "https://leetcode.com/problems/accounts-merge/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "word-search-grid",
+    "title": "Word Search (grid)",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "backtracking"
+    ],
+    "insight": "mark/unmark",
+    "leetcodeUrl": "https://leetcode.com/problems/word-search-grid/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "insert-delete-getrandom-o-1",
+    "title": "Insert Delete GetRandom O(1)",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "array + index map"
+    ],
+    "insight": "swap-with-last on removal",
+    "leetcodeUrl": "https://leetcode.com/problems/insert-delete-getrandom-o-1/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "design-hit-counter",
+    "title": "Design Hit Counter",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "deque"
+    ],
+    "insight": "evict timestamps older than 300s",
+    "leetcodeUrl": "https://leetcode.com/problems/design-hit-counter/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "design-underground-system",
+    "title": "Design Underground System",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "two hash maps"
+    ],
+    "insight": "in-progress trips + route totals",
+    "leetcodeUrl": "https://leetcode.com/problems/design-underground-system/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "random-pick-with-weight",
+    "title": "Random Pick with Weight",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "prefix + bisect"
+    ],
+    "insight": "binary search the cumulative array",
+    "leetcodeUrl": "https://leetcode.com/problems/random-pick-with-weight/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "basic-calculator-ii",
+    "title": "Basic Calculator II",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "stack"
+    ],
+    "insight": "push signed terms; handle  and / immediately",
+    "leetcodeUrl": "https://leetcode.com/problems/basic-calculator-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "decode-string",
+    "title": "Decode String",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "two stacks"
+    ],
+    "insight": "push counts and partial strings on [",
+    "leetcodeUrl": "https://leetcode.com/problems/decode-string/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "asteroid-collision",
+    "title": "Asteroid Collision",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "stack"
+    ],
+    "insight": "resolve collisions while pushing",
+    "leetcodeUrl": "https://leetcode.com/problems/asteroid-collision/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "remove-k-digits",
+    "title": "Remove K Digits",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "monotonic stack"
+    ],
+    "insight": "pop larger digits while budget remains",
+    "leetcodeUrl": "https://leetcode.com/problems/remove-k-digits/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "simplify-path",
+    "title": "Simplify Path",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "stack"
+    ],
+    "insight": "split on /, pop on ..",
+    "leetcodeUrl": "https://leetcode.com/problems/simplify-path/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "kth-smallest-in-a-sorted-matrix",
+    "title": "Kth Smallest in a Sorted Matrix",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "heap / BS on value"
+    ],
+    "insight": "binary search the value, count elements ≤ mid",
+    "leetcodeUrl": "https://leetcode.com/problems/kth-smallest-in-a-sorted-matrix/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "search-a-2d-matrix-ii",
+    "title": "Search a 2D Matrix II",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "staircase"
+    ],
+    "insight": "start top-right; move left or down",
+    "leetcodeUrl": "https://leetcode.com/problems/search-a-2d-matrix-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "first-bad-version",
+    "title": "First Bad Version",
+    "difficulty": "easy",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "boundary BS"
+    ],
+    "insight": "lo < hi, hi = mid",
+    "leetcodeUrl": "https://leetcode.com/problems/first-bad-version/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "find-peak-element",
+    "title": "Find Peak Element",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "BS without sorting"
+    ],
+    "insight": "move toward the higher neighbor",
+    "leetcodeUrl": "https://leetcode.com/problems/find-peak-element/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "split-array-largest-sum",
+    "title": "Split Array Largest Sum",
+    "difficulty": "hard",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "BS on the answer"
+    ],
+    "insight": "feasibility check = greedy chunking",
+    "leetcodeUrl": "https://leetcode.com/problems/split-array-largest-sum/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "capacity-to-ship-packages-in-d-days",
+    "title": "Capacity to Ship Packages in D Days",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "BS on the answer"
+    ],
+    "insight": "same shape as Koko",
+    "leetcodeUrl": "https://leetcode.com/problems/capacity-to-ship-packages-in-d-days/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "minimum-size-subarray-sum",
+    "title": "Minimum Size Subarray Sum",
+    "difficulty": "medium",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "sliding window"
+    ],
+    "insight": "shrink while sum >= target",
+    "leetcodeUrl": "https://leetcode.com/problems/minimum-size-subarray-sum/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "container-trapping-variants",
+    "title": "Container/Trapping variants",
+    "difficulty": "hard",
+    "topic": "Very frequently asked (do all of these) 🔥",
+    "patterns": [
+      "two pointers"
+    ],
+    "insight": "see file 02",
+    "leetcodeUrl": "https://leetcode.com/problems/container-trapping-variants/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "longest-common-prefix",
+    "title": "Longest Common Prefix",
+    "difficulty": "easy",
+    "topic": "Strings",
+    "patterns": [
+      "scan"
+    ],
+    "insight": "compare column by column",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-common-prefix/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "string-to-integer-atoi",
+    "title": "String to Integer (atoi)",
+    "difficulty": "medium",
+    "topic": "Strings",
+    "patterns": [
+      "parsing"
+    ],
+    "insight": "whitespace → sign → digits → clamp",
+    "leetcodeUrl": "https://leetcode.com/problems/string-to-integer-atoi/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "implement-strstr",
+    "title": "Implement strStr()",
+    "difficulty": "easy",
+    "topic": "Strings",
+    "patterns": [
+      "KMP or Rabin-Karp"
+    ],
+    "insight": "naive O(nm) usually accepted",
+    "leetcodeUrl": "https://leetcode.com/problems/implement-strstr/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "repeated-substring-pattern",
+    "title": "Repeated Substring Pattern",
+    "difficulty": "easy",
+    "topic": "Strings",
+    "patterns": [
+      "KMP"
+    ],
+    "insight": "n % (n - lps[-1]) == 0",
+    "leetcodeUrl": "https://leetcode.com/problems/repeated-substring-pattern/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "group-shifted-strings",
+    "title": "Group Shifted Strings",
+    "difficulty": "medium",
+    "topic": "Strings",
+    "patterns": [
+      "canonical key"
+    ],
+    "insight": "normalize by the offset from the first char",
+    "leetcodeUrl": "https://leetcode.com/problems/group-shifted-strings/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "text-justification",
+    "title": "Text Justification",
+    "difficulty": "hard",
+    "topic": "Strings",
+    "patterns": [
+      "simulation"
+    ],
+    "insight": "careful spacing; last line is left-justified",
+    "leetcodeUrl": "https://leetcode.com/problems/text-justification/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "valid-number",
+    "title": "Valid Number",
+    "difficulty": "hard",
+    "topic": "Strings",
+    "patterns": [
+      "state machine / regex"
+    ],
+    "insight": "enumerate the states explicitly",
+    "leetcodeUrl": "https://leetcode.com/problems/valid-number/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "zigzag-conversion",
+    "title": "Zigzag Conversion",
+    "difficulty": "medium",
+    "topic": "Strings",
+    "patterns": [
+      "simulation"
+    ],
+    "insight": "bounce a row pointer",
+    "leetcodeUrl": "https://leetcode.com/problems/zigzag-conversion/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "compare-version-numbers",
+    "title": "Compare Version Numbers",
+    "difficulty": "medium",
+    "topic": "Strings",
+    "patterns": [
+      "parsing"
+    ],
+    "insight": "split, pad the shorter with zeros",
+    "leetcodeUrl": "https://leetcode.com/problems/compare-version-numbers/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "reverse-words-in-a-string",
+    "title": "Reverse Words in a String",
+    "difficulty": "medium",
+    "topic": "Strings",
+    "patterns": [
+      "parsing"
+    ],
+    "insight": "\" \".join(s.split()[::-1])",
+    "leetcodeUrl": "https://leetcode.com/problems/reverse-words-in-a-string/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "word-pattern-isomorphic-strings",
+    "title": "Word Pattern / Isomorphic Strings",
+    "difficulty": "easy",
+    "topic": "Strings",
+    "patterns": [
+      "bijection"
+    ],
+    "insight": "two maps, both directions",
+    "leetcodeUrl": "https://leetcode.com/problems/word-pattern-isomorphic-strings/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "longest-duplicate-substring",
+    "title": "Longest Duplicate Substring",
+    "difficulty": "hard",
+    "topic": "Strings",
+    "patterns": [
+      "rolling hash + BS"
+    ],
+    "insight": "binary search the length",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-duplicate-substring/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "lca-of-a-binary-tree",
+    "title": "LCA of a Binary Tree",
+    "difficulty": "medium",
+    "topic": "Trees & Tries, extended",
+    "patterns": [
+      "postorder"
+    ],
+    "insight": "found in both subtrees → this node is the LCA",
+    "leetcodeUrl": "https://leetcode.com/problems/lca-of-a-binary-tree/",
+    "inBlind75": true,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "binary-tree-vertical-order-traversal",
+    "title": "Binary Tree Vertical Order Traversal",
+    "difficulty": "medium",
+    "topic": "Trees & Tries, extended",
+    "patterns": [
+      "BFS + column map"
+    ],
+    "insight": "track a column index per node",
+    "leetcodeUrl": "https://leetcode.com/problems/binary-tree-vertical-order-traversal/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "delete-node-in-a-bst",
+    "title": "Delete Node in a BST",
+    "difficulty": "medium",
+    "topic": "Trees & Tries, extended",
+    "patterns": [
+      "BST surgery"
+    ],
+    "insight": "two children → replace with the inorder successor",
+    "leetcodeUrl": "https://leetcode.com/problems/delete-node-in-a-bst/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "convert-sorted-array-to-bst",
+    "title": "Convert Sorted Array to BST",
+    "difficulty": "easy",
+    "topic": "Trees & Tries, extended",
+    "patterns": [
+      "divide & conquer"
+    ],
+    "insight": "mid becomes the root",
+    "leetcodeUrl": "https://leetcode.com/problems/convert-sorted-array-to-bst/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "recover-binary-search-tree",
+    "title": "Recover Binary Search Tree",
+    "difficulty": "medium",
+    "topic": "Trees & Tries, extended",
+    "patterns": [
+      "inorder"
+    ],
+    "insight": "find the two swapped nodes in the sorted sequence",
+    "leetcodeUrl": "https://leetcode.com/problems/recover-binary-search-tree/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "all-nodes-distance-k-in-binary-tree",
+    "title": "All Nodes Distance K in Binary Tree",
+    "difficulty": "medium",
+    "topic": "Trees & Tries, extended",
+    "patterns": [
+      "build parent links + BFS"
+    ],
+    "insight": "convert the tree into a graph",
+    "leetcodeUrl": "https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "sum-root-to-leaf-numbers",
+    "title": "Sum Root to Leaf Numbers",
+    "difficulty": "medium",
+    "topic": "Trees & Tries, extended",
+    "patterns": [
+      "preorder"
+    ],
+    "insight": "carry the running number down",
+    "leetcodeUrl": "https://leetcode.com/problems/sum-root-to-leaf-numbers/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "house-robber-iii",
+    "title": "House Robber III",
+    "difficulty": "medium",
+    "topic": "Trees & Tries, extended",
+    "patterns": [
+      "tree DP"
+    ],
+    "insight": "return (rob_this, skip_this) from each node",
+    "leetcodeUrl": "https://leetcode.com/problems/house-robber-iii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "maximum-width-of-binary-tree",
+    "title": "Maximum Width of Binary Tree",
+    "difficulty": "medium",
+    "topic": "Trees & Tries, extended",
+    "patterns": [
+      "BFS + indices"
+    ],
+    "insight": "index children as 2i / 2i+1",
+    "leetcodeUrl": "https://leetcode.com/problems/maximum-width-of-binary-tree/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "design-search-autocomplete-system",
+    "title": "Design Search Autocomplete System",
+    "difficulty": "hard",
+    "topic": "Trees & Tries, extended",
+    "patterns": [
+      "trie + heap"
+    ],
+    "insight": "cache the top-3 at each trie node",
+    "leetcodeUrl": "https://leetcode.com/problems/design-search-autocomplete-system/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "maximum-xor-of-two-numbers",
+    "title": "Maximum XOR of Two Numbers",
+    "difficulty": "medium",
+    "topic": "Trees & Tries, extended",
+    "patterns": [
+      "bitwise trie"
+    ],
+    "insight": "greedily walk the opposite bit at each level",
+    "leetcodeUrl": "https://leetcode.com/problems/maximum-xor-of-two-numbers/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "is-graph-bipartite",
+    "title": "Is Graph Bipartite?",
+    "difficulty": "medium",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "BFS coloring"
+    ],
+    "insight": "conflict → odd cycle exists",
+    "leetcodeUrl": "https://leetcode.com/problems/is-graph-bipartite/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "critical-connections-bridges",
+    "title": "Critical Connections (bridges)",
+    "difficulty": "hard",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "Tarjan"
+    ],
+    "insight": "low[child] > disc[node]",
+    "leetcodeUrl": "https://leetcode.com/problems/critical-connections-bridges/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "minimum-height-trees",
+    "title": "Minimum Height Trees",
+    "difficulty": "medium",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "topological peeling"
+    ],
+    "insight": "strip leaves until ≤ 2 nodes remain",
+    "leetcodeUrl": "https://leetcode.com/problems/minimum-height-trees/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "evaluate-division",
+    "title": "Evaluate Division",
+    "difficulty": "medium",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "weighted graph DFS"
+    ],
+    "insight": "edge weight = the ratio; multiply along the path",
+    "leetcodeUrl": "https://leetcode.com/problems/evaluate-division/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "path-with-maximum-probability",
+    "title": "Path with Maximum Probability",
+    "difficulty": "medium",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "Dijkstra variant"
+    ],
+    "insight": "maximize the product instead of minimizing a sum",
+    "leetcodeUrl": "https://leetcode.com/problems/path-with-maximum-probability/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "shortest-path-in-binary-matrix",
+    "title": "Shortest Path in Binary Matrix",
+    "difficulty": "medium",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "BFS 8-directional"
+    ],
+    "insight": "grid BFS",
+    "leetcodeUrl": "https://leetcode.com/problems/shortest-path-in-binary-matrix/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "open-the-lock",
+    "title": "Open the Lock",
+    "difficulty": "medium",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "BFS on states"
+    ],
+    "insight": "each combination is a node",
+    "leetcodeUrl": "https://leetcode.com/problems/open-the-lock/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "sliding-puzzle",
+    "title": "Sliding Puzzle",
+    "difficulty": "hard",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "BFS on board states"
+    ],
+    "insight": "serialize the board as a string key",
+    "leetcodeUrl": "https://leetcode.com/problems/sliding-puzzle/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "number-of-islands-ii",
+    "title": "Number of Islands II",
+    "difficulty": "hard",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "union-find"
+    ],
+    "insight": "islands appear incrementally",
+    "leetcodeUrl": "https://leetcode.com/problems/number-of-islands-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "making-a-large-island",
+    "title": "Making a Large Island",
+    "difficulty": "hard",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "union-find"
+    ],
+    "insight": "pre-size each island, then test each 0",
+    "leetcodeUrl": "https://leetcode.com/problems/making-a-large-island/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "course-schedule-iv",
+    "title": "Course Schedule IV",
+    "difficulty": "medium",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "Floyd-Warshall / DFS"
+    ],
+    "insight": "transitive reachability",
+    "leetcodeUrl": "https://leetcode.com/problems/course-schedule-iv/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "find-eventual-safe-states",
+    "title": "Find Eventual Safe States",
+    "difficulty": "medium",
+    "topic": "Graphs, extended",
+    "patterns": [
+      "reverse topo / colors"
+    ],
+    "insight": "nodes that can't reach a cycle",
+    "leetcodeUrl": "https://leetcode.com/problems/find-eventual-safe-states/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "best-time-to-buy-sell-stock-iii-iv",
+    "title": "Best Time to Buy/Sell Stock III / IV",
+    "difficulty": "hard",
+    "topic": "DP, extended",
+    "patterns": [
+      "state machine + k"
+    ],
+    "insight": "dp[day][transactions][holding]",
+    "leetcodeUrl": "https://leetcode.com/problems/best-time-to-buy-sell-stock-iii-iv/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "best-time-with-transaction-fee",
+    "title": "Best Time with Transaction Fee",
+    "difficulty": "medium",
+    "topic": "DP, extended",
+    "patterns": [
+      "state machine"
+    ],
+    "insight": "subtract the fee on sale",
+    "leetcodeUrl": "https://leetcode.com/problems/best-time-with-transaction-fee/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "perfect-squares",
+    "title": "Perfect Squares",
+    "difficulty": "medium",
+    "topic": "DP, extended",
+    "patterns": [
+      "unbounded knapsack"
+    ],
+    "insight": "coins are the square numbers",
+    "leetcodeUrl": "https://leetcode.com/problems/perfect-squares/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "triangle",
+    "title": "Triangle",
+    "difficulty": "medium",
+    "topic": "DP, extended",
+    "patterns": [
+      "grid DP"
+    ],
+    "insight": "fill bottom-up, in place",
+    "leetcodeUrl": "https://leetcode.com/problems/triangle/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "minimum-path-sum",
+    "title": "Minimum Path Sum",
+    "difficulty": "medium",
+    "topic": "DP, extended",
+    "patterns": [
+      "grid DP"
+    ],
+    "insight": "accumulate in place",
+    "leetcodeUrl": "https://leetcode.com/problems/minimum-path-sum/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "unique-paths-ii",
+    "title": "Unique Paths II",
+    "difficulty": "medium",
+    "topic": "DP, extended",
+    "patterns": [
+      "grid DP"
+    ],
+    "insight": "obstacle cell → 0 ways",
+    "leetcodeUrl": "https://leetcode.com/problems/unique-paths-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "maximal-square",
+    "title": "Maximal Square",
+    "difficulty": "medium",
+    "topic": "DP, extended",
+    "patterns": [
+      "2-D DP"
+    ],
+    "insight": "dp[i][j] = 1 + min(up, left, diagonal)",
+    "leetcodeUrl": "https://leetcode.com/problems/maximal-square/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "maximal-rectangle",
+    "title": "Maximal Rectangle",
+    "difficulty": "hard",
+    "topic": "DP, extended",
+    "patterns": [
+      "histogram per row"
+    ],
+    "insight": "run Largest Rectangle on each row",
+    "leetcodeUrl": "https://leetcode.com/problems/maximal-rectangle/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "number-of-longest-increasing-subsequences",
+    "title": "Number of Longest Increasing Subsequences",
+    "difficulty": "medium",
+    "topic": "DP, extended",
+    "patterns": [
+      "LIS + counts"
+    ],
+    "insight": "track length and count arrays",
+    "leetcodeUrl": "https://leetcode.com/problems/number-of-longest-increasing-subsequences/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "russian-doll-envelopes",
+    "title": "Russian Doll Envelopes",
+    "difficulty": "hard",
+    "topic": "DP, extended",
+    "patterns": [
+      "sort + LIS"
+    ],
+    "insight": "sort widths asc, heights desc to block ties",
+    "leetcodeUrl": "https://leetcode.com/problems/russian-doll-envelopes/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "cherry-pickup",
+    "title": "Cherry Pickup",
+    "difficulty": "hard",
+    "topic": "DP, extended",
+    "patterns": [
+      "3-D DP"
+    ],
+    "insight": "two paths simultaneously, indexed by step",
+    "leetcodeUrl": "https://leetcode.com/problems/cherry-pickup/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "dungeon-game",
+    "title": "Dungeon Game",
+    "difficulty": "hard",
+    "topic": "DP, extended",
+    "patterns": [
+      "reverse DP"
+    ],
+    "insight": "fill from the destination backward",
+    "leetcodeUrl": "https://leetcode.com/problems/dungeon-game/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "frog-jump",
+    "title": "Frog Jump",
+    "difficulty": "hard",
+    "topic": "DP, extended",
+    "patterns": [
+      "DP with a state set"
+    ],
+    "insight": "(position, last_jump)",
+    "leetcodeUrl": "https://leetcode.com/problems/frog-jump/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "minimum-falling-path-sum",
+    "title": "Minimum Falling Path Sum",
+    "difficulty": "medium",
+    "topic": "DP, extended",
+    "patterns": [
+      "grid DP"
+    ],
+    "insight": "three predecessors per cell",
+    "leetcodeUrl": "https://leetcode.com/problems/minimum-falling-path-sum/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "count-vowels-permutation",
+    "title": "Count Vowels Permutation",
+    "difficulty": "hard",
+    "topic": "DP, extended",
+    "patterns": [
+      "linear DP"
+    ],
+    "insight": "state machine over the 5 vowels",
+    "leetcodeUrl": "https://leetcode.com/problems/count-vowels-permutation/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "ones-and-zeroes",
+    "title": "Ones and Zeroes",
+    "difficulty": "medium",
+    "topic": "DP, extended",
+    "patterns": [
+      "2-D knapsack"
+    ],
+    "insight": "two capacity dimensions",
+    "leetcodeUrl": "https://leetcode.com/problems/ones-and-zeroes/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "lfu-cache",
+    "title": "LFU Cache",
+    "difficulty": "hard",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "two maps + frequency buckets — the LRU follow-up",
+    "leetcodeUrl": "https://leetcode.com/problems/lfu-cache/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "all-o-1-data-structure",
+    "title": "All O(1) Data Structure",
+    "difficulty": "hard",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "DLL of frequency buckets",
+    "leetcodeUrl": "https://leetcode.com/problems/all-o-1-data-structure/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "design-circular-queue-deque",
+    "title": "Design Circular Queue / Deque",
+    "difficulty": "medium",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "fixed array with wraparound",
+    "leetcodeUrl": "https://leetcode.com/problems/design-circular-queue-deque/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "design-browser-history",
+    "title": "Design Browser History",
+    "difficulty": "medium",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "two stacks or a DLL",
+    "leetcodeUrl": "https://leetcode.com/problems/design-browser-history/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "snapshot-array",
+    "title": "Snapshot Array",
+    "difficulty": "medium",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "per-index (snap_id, value) list + bisect",
+    "leetcodeUrl": "https://leetcode.com/problems/snapshot-array/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "design-file-system",
+    "title": "Design File System",
+    "difficulty": "medium",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "trie of paths",
+    "leetcodeUrl": "https://leetcode.com/problems/design-file-system/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "design-in-memory-file-system",
+    "title": "Design In-Memory File System",
+    "difficulty": "hard",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "nested dict tree",
+    "leetcodeUrl": "https://leetcode.com/problems/design-in-memory-file-system/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "logger-rate-limiter",
+    "title": "Logger Rate Limiter",
+    "difficulty": "easy",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "hashmap of last-seen timestamps",
+    "leetcodeUrl": "https://leetcode.com/problems/logger-rate-limiter/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "moving-average-from-data-stream",
+    "title": "Moving Average from Data Stream",
+    "difficulty": "easy",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "deque + running sum",
+    "leetcodeUrl": "https://leetcode.com/problems/moving-average-from-data-stream/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "design-tic-tac-toe",
+    "title": "Design Tic-Tac-Toe",
+    "difficulty": "medium",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "row/col/diagonal counters, O(1) per move",
+    "leetcodeUrl": "https://leetcode.com/problems/design-tic-tac-toe/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "encode-and-decode-tinyurl",
+    "title": "Encode and Decode TinyURL",
+    "difficulty": "medium",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "counter/base62 + two maps",
+    "leetcodeUrl": "https://leetcode.com/problems/encode-and-decode-tinyurl/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "serialize-and-deserialize-n-ary-tree",
+    "title": "Serialize and Deserialize N-ary Tree",
+    "difficulty": "hard",
+    "topic": "Design / OOP-flavored",
+    "patterns": [
+      "Design / OOP-flavored"
+    ],
+    "insight": "preorder + child counts",
+    "leetcodeUrl": "https://leetcode.com/problems/serialize-and-deserialize-n-ary-tree/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "print-in-order",
+    "title": "Print in Order",
+    "difficulty": "easy",
+    "topic": "Concurrency (Amazon, some backend loops)",
+    "patterns": [
+      "Concurrency (Amazon",
+      "some backend loops)"
+    ],
+    "insight": "semaphores / events",
+    "leetcodeUrl": "https://leetcode.com/problems/print-in-order/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "print-foobar-alternately",
+    "title": "Print FooBar Alternately",
+    "difficulty": "medium",
+    "topic": "Concurrency (Amazon, some backend loops)",
+    "patterns": [
+      "Concurrency (Amazon",
+      "some backend loops)"
+    ],
+    "insight": "two semaphores ping-ponging",
+    "leetcodeUrl": "https://leetcode.com/problems/print-foobar-alternately/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "building-h2o",
+    "title": "Building H2O",
+    "difficulty": "medium",
+    "topic": "Concurrency (Amazon, some backend loops)",
+    "patterns": [
+      "Concurrency (Amazon",
+      "some backend loops)"
+    ],
+    "insight": "barriers, resource counting",
+    "leetcodeUrl": "https://leetcode.com/problems/building-h2o/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "dining-philosophers",
+    "title": "Dining Philosophers",
+    "difficulty": "medium",
+    "topic": "Concurrency (Amazon, some backend loops)",
+    "patterns": [
+      "Concurrency (Amazon",
+      "some backend loops)"
+    ],
+    "insight": "deadlock avoidance via lock ordering",
+    "leetcodeUrl": "https://leetcode.com/problems/dining-philosophers/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "web-crawler-multithreaded",
+    "title": "Web Crawler Multithreaded",
+    "difficulty": "medium",
+    "topic": "Concurrency (Amazon, some backend loops)",
+    "patterns": [
+      "Concurrency (Amazon",
+      "some backend loops)"
+    ],
+    "insight": "thread pool + a shared visited set with a lock",
+    "leetcodeUrl": "https://leetcode.com/problems/web-crawler-multithreaded/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": "extra",
+    "orderInList": null
+  },
+  {
+    "slug": "concatenation-of-array",
+    "title": "Concatenation of Array",
+    "difficulty": "easy",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "warm-up"
+    ],
+    "insight": "nums + nums; state the O(n) anyway",
+    "leetcodeUrl": "https://leetcode.com/problems/concatenation-of-array/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "sort-an-array",
+    "title": "Sort an Array",
+    "difficulty": "medium",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "sorting"
+    ],
+    "insight": "implement merge sort — see 11 §11.1",
+    "leetcodeUrl": "https://leetcode.com/problems/sort-an-array/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "design-hashset",
+    "title": "Design HashSet",
+    "difficulty": "easy",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "design"
+    ],
+    "insight": "array of buckets + chaining; explain your collision strategy",
+    "leetcodeUrl": "https://leetcode.com/problems/design-hashset/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "design-hashmap",
+    "title": "Design HashMap",
+    "difficulty": "easy",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "design"
+    ],
+    "insight": "same, storing (key, value) pairs",
+    "leetcodeUrl": "https://leetcode.com/problems/design-hashmap/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "range-sum-query-2d-immutable",
+    "title": "Range Sum Query 2D Immutable",
+    "difficulty": "medium",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "2-D prefix sum"
+    ],
+    "insight": "pre[r][c] = sum of the rectangle from origin; inclusion–exclusion for a query",
+    "leetcodeUrl": "https://leetcode.com/problems/range-sum-query-2d-immutable/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "best-time-to-buy-and-sell-stock-ii",
+    "title": "Best Time to Buy and Sell Stock II",
+    "difficulty": "medium",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "greedy"
+    ],
+    "insight": "take every upward step: sum of all positive deltas",
+    "leetcodeUrl": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "majority-element-ii",
+    "title": "Majority Element II",
+    "difficulty": "medium",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "Boyer-Moore ×2"
+    ],
+    "insight": "at most two elements can exceed n/3, so track two candidates",
+    "leetcodeUrl": "https://leetcode.com/problems/majority-element-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "first-missing-positive",
+    "title": "First Missing Positive",
+    "difficulty": "hard",
+    "topic": "Arrays & Hashing",
+    "patterns": [
+      "cyclic sort"
+    ],
+    "insight": "place each value at index v-1, then scan",
+    "leetcodeUrl": "https://leetcode.com/problems/first-missing-positive/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "reverse-string",
+    "title": "Reverse String",
+    "difficulty": "easy",
+    "topic": "Two Pointers",
+    "patterns": [
+      "converging"
+    ],
+    "insight": "swap ends inward, in place",
+    "leetcodeUrl": "https://leetcode.com/problems/reverse-string/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "merge-strings-alternately",
+    "title": "Merge Strings Alternately",
+    "difficulty": "easy",
+    "topic": "Two Pointers",
+    "patterns": [
+      "parallel pointers"
+    ],
+    "insight": "walk both, append the remainder",
+    "leetcodeUrl": "https://leetcode.com/problems/merge-strings-alternately/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "rotate-array",
+    "title": "Rotate Array",
+    "difficulty": "medium",
+    "topic": "Two Pointers",
+    "patterns": [
+      "reversal trick"
+    ],
+    "insight": "reverse all, reverse first k, reverse rest → O(1) space",
+    "leetcodeUrl": "https://leetcode.com/problems/rotate-array/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "boats-to-save-people",
+    "title": "Boats to Save People",
+    "difficulty": "medium",
+    "topic": "Two Pointers",
+    "patterns": [
+      "sort + converge"
+    ],
+    "insight": "pair the lightest with the heaviest if they fit; else the heaviest goes alone",
+    "leetcodeUrl": "https://leetcode.com/problems/boats-to-save-people/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "contains-duplicate-ii",
+    "title": "Contains Duplicate II",
+    "difficulty": "easy",
+    "topic": "Sliding Window",
+    "patterns": [
+      "window + set"
+    ],
+    "insight": "keep a set of the last k elements; evict as you slide",
+    "leetcodeUrl": "https://leetcode.com/problems/contains-duplicate-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "find-k-closest-elements",
+    "title": "Find K Closest Elements",
+    "difficulty": "medium",
+    "topic": "Sliding Window",
+    "patterns": [
+      "binary search the window"
+    ],
+    "insight": "search for the best left boundary in [0, n-k]",
+    "leetcodeUrl": "https://leetcode.com/problems/find-k-closest-elements/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "baseball-game",
+    "title": "Baseball Game",
+    "difficulty": "easy",
+    "topic": "Stack",
+    "patterns": [
+      "stack"
+    ],
+    "insight": "straight simulation",
+    "leetcodeUrl": "https://leetcode.com/problems/baseball-game/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "online-stock-span",
+    "title": "Online Stock Span",
+    "difficulty": "medium",
+    "topic": "Stack",
+    "patterns": [
+      "monotonic stack"
+    ],
+    "insight": "pop smaller prices, accumulating their spans",
+    "leetcodeUrl": "https://leetcode.com/problems/online-stock-span/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "maximum-frequency-stack",
+    "title": "Maximum Frequency Stack",
+    "difficulty": "hard",
+    "topic": "Stack",
+    "patterns": [
+      "stacks by frequency"
+    ],
+    "insight": "freq[x] plus group[f] = a stack of values seen f times",
+    "leetcodeUrl": "https://leetcode.com/problems/maximum-frequency-stack/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "search-insert-position",
+    "title": "Search Insert Position",
+    "difficulty": "easy",
+    "topic": "Binary Search",
+    "patterns": [
+      "boundary template"
+    ],
+    "insight": "the answer is lo when the loop exits",
+    "leetcodeUrl": "https://leetcode.com/problems/search-insert-position/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "guess-number-higher-or-lower",
+    "title": "Guess Number Higher or Lower",
+    "difficulty": "easy",
+    "topic": "Binary Search",
+    "patterns": [
+      "template"
+    ],
+    "insight": "pure binary search against an API",
+    "leetcodeUrl": "https://leetcode.com/problems/guess-number-higher-or-lower/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "search-in-rotated-sorted-array-ii",
+    "title": "Search in Rotated Sorted Array II",
+    "difficulty": "medium",
+    "topic": "Binary Search",
+    "patterns": [
+      "modified BS"
+    ],
+    "insight": "duplicates break the \"which half is sorted\" test; shrink lo/hi when nums[lo]==nums[mid]==nums[hi] → O(n) worst case",
+    "leetcodeUrl": "https://leetcode.com/problems/search-in-rotated-sorted-array-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "find-in-mountain-array",
+    "title": "Find in Mountain Array",
+    "difficulty": "hard",
+    "topic": "Binary Search",
+    "patterns": [
+      "BS ×3"
+    ],
+    "insight": "find the peak, then search ascending, then descending",
+    "leetcodeUrl": "https://leetcode.com/problems/find-in-mountain-array/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "reverse-linked-list-ii",
+    "title": "Reverse Linked List II",
+    "difficulty": "medium",
+    "topic": "Linked List",
+    "patterns": [
+      "pointer surgery"
+    ],
+    "insight": "dummy head, walk to left-1, reverse right-left nodes by head-insertion",
+    "leetcodeUrl": "https://leetcode.com/problems/reverse-linked-list-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "binary-tree-preorder-traversal",
+    "title": "Binary Tree Preorder Traversal",
+    "difficulty": "easy",
+    "topic": "Trees",
+    "patterns": [
+      "iterative stack"
+    ],
+    "insight": "push right before left",
+    "leetcodeUrl": "https://leetcode.com/problems/binary-tree-preorder-traversal/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "binary-tree-postorder-traversal",
+    "title": "Binary Tree Postorder Traversal",
+    "difficulty": "easy",
+    "topic": "Trees",
+    "patterns": [
+      "iterative stack"
+    ],
+    "insight": "do preorder as node→right→left, then reverse",
+    "leetcodeUrl": "https://leetcode.com/problems/binary-tree-postorder-traversal/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "insert-into-a-binary-search-tree",
+    "title": "Insert into a Binary Search Tree",
+    "difficulty": "medium",
+    "topic": "Trees",
+    "patterns": [
+      "BST walk"
+    ],
+    "insight": "descend until a null child, attach there",
+    "leetcodeUrl": "https://leetcode.com/problems/insert-into-a-binary-search-tree/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "delete-leaves-with-a-given-value",
+    "title": "Delete Leaves With a Given Value",
+    "difficulty": "medium",
+    "topic": "Trees",
+    "patterns": [
+      "postorder"
+    ],
+    "insight": "delete children first, then re-check yourself",
+    "leetcodeUrl": "https://leetcode.com/problems/delete-leaves-with-a-given-value/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "construct-quad-tree",
+    "title": "Construct Quad Tree",
+    "difficulty": "medium",
+    "topic": "Trees",
+    "patterns": [
+      "divide & conquer"
+    ],
+    "insight": "if the quadrant is uniform it's a leaf, else recurse into four",
+    "leetcodeUrl": "https://leetcode.com/problems/construct-quad-tree/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "single-threaded-cpu",
+    "title": "Single Threaded CPU",
+    "difficulty": "medium",
+    "topic": "Heap / Priority Queue",
+    "patterns": [
+      "sort + heap"
+    ],
+    "insight": "sort by enqueue time; heap of available tasks by (duration, index); jump the clock when idle",
+    "leetcodeUrl": "https://leetcode.com/problems/single-threaded-cpu/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "longest-happy-string",
+    "title": "Longest Happy String",
+    "difficulty": "medium",
+    "topic": "Heap / Priority Queue",
+    "patterns": [
+      "greedy + max-heap"
+    ],
+    "insight": "take the most frequent letter unless it would make three in a row, then take the second",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-happy-string/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "sum-of-all-subsets-xor-total",
+    "title": "Sum of All Subsets XOR Total",
+    "difficulty": "easy",
+    "topic": "Backtracking",
+    "patterns": [
+      "subsets"
+    ],
+    "insight": "or the O(n) math: every bit appears in exactly half the subsets",
+    "leetcodeUrl": "https://leetcode.com/problems/sum-of-all-subsets-xor-total/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "matchsticks-to-square",
+    "title": "Matchsticks to Square",
+    "difficulty": "medium",
+    "topic": "Backtracking",
+    "patterns": [
+      "bitmask / backtracking"
+    ],
+    "insight": "4 buckets to a fixed target; sort descending to prune hard",
+    "leetcodeUrl": "https://leetcode.com/problems/matchsticks-to-square/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "n-queens-ii",
+    "title": "N-Queens II",
+    "difficulty": "hard",
+    "topic": "Backtracking",
+    "patterns": [
+      "backtracking"
+    ],
+    "insight": "identical to N-Queens, return only the count — no board needed",
+    "leetcodeUrl": "https://leetcode.com/problems/n-queens-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "word-break-ii",
+    "title": "Word Break II",
+    "difficulty": "hard",
+    "topic": "Backtracking",
+    "patterns": [
+      "backtracking + memo"
+    ],
+    "insight": "return all segmentations; memoise by start index or it explodes",
+    "leetcodeUrl": "https://leetcode.com/problems/word-break-ii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "extra-characters-in-a-string",
+    "title": "Extra Characters in a String",
+    "difficulty": "medium",
+    "topic": "Tries",
+    "patterns": [
+      "trie + DP"
+    ],
+    "insight": "dp[i] = min extra chars from i; walk the trie forward from each index",
+    "leetcodeUrl": "https://leetcode.com/problems/extra-characters-in-a-string/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "island-perimeter",
+    "title": "Island Perimeter",
+    "difficulty": "easy",
+    "topic": "Graphs",
+    "patterns": [
+      "grid scan"
+    ],
+    "insight": "4 per land cell, minus 2 for each shared edge",
+    "leetcodeUrl": "https://leetcode.com/problems/island-perimeter/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "verifying-an-alien-dictionary",
+    "title": "Verifying an Alien Dictionary",
+    "difficulty": "easy",
+    "topic": "Graphs",
+    "patterns": [
+      "ordering"
+    ],
+    "insight": "map each letter to its rank, compare adjacent words",
+    "leetcodeUrl": "https://leetcode.com/problems/verifying-an-alien-dictionary/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "find-the-town-judge",
+    "title": "Find the Town Judge",
+    "difficulty": "easy",
+    "topic": "Graphs",
+    "patterns": [
+      "degree counting"
+    ],
+    "insight": "judge has indegree n−1 and outdegree 0",
+    "leetcodeUrl": "https://leetcode.com/problems/find-the-town-judge/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "path-with-minimum-effort",
+    "title": "Path with Minimum Effort",
+    "difficulty": "medium",
+    "topic": "Advanced Graphs",
+    "patterns": [
+      "Dijkstra on max-edge"
+    ],
+    "insight": "minimise the largest single step, not the sum",
+    "leetcodeUrl": "https://leetcode.com/problems/path-with-minimum-effort/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "find-critical-and-pseudo-critical-edges-in-mst",
+    "title": "Find Critical and Pseudo-Critical Edges in MST",
+    "difficulty": "hard",
+    "topic": "Advanced Graphs",
+    "patterns": [
+      "Kruskal ×3"
+    ],
+    "insight": "critical = MST weight rises without it; pseudo = forcing it in keeps the weight",
+    "leetcodeUrl": "https://leetcode.com/problems/find-critical-and-pseudo-critical-edges-in-mst/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "build-a-matrix-with-conditions",
+    "title": "Build a Matrix With Conditions",
+    "difficulty": "hard",
+    "topic": "Advanced Graphs",
+    "patterns": [
+      "topological sort ×2"
+    ],
+    "insight": "independently order rows and columns, then place",
+    "leetcodeUrl": "https://leetcode.com/problems/build-a-matrix-with-conditions/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "greatest-common-divisor-traversal",
+    "title": "Greatest Common Divisor Traversal",
+    "difficulty": "hard",
+    "topic": "Advanced Graphs",
+    "patterns": [
+      "union-find over prime factors"
+    ],
+    "insight": "union each number with each of its prime factors; connected ⟺ traversable",
+    "leetcodeUrl": "https://leetcode.com/problems/greatest-common-divisor-traversal/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "n-th-tribonacci-number",
+    "title": "N-th Tribonacci Number",
+    "difficulty": "easy",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "linear DP"
+    ],
+    "insight": "three rolling variables instead of two",
+    "leetcodeUrl": "https://leetcode.com/problems/n-th-tribonacci-number/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "combination-sum-iv",
+    "title": "Combination Sum IV",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "unbounded knapsack"
+    ],
+    "insight": "amount loop outside → counts permutations (contrast with Coin Change II)",
+    "leetcodeUrl": "https://leetcode.com/problems/combination-sum-iv/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "integer-break",
+    "title": "Integer Break",
+    "difficulty": "medium",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "linear DP"
+    ],
+    "insight": "dp[n] = max(i  dp[n-i], i  (n-i)); the math answer is \"use as many 3s as possible\"",
+    "leetcodeUrl": "https://leetcode.com/problems/integer-break/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "stone-game-iii",
+    "title": "Stone Game III",
+    "difficulty": "hard",
+    "topic": "1-D Dynamic Programming",
+    "patterns": [
+      "game theory DP"
+    ],
+    "insight": "score-difference formulation over 1–3 stones",
+    "leetcodeUrl": "https://leetcode.com/problems/stone-game-iii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "lemonade-change",
+    "title": "Lemonade Change",
+    "difficulty": "easy",
+    "topic": "Greedy",
+    "patterns": [
+      "greedy"
+    ],
+    "insight": "always give the largest bills first, keeping small change in reserve",
+    "leetcodeUrl": "https://leetcode.com/problems/lemonade-change/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "maximum-sum-circular-subarray",
+    "title": "Maximum Sum Circular Subarray",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "Kadane ×2"
+    ],
+    "insight": "answer = max(normal Kadane, total − min subarray); guard the all-negative case",
+    "leetcodeUrl": "https://leetcode.com/problems/maximum-sum-circular-subarray/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "longest-turbulent-subarray",
+    "title": "Longest Turbulent Subarray",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "state DP"
+    ],
+    "insight": "two running lengths: last comparison was up, or down",
+    "leetcodeUrl": "https://leetcode.com/problems/longest-turbulent-subarray/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "jump-game-vii",
+    "title": "Jump Game VII",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "BFS / sliding window"
+    ],
+    "insight": "track the furthest reachable index and a window of valid launch points",
+    "leetcodeUrl": "https://leetcode.com/problems/jump-game-vii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "dota2-senate",
+    "title": "Dota2 Senate",
+    "difficulty": "medium",
+    "topic": "Greedy",
+    "patterns": [
+      "two queues"
+    ],
+    "insight": "simulate bans round by round, re-queueing survivors at i + n",
+    "leetcodeUrl": "https://leetcode.com/problems/dota2-senate/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "meeting-rooms-iii",
+    "title": "Meeting Rooms III",
+    "difficulty": "hard",
+    "topic": "Intervals",
+    "patterns": [
+      "two heaps"
+    ],
+    "insight": "one heap of free rooms by index, one of busy rooms by end time",
+    "leetcodeUrl": "https://leetcode.com/problems/meeting-rooms-iii/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "excel-sheet-column-title",
+    "title": "Excel Sheet Column Title",
+    "difficulty": "easy",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "base-26"
+    ],
+    "insight": "1-indexed, so decrement before each divmod",
+    "leetcodeUrl": "https://leetcode.com/problems/excel-sheet-column-title/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "greatest-common-divisor-of-strings",
+    "title": "Greatest Common Divisor of Strings",
+    "difficulty": "easy",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "gcd"
+    ],
+    "insight": "the answer exists iff a+b == b+a; length is gcd(len(a), len(b))",
+    "leetcodeUrl": "https://leetcode.com/problems/greatest-common-divisor-of-strings/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "insert-greatest-common-divisors-in-linked-list",
+    "title": "Insert Greatest Common Divisors in Linked List",
+    "difficulty": "medium",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "traversal + gcd"
+    ],
+    "insight": "splice a node between each adjacent pair",
+    "leetcodeUrl": "https://leetcode.com/problems/insert-greatest-common-divisors-in-linked-list/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "transpose-matrix",
+    "title": "Transpose Matrix",
+    "difficulty": "easy",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "matrix"
+    ],
+    "insight": "list(zip(matrix)) — note it handles non-square, unlike an in-place swap",
+    "leetcodeUrl": "https://leetcode.com/problems/transpose-matrix/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "roman-to-integer",
+    "title": "Roman to Integer",
+    "difficulty": "easy",
+    "topic": "Math & Geometry",
+    "patterns": [
+      "parsing"
+    ],
+    "insight": "add each value; subtract twice when a smaller numeral precedes a larger",
+    "leetcodeUrl": "https://leetcode.com/problems/roman-to-integer/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "add-binary",
+    "title": "Add Binary",
+    "difficulty": "easy",
+    "topic": "Bit Manipulation",
+    "patterns": [
+      "bit arithmetic"
+    ],
+    "insight": "carry propagation from the right, as strings",
+    "leetcodeUrl": "https://leetcode.com/problems/add-binary/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "bitwise-and-of-numbers-range",
+    "title": "Bitwise AND of Numbers Range",
+    "difficulty": "medium",
+    "topic": "Bit Manipulation",
+    "patterns": [
+      "common prefix"
+    ],
+    "insight": "the answer is the shared high-bit prefix of left and right",
+    "leetcodeUrl": "https://leetcode.com/problems/bitwise-and-of-numbers-range/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  },
+  {
+    "slug": "minimum-array-end",
+    "title": "Minimum Array End",
+    "difficulty": "medium",
+    "topic": "Bit Manipulation",
+    "patterns": [
+      "bit construction"
+    ],
+    "insight": "keep n's bits in the positions where x has zeros",
+    "leetcodeUrl": "https://leetcode.com/problems/minimum-array-end/",
+    "inBlind75": false,
+    "frequentlyAsked": false,
+    "neetcodeTier": 250,
+    "orderInList": null
+  }
+]
