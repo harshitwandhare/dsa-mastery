@@ -15,6 +15,7 @@ thing that reads them. Never hand-edit the generated JSON.
 from __future__ import annotations
 
 import ast
+import builtins
 import json
 import pathlib
 import re
@@ -78,8 +79,9 @@ def build_lessons() -> list[dict]:
         body = re.sub(r"\]\((\d\d-[a-z0-9-]+)\.md", r"](/learn/\1", text)
         body = re.sub(r"\]\((tracker|README)\.md", r"](/\1", body)
 
-        # runnable code fences: ```python but not ```python:static
-        runnable = len(re.findall(r"```python\n", text))
+        # Which fences can actually execute, and how many that leaves.
+        fence_flags = runnable_fences(text)
+        runnable = sum(fence_flags)
 
         lessons.append(
             {
@@ -89,10 +91,142 @@ def build_lessons() -> list[dict]:
                 "sections": sections,
                 "estimatedMinutes": minutes,
                 "runnableBlocks": runnable,
+                "fenceRunnable": fence_flags,
                 "body": body,
             }
         )
     return lessons
+
+
+# --------------------------------------------------------------- runnable --
+PY_FENCE = re.compile(r"```python\n(.*?)```", re.S)
+
+
+def _bound_names(tree: ast.AST) -> set[str]:
+    """Names a snippet leaves behind in the namespace it ran in.
+
+    Only module-level bindings count. A variable assigned inside a function body
+    is local to that call and is gone the moment it returns, so treating it as
+    available would mark a later block runnable on the strength of a name that
+    does not exist once the block finishes.
+    """
+    names: set[str] = set()
+
+    def collect(node: ast.AST, *, top_level: bool) -> None:
+        for child in ast.iter_child_nodes(node):
+            if isinstance(child, ast.FunctionDef | ast.AsyncFunctionDef | ast.ClassDef):
+                if top_level:
+                    names.add(child.name)
+                continue  # its body binds locals, not globals
+            if top_level:
+                if isinstance(child, ast.Name) and isinstance(child.ctx, ast.Store):
+                    names.add(child.id)
+                elif isinstance(child, ast.alias):
+                    names.add((child.asname or child.name).split(".")[0])
+                elif isinstance(child, ast.ExceptHandler) and child.name:
+                    names.add(child.name)
+                elif isinstance(child, ast.Global):
+                    names.update(child.names)
+            collect(child, top_level=top_level)
+
+    collect(tree, top_level=True)
+    return names
+
+
+def _local_names(tree: ast.AST) -> set[str]:
+    """Every name bound anywhere, including inside functions.
+
+    Used to decide whether a block's *own* free names resolve. A function body
+    may legitimately use its own parameters and locals.
+    """
+    names: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store):
+            names.add(node.id)
+        elif isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef | ast.ClassDef):
+            names.add(node.name)
+        elif isinstance(node, ast.alias):
+            names.add((node.asname or node.name).split(".")[0])
+        elif isinstance(node, ast.ExceptHandler) and node.name:
+            names.add(node.name)
+        elif isinstance(node, ast.arg):
+            names.add(node.arg)
+        elif isinstance(node, ast.Global | ast.Nonlocal):
+            names.update(node.names)
+    return names
+
+
+def _free_names(tree: ast.AST) -> set[str]:
+    return {
+        node.id
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load)
+    }
+
+
+def _resolves(tree: ast.Module, available: set[str]) -> bool:
+    """Whether every name a snippet reads is defined by the time it is read.
+
+    Order matters at module level: a statement that reads `rows` before a later
+    statement assigns it raises NameError, even though the name appears bound
+    somewhere in the block. Function bodies are exempt, because they run when
+    called rather than where they are written.
+    """
+    known = set(available)
+    deferred: list[ast.AST] = []
+
+    for statement in tree.body:
+        if isinstance(statement, ast.FunctionDef | ast.AsyncFunctionDef | ast.ClassDef):
+            known.add(statement.name)
+            deferred.append(statement)
+            continue
+
+        for node in ast.walk(statement):
+            if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef | ast.ClassDef):
+                deferred.append(node)
+
+        if _free_names(statement) - _local_names(statement) - known:
+            return False
+        known |= _local_names(statement)
+
+    # A function body may use anything the block defines, wherever it appears.
+    return all(not (_free_names(node) - _local_names(node) - known) for node in deferred)
+
+
+def runnable_fences(text: str) -> list[bool]:
+    """Decide, per Python fence, whether pressing Run could actually work.
+
+    The lessons mix two kinds of code. Most blocks are complete programs. Some
+    are one-line illustrations of an API — `sorted(nums)`, `arr.pop(0)` — whose
+    names were never defined anywhere. Offering a Run button on the second kind
+    guarantees a NameError, which teaches nothing and looks broken.
+
+    Blocks on a page share a namespace, so a name defined in an earlier block
+    counts as available here, mirroring how the web app executes them.
+    """
+    available = set(dir(builtins)) | {"dsa", "helpers", "__name__"}
+    flags: list[bool] = []
+
+    for match in PY_FENCE.finditer(text):
+        code = match.group(1)
+        try:
+            tree = ast.parse(code)
+        except SyntaxError:
+            # Deliberate syntax-error examples are shown, not run.
+            flags.append(False)
+            continue
+
+        ok = _resolves(tree, available)
+        flags.append(ok)
+        bound = _bound_names(tree)
+
+        # Only a block that runs leaves anything behind. Crediting the names of
+        # a block that cannot execute would mark the next block runnable on the
+        # strength of a definition that never actually happens.
+        if ok:
+            available |= bound
+
+    return flags
 
 
 # --------------------------------------------------------------- problems --
