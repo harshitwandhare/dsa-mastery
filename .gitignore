@@ -6,3 +6,12 @@ __pycache__/
 web/node_modules/
 web/.next/
 web/out/
+
+# Tooling caches and coverage output
+.coverage
+.coverage.*
+htmlcov/
+.ruff_cache/
+.mypy_cache/
+.uv/
+web/.content-build-test/

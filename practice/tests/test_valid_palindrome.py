@@ -1,7 +1,6 @@
 """Tests for Valid Palindrome."""
 
 import pytest
-
 from solutions.two_pointers.valid_palindrome import solve
 
 
@@ -18,9 +17,12 @@ def test_edge_empty():
     assert solve() == ...
 
 
-@pytest.mark.parametrize("given,expected", [
-    (..., ...),
-    (..., ...),
-])
+@pytest.mark.parametrize(
+    "given,expected",
+    [
+        (..., ...),
+        (..., ...),
+    ],
+)
 def test_cases(given, expected):
     assert solve(given) == expected

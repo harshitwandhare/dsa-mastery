@@ -1,10 +1,50 @@
 # DSA & Engineering Mastery: Zero to Offer
 
-**Owner:** Harshit Wandhare
-**Started:** 2026-08-13
-**Goal:** Summer 2027 SWE internship → full-time offer at a top company (FAANG / AI lab / high-tier startup)
-**Budget:** 90 minutes/day, 6 days/week + one 2-hour weekend block
-**Language:** Python (interviews) + TypeScript (product work)
+[![CI](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/ci.yml/badge.svg)](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/codeql.yml/badge.svg)](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/harshitwandhare/dsa-mastery/badge)](https://scorecard.dev/viewer/?uri=github.com/harshitwandhare/dsa-mastery)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org/)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230)](https://github.com/astral-sh/ruff)
+[![License: MIT + CC BY 4.0](https://img.shields.io/badge/license-MIT%20%2B%20CC--BY--4.0-green)](LICENSE)
+
+A complete interview-preparation curriculum written from first principles: 21
+lessons, 315 indexed problems, 75 graded Python drills, and a runnable practice
+environment. Everything is generated from the markdown, so the lessons and the
+tooling can never disagree.
+
+**New here?** Start with [Python From Zero](00-python-from-zero.md) if you have
+never programmed, or [Foundations](01-foundations.md) if you have.
+
+**Working on the repository itself?** Read [CONTRIBUTING.md](CONTRIBUTING.md)
+first — there is one hard rule about the markdown being the source of truth.
+
+<details>
+<summary><strong>Repository layout</strong></summary>
+
+| Path | What it is |
+|---|---|
+| `00-*.md` … `19-*.md` | The curriculum. The single source of truth; never generated, never auto-formatted. |
+| `20-website-build-spec.md`, `HANDOFF.md` | Specification for the interactive learning platform. |
+| `tools/build_content.py` | The pipeline that turns the lessons into JSON. 98% test coverage. |
+| `web/content/*.json` | Generated content. Never hand-edit; rerun the pipeline. |
+| `practice/` | Local Python environment: drills, solutions, helpers, benchmarks. |
+| `tests/` | Tests for the pipeline. These gate CI. |
+
+```bash
+uv sync --all-groups          # set up the toolchain
+python tools/build_content.py # regenerate web/content from the lessons
+uv run pytest -m "not practice"  # the CI gate
+uv run pytest -m practice        # your own progress through the problems
+```
+
+</details>
+
+---
+
+The curriculum is written against a specific plan: a fixed daily time budget, a
+target hiring cycle, and Python as the interview language. That plan lives in
+[PLAN.md](PLAN.md) — read it if you want to know what assumptions the schedules
+below are built on, or adapt it to your own timeline.
 
 ---
 

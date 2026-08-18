@@ -21,11 +21,28 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 
 TOPICS = [
-    "arrays_hashing", "two_pointers", "sliding_window", "stack",
-    "binary_search", "linked_list", "trees", "tries", "heap",
-    "backtracking", "graphs", "advanced_graphs", "dp_1d", "dp_2d",
-    "greedy", "intervals", "math_geometry", "bit_manipulation",
-    "sorting", "strings", "design", "concurrency",
+    "arrays_hashing",
+    "two_pointers",
+    "sliding_window",
+    "stack",
+    "binary_search",
+    "linked_list",
+    "trees",
+    "tries",
+    "heap",
+    "backtracking",
+    "graphs",
+    "advanced_graphs",
+    "dp_1d",
+    "dp_2d",
+    "greedy",
+    "intervals",
+    "math_geometry",
+    "bit_manipulation",
+    "sorting",
+    "strings",
+    "design",
+    "concurrency",
 ]
 
 SOLUTION_TEMPLATE = '''"""{title}
@@ -147,8 +164,8 @@ def main() -> None:
         )
         print(f"Created {test_path.relative_to(ROOT)}")
 
-    print(f"\nNext:")
-    print(f"  1. python -m dsa.timer 22")
+    print("\nNext:")
+    print("  1. python -m dsa.timer 22")
     print(f"  2. edit solutions/{topic}/{module}.py")
     print(f"  3. pytest tests/test_{module}.py -v")
 

@@ -36,7 +36,7 @@ def table_rows(block: str) -> list[list[str]]:
         line = line.strip()
         if not line.startswith("|"):
             continue
-        if re.match(r"^\|[\s:|-]+\|$", line):        # separator row
+        if re.match(r"^\|[\s:|-]+\|$", line):  # separator row
             continue
         cells = [c.strip() for c in line.strip("|").split("|")]
         rows.append(cells)
@@ -45,7 +45,7 @@ def table_rows(block: str) -> list[list[str]]:
 
 def strip_md(s: str) -> str:
     """Remove markdown emphasis/links, keep the text."""
-    s = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", s)   # links
+    s = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", s)  # links
     s = re.sub(r"[*`]", "", s)
     return s.strip()
 
@@ -62,9 +62,12 @@ def build_lessons() -> list[dict]:
 
         sections = []
         for m in re.finditer(r"^## (.+)$", text, re.M):
-            sections.append({"heading": m.group(1).strip(),
-                             "anchor": re.sub(r"[^a-z0-9]+", "-",
-                                              m.group(1).lower()).strip("-")})
+            sections.append(
+                {
+                    "heading": m.group(1).strip(),
+                    "anchor": re.sub(r"[^a-z0-9]+", "-", m.group(1).lower()).strip("-"),
+                }
+            )
 
         # estimate reading time: 200 wpm on prose, code counted at half rate
         code_chars = sum(len(b) for b in re.findall(r"```.*?```", text, re.S))
@@ -78,15 +81,17 @@ def build_lessons() -> list[dict]:
         # runnable code fences: ```python but not ```python:static
         runnable = len(re.findall(r"```python\n", text))
 
-        lessons.append({
-            "slug": slugify(path.name),
-            "fileNumber": int(path.name[:2]),
-            "title": title,
-            "sections": sections,
-            "estimatedMinutes": minutes,
-            "runnableBlocks": runnable,
-            "body": body,
-        })
+        lessons.append(
+            {
+                "slug": slugify(path.name),
+                "fileNumber": int(path.name[:2]),
+                "title": title,
+                "sections": sections,
+                "estimatedMinutes": minutes,
+                "runnableBlocks": runnable,
+                "body": body,
+            }
+        )
     return lessons
 
 
@@ -102,6 +107,7 @@ def build_problems() -> list[dict]:
     problems = []
     seen = set()
     current_topic = "general"
+    tier: int | str  # 150 / 250 for the ranked lists, "extra" for the design tables
 
     for line in text.split("\n"):
         h = re.match(r"^### (.+)$", line)
@@ -141,19 +147,21 @@ def build_problems() -> list[dict]:
             continue
         seen.add(slug)
 
-        problems.append({
-            "slug": slug,
-            "title": title,
-            "difficulty": DIFF[diff],
-            "topic": current_topic,
-            "patterns": [p.strip() for p in strip_md(pattern).split(",")],
-            "insight": strip_md(insight),
-            "leetcodeUrl": f"https://leetcode.com/problems/{slug}/",
-            "inBlind75": blind,
-            "frequentlyAsked": hot,
-            "neetcodeTier": tier,
-            "orderInList": int(num) if num else None,
-        })
+        problems.append(
+            {
+                "slug": slug,
+                "title": title,
+                "difficulty": DIFF[diff],
+                "topic": current_topic,
+                "patterns": [p.strip() for p in strip_md(pattern).split(",")],
+                "insight": strip_md(insight),
+                "leetcodeUrl": f"https://leetcode.com/problems/{slug}/",
+                "inBlind75": blind,
+                "frequentlyAsked": hot,
+                "neetcodeTier": tier,
+                "orderInList": int(num) if num else None,
+            }
+        )
     return problems
 
 
@@ -177,32 +185,44 @@ def build_drills() -> list[dict]:
 
         exercises = []
         for node in tree.body:
-            is_fn = isinstance(node, ast.FunctionDef) and re.match(r"ex\d\d_", node.name)
-            is_cls = isinstance(node, ast.ClassDef) and node.name in ("Dog", "Counter2")
-            if not (is_fn or is_cls):
+            # Narrowed to the two node kinds an exercise can be, so that `.name`
+            # and `.args` below are statically known to exist.
+            if isinstance(node, ast.FunctionDef):
+                if not re.match(r"ex\d\d_", node.name):
+                    continue
+            elif isinstance(node, ast.ClassDef):
+                if node.name not in ("Dog", "Counter2"):
+                    continue
+            else:
                 continue
             doc = ast.get_docstring(node) or ""
             start, end = node.lineno, (node.end_lineno or node.lineno)
-            starter = "\n".join(lines[start - 1:end])
-            exercises.append({
-                "id": f"{path.stem}.{node.name}",
-                "drillId": path.stem,
-                "day": day_of_line.get(start, 1),
-                "name": node.name,
-                "title": node.name.replace("_", " "),
-                "prompt": doc,
-                "starterCode": starter,
-                "kind": "class" if isinstance(node, ast.ClassDef) else "function",
-                "params": [a.arg for a in node.args.args] if isinstance(node, ast.FunctionDef) else [],
-            })
+            starter = "\n".join(lines[start - 1 : end])
+            exercises.append(
+                {
+                    "id": f"{path.stem}.{node.name}",
+                    "drillId": path.stem,
+                    "day": day_of_line.get(start, 1),
+                    "name": node.name,
+                    "title": node.name.replace("_", " "),
+                    "prompt": doc,
+                    "starterCode": starter,
+                    "kind": "class" if isinstance(node, ast.ClassDef) else "function",
+                    "params": (
+                        [a.arg for a in node.args.args] if isinstance(node, ast.FunctionDef) else []
+                    ),
+                }
+            )
 
-        drills.append({
-            "id": path.stem,
-            "title": (ast.get_docstring(tree) or "").split("\n")[0],
-            "sourceFile": str(path.relative_to(ROOT)).replace("\\", "/"),
-            "exerciseCount": len(exercises),
-            "exercises": exercises,
-        })
+        drills.append(
+            {
+                "id": path.stem,
+                "title": (ast.get_docstring(tree) or "").split("\n")[0],
+                "sourceFile": str(path.relative_to(ROOT)).replace("\\", "/"),
+                "exerciseCount": len(exercises),
+                "exercises": exercises,
+            }
+        )
     return drills
 
 
@@ -249,17 +269,22 @@ def main() -> int:
         "glossary.json": glossary,
     }
     for name, data in payloads.items():
-        (OUT / name).write_text(json.dumps(data, indent=2, ensure_ascii=False),
-                                encoding="utf-8")
+        # newline="" suppresses the platform line-ending translation that
+        # `write_text` would otherwise apply, so a build on Windows and a build
+        # in CI produce byte-identical files rather than CRLF and LF versions of
+        # the same content.
+        with (OUT / name).open("w", encoding="utf-8", newline="") as fh:
+            fh.write(json.dumps(data, indent=2, ensure_ascii=False))
 
     # ---- report + sanity checks ----
     print(f"lessons   {len(lessons):>4}")
-    print(f"problems  {len(problems):>4}   "
-          f"(neetcode150: {sum(1 for p in problems if p['neetcodeTier'] == 150)}, "
-          f"blind75: {sum(1 for p in problems if p['inBlind75'])}, "
-          f"hot: {sum(1 for p in problems if p['frequentlyAsked'])})")
-    print(f"drills    {len(drills):>4}   "
-          f"exercises: {sum(d['exerciseCount'] for d in drills)}")
+    print(
+        f"problems  {len(problems):>4}   "
+        f"(neetcode150: {sum(1 for p in problems if p['neetcodeTier'] == 150)}, "
+        f"blind75: {sum(1 for p in problems if p['inBlind75'])}, "
+        f"hot: {sum(1 for p in problems if p['frequentlyAsked'])})"
+    )
+    print(f"drills    {len(drills):>4}   exercises: {sum(d['exerciseCount'] for d in drills)}")
     print(f"glossary  {len(glossary):>4}")
 
     problems.sort(key=lambda p: p["orderInList"] or 9999)
@@ -275,7 +300,7 @@ def main() -> int:
     if len(lessons) < 20:
         print(f"  FAIL: expected 20+ lessons, got {len(lessons)}")
         ok = False
-    by_diff = {}
+    by_diff: dict[str, int] = {}
     for p in problems:
         by_diff[p["difficulty"]] = by_diff.get(p["difficulty"], 0) + 1
     print(f"  difficulty split: {by_diff}")

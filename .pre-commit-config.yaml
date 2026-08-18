@@ -1,0 +1,84 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# pre-commit hook configuration
+# https://pre-commit.com
+#
+# Install:  uv run pre-commit install
+# Run all:  uv run pre-commit run --all-files
+#
+# These mirror the CI gate so a red build is caught before it is pushed.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# No default_language_version pin. The project supports 3.11 through 3.13, and
+# hard-coding one of them makes the hooks fail to install on a machine that has
+# either of the others.
+
+# The numbered lessons are the single source of truth and no hook may rewrite
+# them. The whitespace fixers in particular would silently alter formatting that
+# the content pipeline hashes into web/content/.
+exclude: '^[0-9]{2}-[^/]*\.md$'
+
+repos:
+  # ── General file hygiene ──────────────────────────────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: detect-private-key
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+      - id: no-commit-to-branch
+        args: ["--branch", "main"]
+
+  # ── Ruff: lint + format (replaces black, flake8, isort) ───────────────────
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.17
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  # ── Mypy: static type checking ────────────────────────────────────────────
+  # Run through uv rather than the mirrors-mypy hook. That hook passes the
+  # staged filenames on the command line, which overrides the `files` list and
+  # the per-module overrides in pyproject.toml — it reported 410 errors in code
+  # the project deliberately does not require annotations for. Running the bare
+  # command keeps pre-commit and CI checking exactly the same thing.
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: uv run mypy
+        language: system
+        pass_filenames: false
+        types: [python]
+
+  # ── Security: scan for leaked secrets ─────────────────────────────────────
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+
+  # ── YAML lint ─────────────────────────────────────────────────────────────
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+        args: [--strict, -c, .yamllint.yml]
+
+  # ── The generated content must never drift from the markdown ──────────────
+  - repo: local
+    hooks:
+      - id: content-in-sync
+        name: web/content matches the curriculum
+        entry: python tools/build_content.py
+        language: system
+        pass_filenames: false
+        files: '^([0-9]{2}-.*\.md|practice/drills/.*\.py|tools/build_content\.py)$'

@@ -15,9 +15,9 @@ RULES
 Target: all 25 green in under 60 minutes.
 """
 
-from collections import Counter, defaultdict, deque
-import heapq
 import bisect
+import heapq
+from collections import Counter, defaultdict, deque
 
 TODO = NotImplementedError("fill this in")
 

@@ -10,8 +10,6 @@ import random
 import time
 from collections import defaultdict
 
-import pytest
-
 
 # =========================================================================
 # 11.1 SORTING

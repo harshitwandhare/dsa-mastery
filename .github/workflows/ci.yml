@@ -1,0 +1,230 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Every job installs the same way; bump in one place.
+  UV_VERSION: "latest"
+  DEFAULT_PYTHON: "3.11"
+
+jobs:
+  # ───────────────────────────────────────────────────────────────────────────
+  # Lint & format
+  # ───────────────────────────────────────────────────────────────────────────
+  lint:
+    name: Lint & Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - name: Set up Python
+        run: uv python install ${{ env.DEFAULT_PYTHON }}
+
+      - name: Install dependencies
+        run: uv sync --locked --all-groups
+
+      - name: Ruff (lint)
+        run: uv run ruff check .
+
+      - name: Ruff (format)
+        run: uv run ruff format --check .
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Types
+  # ───────────────────────────────────────────────────────────────────────────
+  typecheck:
+    name: Type Check (mypy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - name: Set up Python
+        run: uv python install ${{ env.DEFAULT_PYTHON }}
+
+      - name: Install dependencies
+        run: uv sync --locked --all-groups
+
+      - name: mypy
+        run: uv run mypy
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Tests — the practice scaffolds are deselected; see conftest.py for why.
+  # ───────────────────────────────────────────────────────────────────────────
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --locked --all-groups
+
+      - name: Run tests with the coverage gate
+        run: >
+          uv run pytest -m "not practice" -v
+          --cov --cov-report=term-missing --cov-fail-under=95
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # The curriculum markdown is the single source of truth and web/content/*.json
+  # is generated from it. If the two drift, the web app is built against content
+  # that no longer matches the lessons — so a stale commit fails the build.
+  # ───────────────────────────────────────────────────────────────────────────
+  content:
+    name: Content pipeline is reproducible
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - name: Set up Python
+        run: uv python install ${{ env.DEFAULT_PYTHON }}
+
+      - name: Install dependencies
+        run: uv sync --locked --all-groups
+
+      - name: Rebuild content from the markdown
+        run: uv run python tools/build_content.py
+
+      - name: Fail if the committed JSON is stale
+        run: |
+          if ! git diff --quiet -- web/content/; then
+            echo "::error::web/content/ is out of date with the curriculum markdown."
+            echo "Run 'python tools/build_content.py' and commit the result."
+            git --no-pager diff --stat -- web/content/
+            exit 1
+          fi
+          echo "Generated content matches the markdown."
+
+      - name: Fail if the build rewrote the curriculum
+        # A formatter or a stray edit reaching the lessons would corrupt the one
+        # artefact this repository cannot regenerate. Catch it here, loudly.
+        run: |
+          if ! git diff --quiet -- '*.md'; then
+            echo "::error::The build modified curriculum markdown. It must be read-only."
+            git --no-pager diff --stat -- '*.md'
+            exit 1
+          fi
+          echo "Curriculum markdown untouched."
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Security
+  # ───────────────────────────────────────────────────────────────────────────
+  secrets:
+    name: Secret Scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # full history for gitleaks
+
+      - name: Install gitleaks
+        run: |
+          v=8.21.2
+          base=https://github.com/gitleaks/gitleaks/releases/download
+          curl -sSL "$base/v$v/gitleaks_${v}_linux_x64.tar.gz" | tar -xz gitleaks
+          sudo install gitleaks /usr/local/bin/gitleaks
+
+      - name: Scan for secrets
+        run: gitleaks detect --source . --redact --no-banner --verbose
+
+  supply-chain:
+    name: Supply Chain (pip-audit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - name: Set up Python
+        run: uv python install ${{ env.DEFAULT_PYTHON }}
+
+      - name: Install dependencies
+        run: uv sync --locked --all-groups
+
+      - name: Audit dependencies for known vulnerabilities
+        run: uv run pip-audit --skip-editable
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Progress report, not a gate. The per-problem tests fail until each problem
+  # is solved, so this reports how far through the curriculum the repository is
+  # without ever failing the build.
+  # ───────────────────────────────────────────────────────────────────────────
+  practice-progress:
+    name: Practice progress (informational)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - name: Set up Python
+        run: uv python install ${{ env.DEFAULT_PYTHON }}
+
+      - name: Install dependencies
+        run: uv sync --locked --all-groups
+
+      - name: Count solved problems
+        run: |
+          set +e
+          # No -q here: addopts already sets it, and a second one makes -qq,
+          # which suppresses the very tally this job exists to report.
+          uv run pytest -m practice --tb=no --no-header -p no:cacheprovider > progress.txt 2>&1
+          set -e
+          # pytest prints the tally as its own line; the short-summary FAILED
+          # lines around it are noise, so match the tally rather than tailing.
+          tally=$(grep -oE '[0-9]+ (passed|failed)(, [0-9]+ (passed|failed|deselected))*' progress.txt | tail -1)
+          [ -n "$tally" ] || tally="could not read a tally from pytest"
+          echo "$tally"
+          {
+            echo "### Practice progress"
+            echo ""
+            echo "**$tally**"
+            echo ""
+            echo "Failures here are expected: each per-problem test goes green"
+            echo "when that problem is solved. This job never blocks a merge."
+          } >> "$GITHUB_STEP_SUMMARY"

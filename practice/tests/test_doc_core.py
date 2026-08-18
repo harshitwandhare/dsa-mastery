@@ -16,8 +16,6 @@ import heapq
 import math
 from collections import Counter, defaultdict, deque
 
-import pytest
-
 from dsa.helpers import ListNode, TreeNode, build_list, build_tree, list_to_array, make_cycle
 
 
@@ -883,7 +881,6 @@ class TestTrees:
         r = build_tree([3, 5, 1, 6, 2, 0, 8])
         p, q = r.left, r.right                     # nodes 5 and 1
         assert lca(r, p, q).val == 3
-        p2 = r.left.right.right if r.left.right else None
         assert lca(r, r.left, r.left.right).val == 5
 
     def test_build_tree_from_traversals(self):
