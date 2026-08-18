@@ -32,7 +32,9 @@ TODO = NotImplementedError("fill this in")
 # ===========================================================================
 def ex01_add(a, b):
     """Return a plus b."""
-    raise TODO
+    return a + b        # <-- SOLVED FOR YOU. This is what an answer looks like.
+    #                       Every other exercise still says `raise TODO`.
+    #                       Replace that line the same way.
 
 
 def ex02_int_divide(a, b):

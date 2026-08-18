@@ -276,11 +276,71 @@ class TestBuildDrills:
     def test_starter_code_round_trips_as_valid_python(self) -> None:
         (drill,) = self._drill(
             "day0_python.py",
-            '"""D"""\n\n\ndef ex01_add(a, b):\n    """Add."""\n    return a + b\n',
+            '"""D"""\n\n\ndef ex02_add(a, b):\n    """Add."""\n    return a + b\n',
         )
         starter = drill["exercises"][0]["starterCode"]
-        assert starter.startswith("def ex01_add(a, b):")
+        assert starter.startswith("def ex02_add(a, b):")
         ast.parse(starter)
+
+    def test_a_solved_exercise_is_published_as_an_unsolved_stub(self) -> None:
+        """The drill files are a working directory; solving one must not leak.
+
+        Without this, every answer written locally ships as the starter code the
+        moment the solved file is committed, spoiling the exercise for readers.
+        """
+        (drill,) = self._drill(
+            "day0_python.py",
+            '"""D"""\n\n\ndef ex07_total(nums):\n    """Return the sum."""\n'
+            "    running = 0\n    for n in nums:\n        running += n\n    return running\n",
+        )
+        starter = drill["exercises"][0]["starterCode"]
+        assert starter == 'def ex07_total(nums):\n    """Return the sum."""\n    raise TODO'
+        assert "running" not in starter
+
+    def test_the_prompt_survives_even_when_the_body_is_dropped(self) -> None:
+        (drill,) = self._drill(
+            "day0_python.py",
+            '"""D"""\n\n\ndef ex07_total(nums):\n    """Return the sum."""\n    return sum(nums)\n',
+        )
+        assert drill["exercises"][0]["prompt"] == "Return the sum."
+
+    def test_a_multi_line_docstring_keeps_its_indentation(self) -> None:
+        (drill,) = self._drill(
+            "day0_python.py",
+            '"""D"""\n\n\ndef ex07_div(a, b):\n    """Divide a by b.\n'
+            '    (7, 2) -> 3"""\n    return a // b\n',
+        )
+        starter = drill["exercises"][0]["starterCode"]
+        assert "\n    (7, 2) -> 3" in starter
+        ast.parse(starter)
+
+    def test_a_class_exercise_gets_a_body_that_still_parses(self) -> None:
+        (drill,) = self._drill(
+            "day0_python.py",
+            '"""D"""\n\n\nclass Dog:\n    """A dog."""\n\n'
+            "    def speak(self):\n        return 'woof'\n",
+        )
+        starter = drill["exercises"][0]["starterCode"]
+        assert starter.endswith("    pass")
+        assert "woof" not in starter
+        ast.parse(starter)
+
+    def test_an_exercise_with_no_docstring_still_produces_a_stub(self) -> None:
+        (drill,) = self._drill(
+            "day0_python.py",
+            '"""D"""\n\n\ndef ex07_noop(x):\n    return x * 2\n',
+        )
+        starter = drill["exercises"][0]["starterCode"]
+        assert starter == "def ex07_noop(x):\n    raise TODO"
+        ast.parse(starter)
+
+    def test_the_worked_example_is_published_verbatim(self) -> None:
+        """File 00 opens with one solved exercise on purpose, as a shape to copy."""
+        (drill,) = self._drill(
+            "day0_python.py",
+            '"""D"""\n\n\ndef ex01_add(a, b):\n    """Add."""\n    return a + b\n',
+        )
+        assert "return a + b" in drill["exercises"][0]["starterCode"]
 
     def test_source_path_is_posix_so_it_survives_windows(self) -> None:
         (drill,) = self._drill("day0_python.py", '"""D"""\n\n\ndef ex01_a(x):\n    pass\n')

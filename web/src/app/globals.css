@@ -1,0 +1,353 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens.
+
+   Spec 20.9: dark by default, one accent colour, green for pass and red for
+   fail, and nothing else. Reading comes first, so the type scale and measure
+   are tuned for long-form prose rather than for a dashboard.
+   --------------------------------------------------------------------------- */
+:root {
+  --bg: #0b0d10;
+  --bg-raised: #12151a;
+  --bg-inset: #0e1116;
+  --border: #232830;
+  --border-strong: #333a45;
+
+  --text: #e6e9ee;
+  --text-muted: #98a1ae;
+  --text-faint: #6b7480;
+
+  --accent: #7dd3a0;
+  --accent-strong: #4ec07d;
+  --accent-dim: rgba(125, 211, 160, 0.12);
+
+  --pass: #4ec07d;
+  --fail: #f0776c;
+  --warn: #e3b341;
+
+  --easy: #4ec07d;
+  --medium: #e3b341;
+  --hard: #f0776c;
+}
+
+/* Light mode is available but not the default, per spec 20.9. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #ffffff;
+    --bg-raised: #f7f8fa;
+    --bg-inset: #f0f2f5;
+    --border: #e2e5ea;
+    --border-strong: #cbd1d9;
+
+    --text: #14181d;
+    --text-muted: #59626e;
+    --text-faint: #858d98;
+
+    --accent: #1f8f52;
+    --accent-strong: #16713f;
+    --accent-dim: rgba(31, 143, 82, 0.1);
+
+    --pass: #1f8f52;
+    --fail: #c0392b;
+    --warn: #9a6b00;
+
+    --easy: #1f8f52;
+    --medium: #9a6b00;
+    --hard: #c0392b;
+  }
+}
+
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-raised: #f7f8fa;
+  --bg-inset: #f0f2f5;
+  --border: #e2e5ea;
+  --border-strong: #cbd1d9;
+
+  --text: #14181d;
+  --text-muted: #59626e;
+  --text-faint: #858d98;
+
+  --accent: #1f8f52;
+  --accent-strong: #16713f;
+  --accent-dim: rgba(31, 143, 82, 0.1);
+
+  --pass: #1f8f52;
+  --fail: #c0392b;
+  --warn: #9a6b00;
+
+  --easy: #1f8f52;
+  --medium: #9a6b00;
+  --hard: #c0392b;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-raised: var(--bg-raised);
+  --color-bg-inset: var(--bg-inset);
+  --color-border-subtle: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-pass: var(--pass);
+  --color-fail: var(--fail);
+  --color-warn: var(--warn);
+  --color-easy: var(--easy);
+  --color-medium: var(--medium);
+  --color-hard: var(--hard);
+  --font-sans: var(--font-sans-stack);
+  --font-mono: var(--font-mono-stack);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Headings sit under the sticky header when jumped to from the section nav. */
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans-stack);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent-dim);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   Lesson prose.
+
+   The lessons are documents, not UI. ~70 characters of measure, generous line
+   height, and a real hierarchy, applied to server-rendered markdown HTML rather
+   than to components.
+   --------------------------------------------------------------------------- */
+.prose {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.prose > * + * {
+  margin-top: 1.15em;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.011em;
+  scroll-margin-top: 5rem;
+}
+
+.prose h1 {
+  font-size: 2rem;
+  margin-top: 0;
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+  margin-top: 2.5em;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.prose h3 {
+  font-size: 1.2rem;
+  margin-top: 2em;
+}
+
+.prose h4 {
+  font-size: 1.0625rem;
+  margin-top: 1.75em;
+  color: var(--text-muted);
+}
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.prose a:hover {
+  text-decoration-color: var(--accent);
+}
+
+/* The anchor rehype-autolink-headings adds; visible on hover, invisible otherwise. */
+.prose .heading-anchor {
+  color: var(--text-faint);
+  text-decoration: none;
+  opacity: 0;
+  margin-left: 0.4em;
+  font-weight: 400;
+}
+
+.prose h2:hover .heading-anchor,
+.prose h3:hover .heading-anchor,
+.prose .heading-anchor:focus-visible {
+  opacity: 1;
+}
+
+.prose strong {
+  font-weight: 650;
+  color: var(--text);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5em;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li + li {
+  margin-top: 0.4em;
+}
+
+.prose li::marker {
+  color: var(--text-faint);
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--border-strong);
+  padding-left: 1.15em;
+  color: var(--text-muted);
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.5em 0;
+}
+
+/* Inline code, but not code inside a highlighted block. */
+.prose :not(pre) > code {
+  font-family: var(--font-mono-stack);
+  font-size: 0.875em;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.12em 0.36em;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------------
+   Tables. The curriculum leans on them heavily, so they get real attention.
+   Wide tables scroll inside their own container instead of pushing the page.
+   --------------------------------------------------------------------------- */
+.prose .table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-raised);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.prose thead {
+  background: var(--bg-inset);
+}
+
+.prose th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text);
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+
+.prose td {
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.prose td :not(pre) > code {
+  white-space: pre-wrap;
+}
+
+/* ---------------------------------------------------------------------------
+   Code blocks. rehype-pretty-code emits the markup; these rules style it.
+   --------------------------------------------------------------------------- */
+.prose pre {
+  overflow-x: auto;
+  padding: 1rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  tab-size: 4;
+}
+
+.prose figure[data-rehype-pretty-code-figure] {
+  margin-top: 1.5em;
+}
+
+.prose pre code {
+  display: grid;
+  font-family: var(--font-mono-stack);
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.prose pre code [data-line] {
+  padding: 0 0.1rem;
+}
+
+/* Shiki writes both themes as variables; pick one per colour scheme. */
+.prose pre,
+.prose pre span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .prose pre,
+  :root:not([data-theme="dark"]) .prose pre span {
+    color: var(--shiki-light);
+    background-color: var(--shiki-light-bg);
+  }
+}
+
+:root[data-theme="light"] .prose pre,
+:root[data-theme="light"] .prose pre span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
