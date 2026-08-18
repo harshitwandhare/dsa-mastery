@@ -269,7 +269,12 @@ def main() -> int:
         "glossary.json": glossary,
     }
     for name, data in payloads.items():
-        (OUT / name).write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+        # newline="" suppresses the platform line-ending translation that
+        # `write_text` would otherwise apply, so a build on Windows and a build
+        # in CI produce byte-identical files rather than CRLF and LF versions of
+        # the same content.
+        with (OUT / name).open("w", encoding="utf-8", newline="") as fh:
+            fh.write(json.dumps(data, indent=2, ensure_ascii=False))
 
     # ---- report + sanity checks ----
     print(f"lessons   {len(lessons):>4}")
