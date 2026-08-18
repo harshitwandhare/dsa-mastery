@@ -1,0 +1,19 @@
+# Normalise to LF in the repository. The content pipeline reads the curriculum
+# markdown and hashes its output into web/content/*.json, so a CRLF checkout on
+# Windows and an LF checkout in CI must produce byte-identical JSON.
+* text=auto eol=lf
+
+# Binary assets are never touched.
+*.png binary
+*.jpg binary
+*.gif binary
+*.pdf binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+
+# Generated content: keep it out of diffs and language stats, but still review it.
+web/content/*.json linguist-generated=true
+
+# The curriculum is the substance of this repository, not documentation noise.
+*.md linguist-detectable=true

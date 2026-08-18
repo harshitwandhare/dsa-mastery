@@ -1,7 +1,6 @@
 """Tests for Two Sum -- the model test file. Copy this shape."""
 
 import pytest
-
 from solutions.arrays_hashing.two_sum import two_sum, two_sum_bruteforce
 
 

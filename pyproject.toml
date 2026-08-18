@@ -1,0 +1,122 @@
+[project]
+name = "dsa-mastery"
+version = "1.0.0"
+description = "Interview-prep curriculum, a runnable practice environment, and the pipeline that turns the markdown into structured content."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "Harshit Wandhare" }]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/harshitwandhare/dsa-mastery"
+Issues = "https://github.com/harshitwandhare/dsa-mastery/issues"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.13",
+    "pip-audit>=2.7",
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.8",
+]
+
+[tool.uv]
+package = false
+
+# ---------------------------------------------------------------------------
+# Lint + format
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+# Ruff formats Python code fences inside markdown. The curriculum is the
+# single source of truth and its snippets are hand-laid-out to teach a
+# specific point, so markdown is out of scope for both lint and format.
+extend-exclude = ["*.md", "practice/.venv", "web/node_modules", "web/.next"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # import sorting
+    "B",    # bugbear
+    "C4",   # comprehensions
+    "UP",   # pyupgrade
+    "SIM",  # simplify
+    "PTH",  # prefer pathlib
+    "RUF",  # ruff-specific
+]
+
+[tool.ruff.format]
+# Two of these paths mirror curriculum code character-for-character. Reflowing
+# them would silently desync the practice environment from the lessons that
+# teach it, so they are linted for correctness but never auto-formatted.
+exclude = ["practice/drills/*.py", "practice/tests/test_doc_*.py"]
+
+[tool.ruff.lint.per-file-ignores]
+# Drills are deliberately unfinished teaching material. The learner-facing
+# toolkit imports at the top are provided for them to reach for (F401), the
+# CASES table at the bottom is dense assertion data (E501), and the explicit
+# try/except/pass is what file 00 teaches before contextlib exists (SIM105).
+"practice/drills/*.py" = ["E501", "F401", "SIM105", "RUF005"]
+
+# These verify that every code sample in the curriculum still runs. The samples
+# use `l` for a list and semicolons for compact setup because that is how they
+# appear in the lessons; rewriting them here would make the tests stop testing
+# what is actually published.
+"practice/tests/test_doc_*.py" = ["E741", "E702", "RUF005", "SIM102"]
+
+# ---------------------------------------------------------------------------
+# Types
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.11"
+files = ["tools", "practice/dsa", "practice/solutions", "tests"]
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+no_implicit_optional = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+# Solutions are interview practice. Real interviews are written in plain Python
+# without annotations, and `new_problem.py` scaffolds every file with a bare
+# `def solve():` for exactly that reason. They are still type-checked for
+# correctness; they are simply not required to be annotated.
+module = ["solutions.*"]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+# ---------------------------------------------------------------------------
+# Tests
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests", "practice/tests"]
+pythonpath = [".", "practice"]
+addopts = "-q --tb=short --strict-markers"
+markers = [
+    "practice: a per-problem scaffold that fails until the problem is solved (see conftest.py)",
+]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+# Scoped to the code CI owns. `practice/` is a learner workspace: the solutions
+# are unsolved stubs, and `bench.py` / `timer.py` are demonstration scripts run
+# by hand. Including them would only pad the denominator and make the gate
+# meaningless, so the pipeline is measured on its own and held high.
+source = ["tools"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]

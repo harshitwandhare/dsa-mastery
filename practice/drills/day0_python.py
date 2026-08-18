@@ -317,7 +317,7 @@ def ex50_word_lengths(words):
 # ===========================================================================
 # RUNNER - do not edit below this line
 # ===========================================================================
-from dsa.helpers import ListNode      # noqa: E402
+from dsa.helpers import ListNode  # noqa: E402
 
 
 def _dog_check():

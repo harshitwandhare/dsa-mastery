@@ -40,13 +40,13 @@ def two_sum_bruteforce(nums: list[int], target: int) -> list[int]:
 
 def two_sum(nums: list[int], target: int) -> list[int]:
     """O(n) time, O(n) space."""
-    seen: dict[int, int] = {}          # value -> index
+    seen: dict[int, int] = {}  # value -> index
     for i, x in enumerate(nums):
         need = target - x
-        if need in seen:               # O(1) average
+        if need in seen:  # O(1) average
             return [seen[need], i]
-        seen[x] = i                    # store AFTER checking
-    return []                          # no pair found
+        seen[x] = i  # store AFTER checking
+    return []  # no pair found
 
 
 if __name__ == "__main__":

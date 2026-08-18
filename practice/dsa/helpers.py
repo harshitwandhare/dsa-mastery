@@ -7,19 +7,22 @@ Import these in any solution file:
 
 from __future__ import annotations
 
-from typing import Any, Iterable, Optional
+from collections.abc import Iterable
+from typing import Any
 
 
 # --------------------------------------------------------------------------
 # Linked list
 # --------------------------------------------------------------------------
 class ListNode:
-    def __init__(self, val: Any = 0, next: Optional["ListNode"] = None):
+    def __init__(self, val: Any = 0, next: ListNode | None = None):
         self.val = val
         self.next = next
 
     def __repr__(self) -> str:
-        vals, node, guard = [], self, 0
+        vals: list[str] = []
+        node: ListNode | None = self
+        guard = 0
         while node and guard < 100:
             vals.append(repr(node.val))
             node = node.next
@@ -29,7 +32,7 @@ class ListNode:
         return " -> ".join(vals)
 
 
-def build_list(values: Iterable[Any]) -> Optional[ListNode]:
+def build_list(values: Iterable[Any]) -> ListNode | None:
     """[1,2,3] -> 1 -> 2 -> 3"""
     dummy = ListNode()
     tail = dummy
@@ -39,7 +42,7 @@ def build_list(values: Iterable[Any]) -> Optional[ListNode]:
     return dummy.next
 
 
-def list_to_array(head: Optional[ListNode]) -> list:
+def list_to_array(head: ListNode | None) -> list:
     out, guard = [], 0
     while head and guard < 10_000:
         out.append(head.val)
@@ -48,12 +51,12 @@ def list_to_array(head: Optional[ListNode]) -> list:
     return out
 
 
-def make_cycle(head: Optional[ListNode], pos: int) -> Optional[ListNode]:
+def make_cycle(head: ListNode | None, pos: int) -> ListNode | None:
     """Link the tail back to index `pos`. pos = -1 means no cycle."""
     if head is None or pos < 0:
         return head
-    nodes = []
-    node = head
+    nodes: list[ListNode] = []
+    node: ListNode | None = head
     while node:
         nodes.append(node)
         node = node.next
@@ -65,7 +68,9 @@ def make_cycle(head: Optional[ListNode], pos: int) -> Optional[ListNode]:
 # Binary tree
 # --------------------------------------------------------------------------
 class TreeNode:
-    def __init__(self, val: Any = 0, left=None, right=None):
+    def __init__(
+        self, val: Any = 0, left: TreeNode | None = None, right: TreeNode | None = None
+    ) -> None:
         self.val = val
         self.left = left
         self.right = right
@@ -74,7 +79,7 @@ class TreeNode:
         return f"TreeNode({self.val})"
 
 
-def build_tree(values: list) -> Optional[TreeNode]:
+def build_tree(values: list) -> TreeNode | None:
     """LeetCode level-order format, with None for missing nodes.
 
     build_tree([3, 9, 20, None, None, 15, 7])
@@ -101,11 +106,12 @@ def build_tree(values: list) -> Optional[TreeNode]:
     return root
 
 
-def tree_to_array(root: Optional[TreeNode]) -> list:
+def tree_to_array(root: TreeNode | None) -> list:
     """Inverse of build_tree, with trailing Nones trimmed."""
     if not root:
         return []
-    out, queue = [], [root]
+    out: list[Any] = []
+    queue: list[TreeNode | None] = [root]
     while queue:
         node = queue.pop(0)
         if node is None:
@@ -119,7 +125,7 @@ def tree_to_array(root: Optional[TreeNode]) -> list:
     return out
 
 
-def show_tree(root: Optional[TreeNode], indent: str = "", side: str = "root") -> None:
+def show_tree(root: TreeNode | None, indent: str = "", side: str = "root") -> None:
     """Print a tree sideways so you can actually see its shape."""
     if root is None:
         return
@@ -132,7 +138,7 @@ def show_tree(root: Optional[TreeNode], indent: str = "", side: str = "root") ->
 # Grid
 # --------------------------------------------------------------------------
 DIRS4 = ((0, 1), (1, 0), (0, -1), (-1, 0))
-DIRS8 = DIRS4 + ((1, 1), (1, -1), (-1, 1), (-1, -1))
+DIRS8 = (*DIRS4, (1, 1), (1, -1), (-1, 1), (-1, -1))
 
 
 def show_grid(grid: list[list]) -> None:
@@ -154,8 +160,7 @@ def show(label: str, value: Any) -> None:
 
 
 def check(label: str, got: Any, expected: Any) -> bool:
-    ok = got == expected
+    ok: bool = got == expected
     mark = "PASS" if ok else "FAIL"
-    print(f"[{mark}] {label:<40} got={got!r}"
-          + ("" if ok else f"  expected={expected!r}"))
+    print(f"[{mark}] {label:<40} got={got!r}" + ("" if ok else f"  expected={expected!r}"))
     return ok
