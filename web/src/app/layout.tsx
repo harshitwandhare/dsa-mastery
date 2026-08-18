@@ -1,10 +1,23 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Source_Sans_3 } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
-const sans = Source_Sans_3({
+/**
+ * Fraunces carries the identity. It is a variable serif with optical sizing, so
+ * a 40px page title and a 17px heading are drawn differently rather than
+ * scaled, which is what makes headings read like a book rather than a UI.
+ */
+const display = Fraunces({
+  variable: "--font-display-stack",
+  subsets: ["latin"],
+  display: "swap",
+  axes: ["SOFT", "WONK", "opsz"],
+});
+
+const sans = Inter({
   variable: "--font-sans-stack",
   subsets: ["latin"],
   display: "swap",
@@ -16,8 +29,10 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
+const SITE = "https://dsa-mastery-delta.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dsa-mastery.vercel.app"),
+  metadataBase: new URL(SITE),
   title: {
     default: "DSA Mastery — an interview curriculum you can run in the browser",
     template: "%s · DSA Mastery",
@@ -29,9 +44,30 @@ export const metadata: Metadata = {
     description:
       "21 lessons, 315 problems, 75 graded drills, and Python running in the browser. Built from first principles for interview preparation.",
     type: "website",
+    url: SITE,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DSA Mastery",
+    description:
+      "An interview curriculum you can run in the browser. No install, no account.",
   },
   robots: { index: true, follow: true },
 };
+
+/**
+ * Applied before first paint so a reader who chose a theme never sees the other
+ * one flash first. It runs from `dangerouslySetInnerHTML` because it has to
+ * execute before React hydrates, and it is a fixed string with no interpolation.
+ */
+const THEME_SCRIPT = `
+try {
+  var stored = localStorage.getItem("theme");
+  if (stored === "light" || stored === "dark") {
+    document.documentElement.setAttribute("data-theme", stored);
+  }
+} catch (e) {}
+`;
 
 // Typed explicitly rather than with Next's generated `LayoutProps` global. That
 // helper only exists after a build has written .next/types, so relying on it
@@ -43,25 +79,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable} h-full`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${display.variable} ${sans.variable} ${mono.variable} h-full`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col bg-bg text-text">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-bg"
+        >
+          Skip to content
+        </a>
         <SiteHeader />
-        <div className="flex-1">{children}</div>
-        <footer className="border-t border-border-subtle px-5 py-8 text-sm text-text-faint">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
-            <p>
-              Generated from the curriculum markdown. The lessons are the source of truth.
-            </p>
-            <a
-              className="hover:text-text"
-              href="https://github.com/harshitwandhare/dsa-mastery"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Source on GitHub
-            </a>
-          </div>
-        </footer>
+        <div id="main" className="flex-1">
+          {children}
+        </div>
+        <SiteFooter />
       </body>
     </html>
   );

@@ -22,21 +22,21 @@ export default function DashboardPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-12">
-      <h1 className="text-3xl font-semibold tracking-tight">What now?</h1>
+      <h1 className="font-display text-3xl font-semibold tracking-tight">What now?</h1>
 
       <div className="mt-8 space-y-4">
         <section className="rounded-xl border border-border-subtle bg-bg-raised p-5">
           <p className="font-mono text-xs uppercase tracking-wide text-text-faint">
             Start here
           </p>
-          <h2 className="mt-2 text-lg font-medium">{first?.title}</h2>
+          <h2 className="font-display mt-2 text-lg font-medium">{first?.title}</h2>
           <p className="mt-1 text-sm text-text-muted">
             {first?.estimatedMinutes} minute read ·{" "}
             {first?.runnableBlocks ?? 0} runnable examples
           </p>
           <Link
             href={first ? `/learn/${first.slug}` : "/learn"}
-            className="mt-4 inline-block rounded-md bg-accent px-4 py-2 text-sm font-medium text-[#08130d] hover:bg-accent-strong"
+            className="mt-4 inline-block rounded-md bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
           >
             Open the lesson
           </Link>
@@ -46,7 +46,7 @@ export default function DashboardPage() {
           <p className="font-mono text-xs uppercase tracking-wide text-text-faint">
             Then practise
           </p>
-          <h2 className="mt-2 text-lg font-medium">{firstDrill?.title}</h2>
+          <h2 className="font-display mt-2 text-lg font-medium">{firstDrill?.title}</h2>
           <p className="mt-1 text-sm text-text-muted">
             {firstDrill?.exerciseCount} exercises, graded as you go.
           </p>

@@ -59,7 +59,7 @@ export function RunnableBlock({ code, html, session }: Props) {
           type="button"
           onClick={handleRun}
           disabled={running}
-          className="rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-[#08130d] transition-colors hover:bg-accent-strong disabled:opacity-60"
+          className="rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-on-accent transition-colors hover:bg-accent-strong disabled:opacity-60"
         >
           {running ? "Running" : "Run"}
         </button>

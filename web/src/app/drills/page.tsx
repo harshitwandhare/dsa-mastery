@@ -13,7 +13,7 @@ export default function DrillsPage() {
   return (
     <main className="mx-auto max-w-4xl px-5 py-12">
       <header className="mb-8">
-        <h1 className="text-3xl font-semibold tracking-tight">Drills</h1>
+        <h1 className="font-display text-3xl font-semibold tracking-tight">Drills</h1>
         <p className="mt-3 max-w-2xl text-text-muted">
           Short exercises that build the reflexes an interview problem assumes
           you already have. Do these before the problem index, not after.
@@ -30,7 +30,7 @@ export default function DrillsPage() {
                 className="group block rounded-xl border border-border-subtle bg-bg-raised p-5 transition-colors hover:border-border-strong"
               >
                 <div className="flex items-baseline gap-3">
-                  <h2 className="flex-1 text-lg font-medium group-hover:text-accent">
+                  <h2 className="font-display flex-1 text-lg font-medium group-hover:text-accent">
                     {drill.title}
                   </h2>
                   <span className="font-mono text-xs text-text-faint">

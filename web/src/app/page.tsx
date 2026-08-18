@@ -41,7 +41,7 @@ export default function LandingPage() {
             Python runs in your browser
           </p>
 
-          <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
+          <h1 className="font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
             Everything you need to be interview ready,
             <span className="text-accent"> in one place you can run.</span>
           </h1>
@@ -57,7 +57,7 @@ export default function LandingPage() {
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link
               href={first ? `/learn/${first.slug}` : "/learn"}
-              className="rounded-lg bg-accent px-5 py-2.5 font-medium text-[#08130d] transition-colors hover:bg-accent-strong"
+              className="rounded-lg bg-accent px-5 py-2.5 font-medium text-on-accent transition-colors hover:bg-accent-strong"
             >
               Start from the beginning
             </Link>
@@ -101,7 +101,7 @@ export default function LandingPage() {
       {/* How it works */}
       <section className="border-b border-border-subtle px-5 py-20">
         <div className="mx-auto max-w-5xl">
-          <h2 className="text-2xl font-semibold tracking-tight">
+          <h2 className="font-display text-2xl font-semibold tracking-tight">
             How it works
           </h2>
           <p className="mt-2 max-w-2xl text-text-muted">
@@ -113,7 +113,7 @@ export default function LandingPage() {
             {STEPS.map((item) => (
               <li key={item.step}>
                 <span className="font-mono text-sm text-accent">{item.step}</span>
-                <h3 className="mt-2 text-lg font-semibold">{item.title}</h3>
+                <h3 className="font-display mt-2 text-lg font-semibold">{item.title}</h3>
                 <p className="mt-2 text-[0.9375rem] leading-relaxed text-text-muted">
                   {item.body}
                 </p>
@@ -128,7 +128,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-5xl">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="font-display text-2xl font-semibold tracking-tight">
                 The roadmap
               </h2>
               <p className="mt-2 text-text-muted">
