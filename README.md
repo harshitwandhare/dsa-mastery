@@ -12,6 +12,9 @@ lessons, 315 indexed problems, 75 graded Python drills, and a runnable practice
 environment. Everything is generated from the markdown, so the lessons and the
 tooling can never disagree.
 
+**Read it in the browser:** <https://dsa-mastery-delta.vercel.app> — the lessons
+render as pages, and the Python examples run where you read them.
+
 **New here?** Start with [Python From Zero](00-python-from-zero.md) if you have
 never programmed, or [Foundations](01-foundations.md) if you have.
 

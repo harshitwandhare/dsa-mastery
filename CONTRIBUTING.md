@@ -72,6 +72,24 @@ uv run pytest                     # everything
 If you add a test that must always pass, put it in `tests/` at the repository
 root.
 
+## Deployment
+
+`main` deploys itself. The Vercel project is connected to this repository through
+Vercel's own Git integration, so pushing to `main` ships to production and every
+pull request gets its own preview URL commented on the PR. Nothing is deployed by
+hand and there is no deploy workflow to maintain.
+
+Two project settings make that work:
+
+- **Root Directory** is `web`, because the app lives there rather than at the
+  repository root.
+- **Framework Preset** is Next.js.
+
+There is deliberately no `VERCEL_TOKEN` in this repository. A GitHub Actions
+deploy workflow would need one, and that is a long-lived credential with access
+to every project on the account, kept alive only to duplicate what the Git
+integration already does natively.
+
 ## Commits and pull requests
 
 - Branch off `main`; do not commit to it directly.
