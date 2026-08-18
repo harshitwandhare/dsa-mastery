@@ -2,7 +2,6 @@
 
 [![CI](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/ci.yml/badge.svg)](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/codeql.yml/badge.svg)](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/codeql.yml)
-[![Deploy](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/deploy.yml/badge.svg)](https://github.com/harshitwandhare/dsa-mastery/actions/workflows/deploy.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/harshitwandhare/dsa-mastery/badge)](https://scorecard.dev/viewer/?uri=github.com/harshitwandhare/dsa-mastery)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org/)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230)](https://github.com/astral-sh/ruff)

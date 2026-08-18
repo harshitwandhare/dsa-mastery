@@ -74,17 +74,21 @@ root.
 
 ## Deployment
 
-`main` deploys itself. Every push to `main` that touches `web/` builds and ships
-to Vercel through `.github/workflows/deploy.yml`, and every pull request gets its
-own preview URL in the run summary. Nothing needs to be deployed by hand.
+`main` deploys itself. The Vercel project is connected to this repository through
+Vercel's own Git integration, so pushing to `main` ships to production and every
+pull request gets its own preview URL commented on the PR. Nothing is deployed by
+hand and there is no deploy workflow to maintain.
 
-The workflow needs three repository secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID` and
-`VERCEL_PROJECT_ID`. The two IDs come from `web/.vercel/project.json` after
-`vercel link`; the token comes from <https://vercel.com/account/tokens>.
+Two project settings make that work:
 
-A deploy is only trusted once it has been fetched back: the workflow requests the
-deployed URL and fails if it does not return 200 with the app on it, because a
-successful upload is not the same thing as a working site.
+- **Root Directory** is `web`, because the app lives there rather than at the
+  repository root.
+- **Framework Preset** is Next.js.
+
+There is deliberately no `VERCEL_TOKEN` in this repository. A GitHub Actions
+deploy workflow would need one, and that is a long-lived credential with access
+to every project on the account, kept alive only to duplicate what the Git
+integration already does natively.
 
 ## Commits and pull requests
 
