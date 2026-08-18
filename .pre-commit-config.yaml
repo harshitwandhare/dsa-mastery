@@ -8,8 +8,9 @@
 # These mirror the CI gate so a red build is caught before it is pushed.
 # ─────────────────────────────────────────────────────────────────────────────
 
-default_language_version:
-  python: python3.11
+# No default_language_version pin. The project supports 3.11 through 3.13, and
+# hard-coding one of them makes the hooks fail to install on a machine that has
+# either of the others.
 
 # The numbered lessons are the single source of truth and no hook may rewrite
 # them. The whitespace fixers in particular would silently alter formatting that
