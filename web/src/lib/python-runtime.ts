@@ -29,22 +29,59 @@ export type RunResult = {
 
 export type RuntimeStage = "idle" | "downloading" | "preparing" | "ready";
 
+/**
+ * The outcome of grading one drill exercise.
+ *
+ * The three statuses mirror what the CLI runner distinguishes: an untouched
+ * stub is "todo" rather than a failure, a raised exception is "error", and a
+ * completed call is "ran" and compared against the expected value.
+ */
+export type Verdict = {
+  status: "ran" | "todo" | "error" | "code-error";
+  passed?: boolean;
+  got?: string;
+  expected?: string;
+  traceback?: string;
+  stdout?: string;
+  ms: number;
+};
+
+export type GradeRequest = {
+  /** What the learner wrote. */
+  code: string;
+  /** Helper definitions the assertion needs, from the pipeline. */
+  support: string;
+  /** Expression producing the answer. */
+  call: string;
+  /** Expression producing what the answer should be. */
+  expected: string;
+};
+
 type StageListener = (stage: RuntimeStage) => void;
 
 type PendingRun = {
+  kind: "run";
   code: string;
   session: string;
   resolve: (result: RunResult) => void;
 };
 
+type PendingGrade = {
+  kind: "grade";
+  payload: GradeRequest;
+  resolve: (verdict: Verdict) => void;
+};
+
+type Pending = PendingRun | PendingGrade;
+
 let worker: Worker | null = null;
 let stage: RuntimeStage = "idle";
 const stageListeners = new Set<StageListener>();
 
-let queue: PendingRun[] = [];
+let queue: Pending[] = [];
 let active: {
   id: number;
-  resolve: (result: RunResult) => void;
+  pending: Pending;
   output: OutputChunk[];
   timer: ReturnType<typeof setTimeout>;
   startedAt: number;
@@ -83,16 +120,37 @@ function handleMessage(event: MessageEvent) {
   }
 
   if (data.type === "done" && active && data.id === active.id) {
-    clearTimeout(active.timer);
     const finished = active;
+    clearTimeout(finished.timer);
     active = null;
-    finished.resolve({
-      ok: Boolean(data.ok),
-      output: finished.output,
-      traceback: data.ok ? "" : String(data.traceback ?? ""),
-      ms: Number(data.ms ?? 0),
-      timedOut: false,
-    });
+    if (finished.pending.kind === "run") {
+      finished.pending.resolve({
+        ok: Boolean(data.ok),
+        output: finished.output,
+        traceback: data.ok ? "" : String(data.traceback ?? ""),
+        ms: Number(data.ms ?? 0),
+        timedOut: false,
+      });
+    }
+    drain();
+    return;
+  }
+
+  if (data.type === "graded" && active && data.id === active.id) {
+    const finished = active;
+    clearTimeout(finished.timer);
+    active = null;
+    if (finished.pending.kind === "grade") {
+      finished.pending.resolve({
+        status: data.status as Verdict["status"],
+        passed: data.passed as boolean | undefined,
+        got: data.got as string | undefined,
+        expected: data.expected as string | undefined,
+        traceback: data.traceback as string | undefined,
+        stdout: data.stdout as string | undefined,
+        ms: Number(data.ms ?? 0),
+      });
+    }
     drain();
   }
 }
@@ -122,6 +180,15 @@ function terminate() {
   setStage("idle");
 }
 
+/** Resolve a queued item with whatever "it was stopped" means for its kind. */
+function cancel(pending: Pending, traceback: string, ms: number) {
+  if (pending.kind === "run") {
+    pending.resolve({ ok: false, output: [], traceback, ms, timedOut: true });
+  } else {
+    pending.resolve({ status: "error", traceback, ms });
+  }
+}
+
 function drain() {
   if (active || queue.length === 0) return;
 
@@ -133,41 +200,38 @@ function drain() {
 
   active = {
     id,
-    resolve: next.resolve,
+    pending: next,
     output: [],
     startedAt: Date.now(),
     timer: setTimeout(() => {
       const timedOut = active;
       active = null;
       terminate();
-      timedOut?.resolve({
-        ok: false,
-        output: timedOut.output,
-        traceback:
+      if (timedOut) {
+        cancel(
+          timedOut.pending,
           `Stopped after ${RUN_TIMEOUT_MS / 1000} seconds.\n\n` +
-          "Python was still running, so it was cut off. This almost always means\n" +
-          "a loop that never reaches its stopping condition. Check that whatever\n" +
-          "the loop tests actually changes inside the loop.",
-        ms: RUN_TIMEOUT_MS,
-        timedOut: true,
-      });
+            "Python was still running, so it was cut off. This almost always means\n" +
+            "a loop that never reaches its stopping condition. Check that whatever\n" +
+            "the loop tests actually changes inside the loop.",
+          RUN_TIMEOUT_MS,
+        );
+      }
       // Anything queued behind a runaway run is abandoned rather than silently
       // executed against a worker that no longer exists.
       const abandoned = queue;
       queue = [];
       for (const pending of abandoned) {
-        pending.resolve({
-          ok: false,
-          output: [],
-          traceback: "Cancelled: an earlier run had to be stopped.",
-          ms: 0,
-          timedOut: true,
-        });
+        cancel(pending, "Cancelled: an earlier run had to be stopped.", 0);
       }
     }, RUN_TIMEOUT_MS),
   };
 
-  instance.postMessage({ type: "run", id, code: next.code, session: next.session });
+  if (next.kind === "run") {
+    instance.postMessage({ type: "run", id, code: next.code, session: next.session });
+  } else {
+    instance.postMessage({ type: "grade", id, payload: next.payload });
+  }
 }
 
 /**
@@ -179,7 +243,7 @@ function drain() {
  */
 export function runPython(code: string, session = "default"): Promise<RunResult> {
   return new Promise<RunResult>((resolve) => {
-    queue.push({ code, session, resolve });
+    queue.push({ kind: "run", code, session, resolve });
     drain();
   });
 }
@@ -187,4 +251,17 @@ export function runPython(code: string, session = "default"): Promise<RunResult>
 /** Forget everything a session has defined, without reloading Python. */
 export function resetSession(session: string): void {
   worker?.postMessage({ type: "reset", session });
+}
+
+/**
+ * Grade one drill exercise against its hidden assertion.
+ *
+ * Each call runs in a throwaway namespace, so a name defined while solving one
+ * exercise cannot make a later one pass.
+ */
+export function gradeExercise(payload: GradeRequest): Promise<Verdict> {
+  return new Promise<Verdict>((resolve) => {
+    queue.push({ kind: "grade", payload, resolve });
+    drain();
+  });
 }

@@ -107,6 +107,13 @@ export function CodeEditor({
     });
   }, [value]);
 
+  // The label is baked into the editor's extensions when it is created, so
+  // switching to another exercise would otherwise leave a screen reader
+  // announcing the previous one's name over the new one's code.
+  useEffect(() => {
+    view.current?.contentDOM.setAttribute("aria-label", ariaLabel);
+  }, [ariaLabel]);
+
   return (
     <div
       ref={host}
