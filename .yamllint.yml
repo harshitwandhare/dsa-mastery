@@ -1,0 +1,27 @@
+# yamllint configuration
+# https://yamllint.readthedocs.io
+#
+# The relaxations below all exist because GitHub Actions has house conventions
+# that plain YAML style rules disagree with. Everything else stays strict.
+
+extends: default
+
+rules:
+  line-length:
+    max: 120
+    level: error
+
+  # Workflows are single documents and GitHub's own docs never open with `---`.
+  document-start: disable
+
+  # `on:` is the workflow trigger key, not the boolean `on`. There is no way to
+  # write it differently and still have GitHub read it.
+  truthy:
+    check-keys: false
+
+  # Action pins are written `uses: owner/action@<sha> # vX.Y.Z`, with a single
+  # space, because that is the format Dependabot reads and rewrites.
+  comments:
+    min-spaces-from-content: 1
+
+  comments-indentation: disable

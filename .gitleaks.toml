@@ -1,0 +1,15 @@
+# gitleaks configuration — extends the bundled default ruleset.
+# https://github.com/gitleaks/gitleaks
+title = "dsa-mastery gitleaks config"
+
+[extend]
+useDefault = true
+
+# No blanket path allowlist. The curriculum is half a megabyte of prose that
+# discusses hashing, tokens and connection strings, so it is exactly the kind of
+# file where a real credential could be pasted and never noticed. Add narrow,
+# individually justified entries here if a genuine false positive appears rather
+# than exempting whole file types.
+# [allowlist]
+# description = "..."
+# regexes = ['''...''']

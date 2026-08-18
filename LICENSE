@@ -1,0 +1,58 @@
+This repository is dual-licensed, because it contains two different kinds of
+work and they deserve different terms.
+
+================================================================================
+CODE — MIT License
+================================================================================
+
+Applies to: tools/, tests/, practice/, conftest.py, and any application code
+added under web/. In short, every file that a machine executes.
+
+MIT License
+
+Copyright (c) 2026 Harshit Wandhare
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+CURRICULUM — Creative Commons Attribution 4.0 International (CC BY 4.0)
+================================================================================
+
+Applies to: the numbered markdown lessons (00-*.md through 19-*.md), README.md,
+tracker.md, and the generated content under web/content/ that is derived from
+them.
+
+Copyright (c) 2026 Harshit Wandhare
+
+You are free to share and adapt this material for any purpose, including
+commercially, provided you give appropriate credit, link to the license, and
+indicate if changes were made.
+
+Full licence text: https://creativecommons.org/licenses/by/4.0/legalcode
+Summary:          https://creativecommons.org/licenses/by/4.0/
+
+================================================================================
+THIRD-PARTY MATERIAL
+================================================================================
+
+Problem names, difficulty ratings, and links point to LeetCode. The problem
+statements themselves are not reproduced here and remain the property of their
+respective owners. The curriculum references the NeetCode 150 and Blind 75
+lists by name and ordering; those lists are the work of their authors and are
+cited, not claimed.

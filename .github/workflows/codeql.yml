@@ -1,0 +1,42 @@
+name: CodeQL
+
+# Static analysis on every push and pull request, plus a weekly deep scan so
+# newly-published queries run against code that has not changed.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "15 5 * * 1" # weekly, Monday 05:15 UTC
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write # upload results to code scanning
+    strategy:
+      fail-fast: false
+      matrix:
+        # javascript-typescript joins this list when the web app lands in web/.
+        language: [python]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@5595ccaf912efad79be6eef63a5619ff05969be3 # v4.37.6
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@5595ccaf912efad79be6eef63a5619ff05969be3 # v4.37.6
+        with:
+          category: /language:${{ matrix.language }}
