@@ -9,7 +9,24 @@ reader can do, not only what changed in the code.
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+
+- The sixteen-pattern inventory as flashcards, generated from file 08. The
+  trigger is the hidden side, because recognising "sorted, pairs, in-place" and
+  reaching for two pointers is the direction recall has to work in.
+- A complexity visualiser that times real Python in the browser at growing
+  sizes and plots the result. Each measurement repeats until it is above the
+  clock's resolution, so a set lookup reads as constant rather than as zero.
+- Cmd+K search across every lesson, problem, drill and pattern, and `?` for the
+  shortcut sheet.
+- Offline support. The app is cached stale-while-revalidate; Pyodide is cached
+  cache-first and never revalidated, since it is a 10 MB download pinned to one
+  version.
+- Export and import of progress. Everything lives in one browser profile with no
+  server copy, so this is the only backup that exists. Importing merges, so an
+  older file cannot wipe out newer work.
+- The mistakes log, grouped by category rather than listed flat, because the
+  point is surfacing the three or four failure modes that keep recurring.
 
 ## [0.1.0] - 2026-08-18
 

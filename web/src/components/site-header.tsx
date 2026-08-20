@@ -13,6 +13,29 @@ const NAV = [
   { href: "/reference", label: "Reference" },
 ];
 
+/**
+ * Points at Cmd+K without duplicating the palette's logic. Clicking it fires
+ * the same key event the palette already listens for, so there is one code path
+ * for opening search rather than two that can drift.
+ */
+function SearchHint() {
+  return (
+    <button
+      type="button"
+      aria-label="Search"
+      onClick={() =>
+        window.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "k", ctrlKey: true, bubbles: true }),
+        )
+      }
+      className="hidden items-center gap-2 rounded-lg border border-border-subtle px-2.5 py-1.5 text-xs text-text-faint transition-colors hover:border-border-strong hover:text-text-muted lg:flex"
+    >
+      <span>Search</span>
+      <kbd className="font-mono">Ctrl K</kbd>
+    </button>
+  );
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
 
@@ -55,6 +78,7 @@ export function SiteHeader() {
         </ul>
 
         <div className="flex shrink-0 items-center gap-1">
+          <SearchHint />
           <Link
             href="/dashboard"
             className="hidden rounded-lg border border-border-subtle px-3 py-1.5 text-sm text-text-muted transition-colors hover:border-border-strong hover:text-text sm:block"

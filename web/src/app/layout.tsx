@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 
+import { CommandPalette } from "@/components/command-palette";
+import { ServiceWorker } from "@/components/service-worker";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
@@ -94,6 +96,8 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <ServiceWorker />
+        <CommandPalette />
         <SiteHeader />
         <div id="main" className="flex-1">
           {children}

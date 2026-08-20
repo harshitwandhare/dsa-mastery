@@ -210,7 +210,13 @@ class TestMainEntryPoint:
         assert bc.main() == 0
         assert "ALL CHECKS PASSED" in capsys.readouterr().out
         written = {p.name for p in scratch_out.glob("*.json")}
-        assert written == {"lessons.json", "problems.json", "drills.json", "glossary.json"}
+        assert written == {
+            "lessons.json",
+            "problems.json",
+            "drills.json",
+            "glossary.json",
+            "patterns.json",
+        }
 
     def test_a_truncated_curriculum_fails_the_run(
         self, tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture

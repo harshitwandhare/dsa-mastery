@@ -90,6 +90,17 @@ export function ProgressCharts() {
     }))
     .sort((a, b) => b.done - a.done);
 
+  // Failures, bucketed by the category chosen when the attempt was logged.
+  const mistakes = attempts.filter((attempt) => !attempt.passed);
+  const grouped = (() => {
+    const buckets = new Map<string, typeof mistakes>();
+    for (const attempt of mistakes) {
+      const key = attempt.category ?? "Not categorised";
+      buckets.set(key, [...(buckets.get(key) ?? []), attempt]);
+    }
+    return [...buckets.entries()].sort((a, b) => b[1].length - a[1].length);
+  })();
+
   const medianMinutes = (() => {
     const times = solved.map((a) => a.durationSeconds).sort((a, b) => a - b);
     if (times.length === 0) return 0;
@@ -172,6 +183,53 @@ export function ProgressCharts() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+        </section>
+      )}
+
+      {/* Mistakes first, grouped. Spec F5: the grouping is the primary view,
+          because the point is surfacing the three or four failure modes that
+          keep recurring, which a flat list buries. */}
+      {mistakes.length > 0 && (
+        <section>
+          <h2 className="font-display text-lg font-semibold">
+            Where it goes wrong
+          </h2>
+          <p className="mt-1 text-sm text-text-muted">
+            {mistakes.length} unsuccessful{" "}
+            {mistakes.length === 1 ? "attempt" : "attempts"}, grouped. The
+            categories at the top are the ones worth drilling.
+          </p>
+
+          <ul className="mt-4 space-y-2">
+            {grouped.map(([category, entries]) => (
+              <li
+                key={category}
+                className="rounded-xl border border-border-subtle bg-bg-raised p-4"
+              >
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="font-medium">{category}</span>
+                  <span className="font-mono text-sm text-fail">
+                    {entries.length}
+                  </span>
+                </div>
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-bg-inset">
+                  <div
+                    className="h-full rounded-full bg-fail"
+                    style={{
+                      width: `${(entries.length / mistakes.length) * 100}%`,
+                    }}
+                  />
+                </div>
+                <p className="mt-2 text-xs text-text-faint">
+                  {entries
+                    .slice(0, 4)
+                    .map((entry) => getProblem(entry.targetId)?.title ?? entry.targetId)
+                    .join(", ")}
+                  {entries.length > 4 && ` and ${entries.length - 4} more`}
+                </p>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 

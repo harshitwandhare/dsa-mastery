@@ -534,6 +534,47 @@ def build_glossary() -> list[dict]:
     return entries
 
 
+# --------------------------------------------------------------- patterns --
+def build_patterns() -> list[dict]:
+    """The sixteen-pattern inventory from file 08.
+
+    Spec 20.7 F6 wants these as flashcards: name on the front, the trigger that
+    should make you reach for it on the back. Recognising the trigger is the
+    skill; the template follows from it, so the trigger is what gets tested.
+    """
+    source = ROOT / "08-interview-craft.md"
+    if not source.exists():
+        # Report an empty inventory so `main` fails its own check with a clear
+        # message, rather than dying on a traceback halfway through the build.
+        return []
+    text = source.read_text(encoding="utf-8")
+
+    start = text.find("### The complete pattern inventory")
+    if start == -1:
+        return []
+    # Stop at the next heading, so a later table cannot leak in. The search
+    # begins after this heading's own line, or it would match itself at once.
+    after_heading = text.index("\n", start) + 1
+    end = re.search(r"^#{2,3} ", text[after_heading:], re.M)
+    block = text[start : after_heading + end.start()] if end else text[start:]
+
+    patterns = []
+    for cells in table_rows(block):
+        if len(cells) != 3:
+            continue
+        number, name, trigger = (strip_md(cell) for cell in cells)
+        if not number.isdigit():
+            continue
+        patterns.append(
+            {
+                "number": int(number),
+                "name": name,
+                "trigger": trigger,
+            }
+        )
+    return patterns
+
+
 # ------------------------------------------------------------------- main --
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
@@ -542,12 +583,14 @@ def main() -> int:
     problems = build_problems()
     drills = build_drills()
     glossary = build_glossary()
+    patterns = build_patterns()
 
     payloads = {
         "lessons.json": lessons,
         "problems.json": problems,
         "drills.json": drills,
         "glossary.json": glossary,
+        "patterns.json": patterns,
     }
     for name, data in payloads.items():
         # newline="" suppresses the platform line-ending translation that
@@ -567,6 +610,7 @@ def main() -> int:
     )
     print(f"drills    {len(drills):>4}   exercises: {sum(d['exerciseCount'] for d in drills)}")
     print(f"glossary  {len(glossary):>4}")
+    print(f"patterns  {len(patterns):>4}")
 
     problems.sort(key=lambda p: p["orderInList"] or 9999)
     ordered = [p["orderInList"] for p in problems if p["orderInList"]]
@@ -577,6 +621,9 @@ def main() -> int:
     print(f"  deduplicated: {len(DUPES)} rows appeared in more than one section")
     if len(problems) < 290:
         print(f"  FAIL: expected 290+ unique problems, got {len(problems)}")
+        ok = False
+    if len(patterns) != 16:
+        print(f"  FAIL: expected the 16-pattern inventory, got {len(patterns)}")
         ok = False
     if len(lessons) < 20:
         print(f"  FAIL: expected 20+ lessons, got {len(lessons)}")
