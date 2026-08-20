@@ -1,0 +1,82 @@
+[
+  {
+    "number": 1,
+    "name": "Hashing / frequency",
+    "trigger": "\"seen before\", counting, grouping"
+  },
+  {
+    "number": 2,
+    "name": "Two pointers",
+    "trigger": "sorted, pairs, in-place"
+  },
+  {
+    "number": 3,
+    "name": "Sliding window",
+    "trigger": "contiguous + optimize"
+  },
+  {
+    "number": 4,
+    "name": "Prefix sum",
+    "trigger": "range sums, subarray counts"
+  },
+  {
+    "number": 5,
+    "name": "Binary search (+ on answer)",
+    "trigger": "sorted, or min/max with a checkable condition"
+  },
+  {
+    "number": 6,
+    "name": "Monotonic stack",
+    "trigger": "next greater/smaller"
+  },
+  {
+    "number": 7,
+    "name": "Fast/slow pointers",
+    "trigger": "cycles, middle, nth-from-end"
+  },
+  {
+    "number": 8,
+    "name": "Tree DFS (pre/in/post)",
+    "trigger": "subtree properties"
+  },
+  {
+    "number": 9,
+    "name": "Tree/graph BFS",
+    "trigger": "levels, shortest unweighted path"
+  },
+  {
+    "number": 10,
+    "name": "Heap / top-K",
+    "trigger": "kth, merge-k, running median"
+  },
+  {
+    "number": 11,
+    "name": "Backtracking",
+    "trigger": "all combinations, constraints, small n"
+  },
+  {
+    "number": 12,
+    "name": "Graph traversal + union-find",
+    "trigger": "connectivity, components"
+  },
+  {
+    "number": 13,
+    "name": "Topological sort",
+    "trigger": "dependencies, ordering"
+  },
+  {
+    "number": 14,
+    "name": "Dynamic programming",
+    "trigger": "overlapping subproblems, counting, optimization"
+  },
+  {
+    "number": 15,
+    "name": "Greedy / intervals",
+    "trigger": "local choice provably safe, scheduling"
+  },
+  {
+    "number": 16,
+    "name": "Cyclic sort (index-as-hash)",
+    "trigger": "values are 1..n and O(1) space required"
+  }
+]

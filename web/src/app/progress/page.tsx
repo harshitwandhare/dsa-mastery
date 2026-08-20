@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { ProgressBackup } from "@/components/progress-backup";
 import { ProgressCharts } from "@/components/progress-charts";
 
 export const metadata: Metadata = {
@@ -21,6 +22,10 @@ export default function ProgressPage() {
       </header>
 
       <ProgressCharts />
+
+      <div className="mt-12">
+        <ProgressBackup />
+      </div>
     </main>
   );
 }

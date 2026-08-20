@@ -9,7 +9,13 @@ import { Select } from "@/components/ui/select";
 import { usePython } from "@/components/use-python";
 import type { Problem } from "@/lib/content";
 import type { Confidence } from "@/lib/review";
-import { useAnalysis, useAttempts, useReviewQueue } from "@/lib/use-progress";
+import {
+  MISTAKE_CATEGORIES,
+  useAnalysis,
+  useAttempts,
+  useReviewQueue,
+  type MistakeCategory,
+} from "@/lib/use-progress";
 
 const STARTER = (slug: string) => `# ${slug}
 # Write your solution, then run it against your own cases.
@@ -65,6 +71,7 @@ export function ProblemWorkspace({ problem }: { problem: Problem }) {
   const [code, setCode] = useState(() => STARTER(problem.slug));
   const [confidence, setConfidence] = useState("3");
   const [notes, setNotes] = useState("");
+  const [category, setCategory] = useState<string>(MISTAKE_CATEGORIES[0]);
   const [seconds, setSeconds] = useState(0);
   const [logged, setLogged] = useState(false);
 
@@ -85,6 +92,9 @@ export function ProblemWorkspace({ problem }: { problem: Problem }) {
       confidence: level,
       code,
       notes,
+      // Only meaningful when it went wrong, and the whole value of the log is
+      // that the categories stay comparable across attempts.
+      ...(passed ? {} : { category: category as MistakeCategory }),
     });
     record(problem.slug, "problem", level);
     setLogged(true);
@@ -166,6 +176,18 @@ export function ProblemWorkspace({ problem }: { problem: Problem }) {
               placeholder="Pattern, and what you would get wrong in a month."
               aria-label="Notes"
               className="w-full resize-y rounded-lg border border-border-subtle bg-bg px-3 py-2 text-sm placeholder:text-text-faint focus:border-accent-line focus:outline-none"
+            />
+
+            <Select
+              label="If it went wrong, why?"
+              showLabel
+              value={category}
+              onValueChange={setCategory}
+              options={MISTAKE_CATEGORIES.map((name) => ({
+                value: name,
+                label: name,
+              }))}
+              className="w-full"
             />
 
             <div className="flex gap-2">

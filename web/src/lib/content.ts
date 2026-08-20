@@ -10,6 +10,7 @@
 import drillsJson from "../../content/drills.json";
 import glossaryJson from "../../content/glossary.json";
 import lessonsJson from "../../content/lessons.json";
+import patternsJson from "../../content/patterns.json";
 import problemsJson from "../../content/problems.json";
 
 export type Section = {
@@ -79,6 +80,14 @@ export type Drill = {
   exercises: Exercise[];
 };
 
+/** One of the sixteen patterns from file 08, as a flashcard. */
+export type Pattern = {
+  number: number;
+  name: string;
+  /** What should make you reach for it. This is the side that gets tested. */
+  trigger: string;
+};
+
 export type GlossaryTerm = {
   term: string;
   meaning: string;
@@ -89,6 +98,7 @@ export const lessons = lessonsJson as Lesson[];
 export const problems = problemsJson as Problem[];
 export const drills = drillsJson as Drill[];
 export const glossary = glossaryJson as GlossaryTerm[];
+export const patterns = patternsJson as Pattern[];
 
 /** Lessons in curriculum order, which is file-number order. */
 export function allLessons(): Lesson[] {
@@ -157,5 +167,6 @@ export const contentStats = {
   blind75: problems.filter((problem) => problem.inBlind75).length,
   exercises: drills.reduce((total, drill) => total + drill.exerciseCount, 0),
   glossaryTerms: glossary.length,
+  patterns: patterns.length,
   runnableBlocks: lessons.reduce((total, lesson) => total + lesson.runnableBlocks, 0),
 };
