@@ -39,7 +39,7 @@ export default function LandingPage() {
 
       {/* Hero. The 3D layer sits behind the copy and is decoration only, so the
           headline and buttons render and work with it absent. */}
-      <section className="relative overflow-hidden border-b border-border-subtle px-5 py-20 sm:py-28">
+      <section className="relative flex min-h-[34rem] items-center overflow-hidden border-b border-border-subtle px-5 py-20 sm:py-28 xl:min-h-[38rem]">
         <HeroCanvas />
 
         <div className="relative z-10 mx-auto max-w-3xl">
