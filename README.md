@@ -12,35 +12,55 @@ lessons, 315 indexed problems, 75 graded Python drills, and a runnable practice
 environment. Everything is generated from the markdown, so the lessons and the
 tooling can never disagree.
 
-**Read it in the browser:** <https://dsa-mastery-delta.vercel.app> — the lessons
-render as pages, and the Python examples run where you read them.
+## Read it in the browser
+
+**<https://dsa-mastery-delta.vercel.app>**
+
+Every lesson renders as a page, and the Python in it runs where you read it.
+There is nothing to install and no account to make: Python is compiled to
+WebAssembly and executes in your own tab, and your progress is stored in your
+own browser.
+
+| | |
+|---|---|
+| **Lessons** | All 21, with runnable code blocks you can edit in place |
+| **Drills** | 75 exercises, graded against the same assertions the CLI uses |
+| **Problems** | 315 in NeetCode order, with a 22-minute timer and the analysis template |
+| **Review** | Spaced repetition on the schedule from [file 08](08-interview-craft.md) |
+| **Reference** | The 16 patterns as flashcards, 104 terms, and a complexity visualiser that times real Python |
+| **Playground** | A blank scratchpad, if you only want to write Python |
+
+Press `Ctrl/Cmd + K` anywhere to search, and `?` for the shortcuts. It works
+offline after the first visit.
 
 **New here?** Start with [Python From Zero](00-python-from-zero.md) if you have
 never programmed, or [Foundations](01-foundations.md) if you have.
 
-**Working on the repository itself?** Read [CONTRIBUTING.md](CONTRIBUTING.md)
-first — there is one hard rule about the markdown being the source of truth.
+## Working on the repository
 
-<details>
-<summary><strong>Repository layout</strong></summary>
+Read [CONTRIBUTING.md](CONTRIBUTING.md) first. There is one hard rule: the
+numbered markdown files are the single source of truth, and nothing may rewrite
+them automatically.
 
 | Path | What it is |
 |---|---|
-| `00-*.md` … `19-*.md` | The curriculum. The single source of truth; never generated, never auto-formatted. |
-| `20-website-build-spec.md`, `HANDOFF.md` | Specification for the interactive learning platform. |
-| `tools/build_content.py` | The pipeline that turns the lessons into JSON. 98% test coverage. |
-| `web/content/*.json` | Generated content. Never hand-edit; rerun the pipeline. |
-| `practice/` | Local Python environment: drills, solutions, helpers, benchmarks. |
+| `00-*.md` … `19-*.md` | The curriculum. Never generated, never auto-formatted. |
+| `20-website-build-spec.md`, `HANDOFF.md` | Specification for the learning platform. |
+| `tools/build_content.py` | Turns the lessons into JSON. 97% test coverage. |
+| `web/content/*.json` | Generated. Never hand-edit; rerun the pipeline. |
+| `web/` | The Next.js app. |
+| `practice/` | Local Python: drills, solutions, helpers, benchmarks. |
 | `tests/` | Tests for the pipeline. These gate CI. |
 
 ```bash
-uv sync --all-groups          # set up the toolchain
-python tools/build_content.py # regenerate web/content from the lessons
+uv sync --all-groups             # set up the toolchain
+python tools/build_content.py    # regenerate web/content from the lessons
 uv run pytest -m "not practice"  # the CI gate
 uv run pytest -m practice        # your own progress through the problems
+npm --prefix web run dev         # the site, on localhost:3000
 ```
 
-</details>
+Pushing to `main` deploys to Vercel, and every pull request gets a preview URL.
 
 ---
 

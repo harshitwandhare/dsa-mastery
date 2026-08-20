@@ -36,7 +36,7 @@ const SITE = "https://dsa-mastery-delta.vercel.app";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "DSA Mastery — an interview curriculum you can run in the browser",
+    default: "DSA Mastery: an interview curriculum you can run in the browser",
     template: "%s · DSA Mastery",
   },
   description:

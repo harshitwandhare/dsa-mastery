@@ -60,11 +60,11 @@ const PROMPTS = [
 ];
 
 const CONFIDENCE: { value: string; label: string }[] = [
-  { value: "1", label: "1 — no idea, needed the answer" },
-  { value: "2", label: "2 — got there with heavy hints" },
-  { value: "3", label: "3 — solved it, slowly" },
-  { value: "4", label: "4 — solved it cleanly" },
-  { value: "5", label: "5 — could teach it" },
+  { value: "1", label: "1 · no idea, needed the answer" },
+  { value: "2", label: "2 · got there with heavy hints" },
+  { value: "3", label: "3 · solved it, slowly" },
+  { value: "4", label: "4 · solved it cleanly" },
+  { value: "5", label: "5 · could teach it" },
 ];
 
 export function ProblemWorkspace({ problem }: { problem: Problem }) {

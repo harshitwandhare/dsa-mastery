@@ -18,7 +18,7 @@ export default function LearnIndexPage() {
         <h1 className="font-display text-3xl font-semibold tracking-tight">Curriculum</h1>
         <p className="mt-3 max-w-2xl text-text-muted">
           {contentStats.lessons} lessons, {contentStats.runnableBlocks} runnable
-          code blocks. Read them in order &mdash; each one assumes the last.
+          code blocks. Read them in order, because each one assumes the last.
         </p>
       </header>
 
