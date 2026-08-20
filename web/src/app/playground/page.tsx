@@ -12,7 +12,7 @@ export default function PlaygroundPage() {
   return (
     <main className="mx-auto max-w-4xl px-5 py-12">
       <header className="mb-6">
-        <h1 className="text-3xl font-semibold tracking-tight">Playground</h1>
+        <h1 className="font-display text-3xl font-semibold tracking-tight">Playground</h1>
         <p className="mt-3 text-text-muted">
           Real CPython, compiled to WebAssembly and running in this tab. The
           standard library is there, so <code>collections</code>,{" "}

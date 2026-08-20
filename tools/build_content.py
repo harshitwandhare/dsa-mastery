@@ -327,6 +327,116 @@ def canonical_starter(node: ast.FunctionDef | ast.ClassDef, lines: list[str]) ->
     return f"{head}\n{stub}"
 
 
+def _case_checks(tree: ast.Module, source: str) -> dict[str, dict]:
+    """Pull the hidden assertions out of the module-level `CASES` list.
+
+    Entries are `(day, label, callable, expected)` in the Day 0 drill and
+    `(label, callable, expected)` in the Day 1 one, so both arities are read.
+    The callable is usually a lambda wrapping one exercise call and occasionally
+    a named helper that needs a few lines of setup. Both forms are turned into
+    runnable source: an expression that produces the answer, and an expression
+    for what it should be. The web runner evaluates them exactly as the CLI
+    does, so a learner cannot pass in the browser and fail in the terminal.
+    """
+    checks: dict[str, dict] = {}
+
+    # A case may point at a `_check` helper rather than call an exercise
+    # directly, so the exercise names each helper reaches are needed to tie the
+    # case back to what it is testing.
+    helper_names: dict[str, set[str]] = {
+        node.name: {inner.id for inner in ast.walk(node) if isinstance(inner, ast.Name)}
+        for node in tree.body
+        if isinstance(node, ast.FunctionDef) and node.name.startswith("_")
+    }
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Assign):
+            continue
+        if not any(
+            isinstance(target, ast.Name) and target.id == "CASES" for target in node.targets
+        ):
+            continue
+        if not isinstance(node.value, ast.List):
+            continue
+
+        for element in node.value.elts:
+            if not isinstance(element, ast.Tuple):
+                continue
+            if len(element.elts) == 4:
+                day_node, label_node, call_node, expected_node = element.elts
+            elif len(element.elts) == 3:
+                # The Day 1 drill has no day column; every case is that one day.
+                day_node = None
+                label_node, call_node, expected_node = element.elts
+            else:
+                continue
+            if not isinstance(label_node, ast.Constant):
+                continue
+
+            # A lambda's body is the call; a bare name is a helper to invoke.
+            if isinstance(call_node, ast.Lambda):
+                call_source = ast.get_source_segment(source, call_node.body)
+            elif isinstance(call_node, ast.Name):
+                call_source = f"{call_node.id}()"
+            else:
+                continue
+            if not call_source:
+                continue
+
+            expected_source = ast.get_source_segment(source, expected_node)
+            if expected_source is None:
+                continue
+
+            # Tie the case to an exercise by the names it reaches: the ones it
+            # mentions directly, plus everything any helper it calls mentions.
+            names = {inner.id for inner in ast.walk(call_node) if isinstance(inner, ast.Name)}
+            for referenced in list(names):
+                names |= helper_names.get(referenced, set())
+
+            checks[str(label_node.value)] = {
+                "call": call_source,
+                "expected": expected_source,
+                "day": day_node.value if isinstance(day_node, ast.Constant) else None,
+                "names": sorted(names),
+            }
+
+    return checks
+
+
+def _support_source(tree: ast.Module, source: str) -> str:
+    """The private helpers and constants a check may need, as runnable source.
+
+    Some cases delegate to a `_check` function that sets up state across several
+    statements. Those definitions are shipped alongside the exercise so the
+    browser can run the same assertion the CLI runs.
+    """
+    parts = []
+    for node in tree.body:
+        named = isinstance(node, (ast.FunctionDef, ast.ClassDef)) and node.name.startswith("_")
+        constant = isinstance(node, ast.Assign) and any(
+            isinstance(target, ast.Name) and target.id.isupper() and target.id != "CASES"
+            for target in node.targets
+        )
+        if named or constant:
+            segment = ast.get_source_segment(source, node)
+            if segment:
+                parts.append(segment)
+    return "\n\n".join(parts)
+
+
+def _check_for(name: str, checks: dict[str, dict]) -> dict | None:
+    """Find the case that exercises this function or class.
+
+    Labels in `CASES` read like "ex04 is_even" rather than the exact function
+    name, so matching is done on the names a case actually calls. That keeps
+    working when a label is reworded, which is the thing most likely to change.
+    """
+    for label, check in checks.items():
+        if name in check["names"]:
+            return {"label": label, "call": check["call"], "expected": check["expected"]}
+    return None
+
+
 def build_drills() -> list[dict]:
     drills = []
     drill_dir = ROOT / "practice" / "drills"
@@ -334,6 +444,9 @@ def build_drills() -> list[dict]:
         source = path.read_text(encoding="utf-8")
         tree = ast.parse(source)
         lines = source.split("\n")
+
+        checks = _case_checks(tree, source)
+        support = _support_source(tree, source)
 
         # day boundaries from the section banners
         day_of_line = {}
@@ -376,6 +489,7 @@ def build_drills() -> list[dict]:
                     "params": (
                         [a.arg for a in node.args.args] if isinstance(node, ast.FunctionDef) else []
                     ),
+                    "check": _check_for(node.name, checks),
                 }
             )
 
@@ -385,6 +499,8 @@ def build_drills() -> list[dict]:
                 "title": (ast.get_docstring(tree) or "").split("\n")[0],
                 "sourceFile": str(path.relative_to(ROOT)).replace("\\", "/"),
                 "exerciseCount": len(exercises),
+                "gradableCount": sum(1 for exercise in exercises if exercise["check"]),
+                "support": support,
                 "exercises": exercises,
             }
         )

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 
+import { FilterBar, Select } from "@/components/ui/select";
 import type { Difficulty, Problem } from "@/lib/content";
 
 type Props = {
@@ -49,42 +50,42 @@ export function ProblemBrowser({ problems, topics }: Props) {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-2">
+      <FilterBar>
         <input
           type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Search title, pattern or insight"
           aria-label="Search problems"
-          className="min-w-56 flex-1 rounded-md border border-border-subtle bg-bg-raised px-3 py-2 text-sm placeholder:text-text-faint focus:border-border-strong focus:outline-none"
+          className="min-w-56 flex-1 rounded-lg border border-border-subtle bg-bg-raised px-3 py-2 text-sm shadow-[var(--shadow-card)] placeholder:text-text-faint focus:border-accent-line focus:outline-none"
         />
 
-        <select
+        <Select
+          label="Topic"
           value={topic}
-          onChange={(event) => setTopic(event.target.value)}
-          aria-label="Filter by topic"
-          className="rounded-md border border-border-subtle bg-bg-raised px-3 py-2 text-sm"
-        >
-          <option value="all">All topics</option>
-          {topics.map((name) => (
-            <option key={name} value={name}>
-              {name}
-            </option>
-          ))}
-        </select>
+          onValueChange={setTopic}
+          options={[
+            { value: "all", label: "All topics", hint: String(problems.length) },
+            ...topics.map((name) => ({
+              value: name,
+              label: name,
+              hint: String(problems.filter((p) => p.topic === name).length),
+            })),
+          ]}
+        />
 
-        <select
+        <Select
+          label="Difficulty"
           value={difficulty}
-          onChange={(event) => setDifficulty(event.target.value)}
-          aria-label="Filter by difficulty"
-          className="rounded-md border border-border-subtle bg-bg-raised px-3 py-2 text-sm"
-        >
-          <option value="all">Any difficulty</option>
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-      </div>
+          onValueChange={setDifficulty}
+          options={[
+            { value: "all", label: "Any difficulty" },
+            { value: "easy", label: "Easy" },
+            { value: "medium", label: "Medium" },
+            { value: "hard", label: "Hard" },
+          ]}
+        />
+      </FilterBar>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
         {LISTS.map((option) => (
@@ -95,7 +96,7 @@ export function ProblemBrowser({ problems, topics }: Props) {
             aria-pressed={list === option.id}
             className={`rounded-full border px-3 py-1 text-xs transition-colors ${
               list === option.id
-                ? "border-accent bg-[var(--accent-dim)] text-accent"
+                ? "border-accent-line bg-accent-soft text-accent"
                 : "border-border-subtle text-text-muted hover:text-text"
             }`}
           >

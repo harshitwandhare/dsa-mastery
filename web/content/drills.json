@@ -4,6 +4,8 @@
     "title": "DAY 0 DRILL - Python from zero. 50 exercises.",
     "sourceFile": "practice/drills/day0_python.py",
     "exerciseCount": 50,
+    "gradableCount": 50,
+    "support": "TODO = NotImplementedError(\"fill this in\")\n\ndef _dog_check():\n    if Dog.__init__ is object.__init__:\n        raise NotImplementedError\n    d = Dog(\"Rex\", 3)\n    return (d.name, d.age, d.speak())\n\ndef _counter_check():\n    if not hasattr(Counter2, \"increment\"):\n        raise NotImplementedError\n    c = Counter2()\n    c.increment()\n    c.increment()\n    return c.value\n\ndef _copy_check():\n    original = [1, 2, 3]\n    copy = ex18_real_copy(original)\n    copy.append(4)\n    return len(original)\n\ndef _grid_check():\n    g = ex19_make_grid(2, 3)\n    if g != [[0, 0, 0], [0, 0, 0]]:\n        return False\n    g[0][0] = 1\n    return g[1][0] == 0\n\ndef _sorted_copy_check():\n    original = [3, 1, 2]\n    result = ex16_sorted_copy(original)\n    return (result, original)\n\ndef _node_check():\n    n = ex43_make_node()\n    return (n.val, n.next.val, n.next.next)\n\ndef _raise_check():\n    try:\n        ex47_validate_age(-1)\n        return (\"no error\", \"\", None)\n    except ValueError as e:\n        return (type(e).__name__, str(e), ex47_validate_age(5))",
     "exercises": [
       {
         "id": "day0_python.ex01_add",
@@ -17,7 +19,12 @@
         "params": [
           "a",
           "b"
-        ]
+        ],
+        "check": {
+          "label": "ex01 add",
+          "call": "ex01_add(2, 3)",
+          "expected": "5"
+        }
       },
       {
         "id": "day0_python.ex02_int_divide",
@@ -31,7 +38,12 @@
         "params": [
           "a",
           "b"
-        ]
+        ],
+        "check": {
+          "label": "ex02 floor divide",
+          "call": "ex02_int_divide(7, 2)",
+          "expected": "3"
+        }
       },
       {
         "id": "day0_python.ex03_remainder",
@@ -45,7 +57,12 @@
         "params": [
           "a",
           "b"
-        ]
+        ],
+        "check": {
+          "label": "ex03 remainder",
+          "call": "ex03_remainder(7, 2)",
+          "expected": "1"
+        }
       },
       {
         "id": "day0_python.ex04_is_even",
@@ -58,7 +75,12 @@
         "kind": "function",
         "params": [
           "n"
-        ]
+        ],
+        "check": {
+          "label": "ex04 is_even",
+          "call": "(ex04_is_even(4), ex04_is_even(7))",
+          "expected": "(True, False)"
+        }
       },
       {
         "id": "day0_python.ex05_to_int",
@@ -71,7 +93,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex05 str to int",
+          "call": "ex05_to_int(\"42\")",
+          "expected": "42"
+        }
       },
       {
         "id": "day0_python.ex06_last_char",
@@ -84,7 +111,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex06 last char",
+          "call": "ex06_last_char(\"hello\")",
+          "expected": "\"o\""
+        }
       },
       {
         "id": "day0_python.ex07_first_three",
@@ -97,7 +129,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex07 first three",
+          "call": "ex07_first_three(\"hello\")",
+          "expected": "\"hel\""
+        }
       },
       {
         "id": "day0_python.ex08_reverse",
@@ -110,7 +147,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex08 reverse",
+          "call": "ex08_reverse(\"hello\")",
+          "expected": "\"olleh\""
+        }
       },
       {
         "id": "day0_python.ex09_shout",
@@ -123,7 +165,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex09 strip + upper",
+          "call": "ex09_shout(\"  hi  \")",
+          "expected": "\"HI\""
+        }
       },
       {
         "id": "day0_python.ex10_greeting",
@@ -137,7 +184,12 @@
         "params": [
           "name",
           "count"
-        ]
+        ],
+        "check": {
+          "label": "ex10 f-string",
+          "call": "ex10_greeting(\"Harshit\", 3)",
+          "expected": "\"Harshit solved 3 problems\""
+        }
       },
       {
         "id": "day0_python.ex11_between",
@@ -152,7 +204,12 @@
           "x",
           "lo",
           "hi"
-        ]
+        ],
+        "check": {
+          "label": "ex11 chained compare",
+          "call": "(ex11_between(5, 1, 10), ex11_between(50, 1, 10))",
+          "expected": "(True, False)"
+        }
       },
       {
         "id": "day0_python.ex12_is_empty",
@@ -165,7 +222,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex12 truthiness",
+          "call": "(ex12_is_empty(\"\"), ex12_is_empty(\"a\"))",
+          "expected": "(True, False)"
+        }
       },
       {
         "id": "day0_python.ex13_third_item",
@@ -178,7 +240,12 @@
         "kind": "function",
         "params": [
           "items"
-        ]
+        ],
+        "check": {
+          "label": "ex13 index",
+          "call": "ex13_third_item([10, 20, 30, 40])",
+          "expected": "30"
+        }
       },
       {
         "id": "day0_python.ex14_last_two",
@@ -191,7 +258,12 @@
         "kind": "function",
         "params": [
           "items"
-        ]
+        ],
+        "check": {
+          "label": "ex14 slice from end",
+          "call": "ex14_last_two([1, 2, 3, 4])",
+          "expected": "[3, 4]"
+        }
       },
       {
         "id": "day0_python.ex15_add_to_end",
@@ -205,7 +277,12 @@
         "params": [
           "items",
           "x"
-        ]
+        ],
+        "check": {
+          "label": "ex15 append",
+          "call": "ex15_add_to_end([1, 2], 3)",
+          "expected": "[1, 2, 3]"
+        }
       },
       {
         "id": "day0_python.ex16_sorted_copy",
@@ -218,7 +295,12 @@
         "kind": "function",
         "params": [
           "items"
-        ]
+        ],
+        "check": {
+          "label": "ex16 sorted() copy",
+          "call": "_sorted_copy_check()",
+          "expected": "([1, 2, 3], [3, 1, 2])"
+        }
       },
       {
         "id": "day0_python.ex17_sort_by_length",
@@ -231,7 +313,12 @@
         "kind": "function",
         "params": [
           "words"
-        ]
+        ],
+        "check": {
+          "label": "ex17 sort by len",
+          "call": "ex17_sort_by_length([\"ccc\", \"a\", \"bb\"])",
+          "expected": "[\"a\", \"bb\", \"ccc\"]"
+        }
       },
       {
         "id": "day0_python.ex18_real_copy",
@@ -244,7 +331,12 @@
         "kind": "function",
         "params": [
           "items"
-        ]
+        ],
+        "check": {
+          "label": "ex18 real copy",
+          "call": "_copy_check()",
+          "expected": "3"
+        }
       },
       {
         "id": "day0_python.ex19_make_grid",
@@ -258,7 +350,12 @@
         "params": [
           "rows",
           "cols"
-        ]
+        ],
+        "check": {
+          "label": "ex19 grid no alias",
+          "call": "_grid_check()",
+          "expected": "True"
+        }
       },
       {
         "id": "day0_python.ex20_swap",
@@ -272,7 +369,12 @@
         "params": [
           "a",
           "b"
-        ]
+        ],
+        "check": {
+          "label": "ex20 swap",
+          "call": "ex20_swap(1, 2)",
+          "expected": "(2, 1)"
+        }
       },
       {
         "id": "day0_python.ex21_unique",
@@ -285,7 +387,12 @@
         "kind": "function",
         "params": [
           "items"
-        ]
+        ],
+        "check": {
+          "label": "ex21 unique set",
+          "call": "ex21_unique([1, 1, 2, 3])",
+          "expected": "{1, 2, 3}"
+        }
       },
       {
         "id": "day0_python.ex22_in_both",
@@ -299,7 +406,12 @@
         "params": [
           "a",
           "b"
-        ]
+        ],
+        "check": {
+          "label": "ex22 intersection",
+          "call": "ex22_in_both([1, 2, 3], [2, 3, 4])",
+          "expected": "{2, 3}"
+        }
       },
       {
         "id": "day0_python.ex23_get_or_default",
@@ -313,7 +425,12 @@
         "params": [
           "d",
           "key"
-        ]
+        ],
+        "check": {
+          "label": "ex23 dict.get",
+          "call": "ex23_get_or_default({\"a\": 1}, \"z\")",
+          "expected": "\"missing\""
+        }
       },
       {
         "id": "day0_python.ex24_add_entry",
@@ -328,7 +445,12 @@
           "d",
           "key",
           "value"
-        ]
+        ],
+        "check": {
+          "label": "ex24 dict set",
+          "call": "ex24_add_entry({}, \"a\", 1)",
+          "expected": "{\"a\": 1}"
+        }
       },
       {
         "id": "day0_python.ex25_count_chars",
@@ -341,7 +463,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex25 count chars",
+          "call": "ex25_count_chars(\"hello\")",
+          "expected": "{\"h\": 1, \"e\": 1, \"l\": 2, \"o\": 1}"
+        }
       },
       {
         "id": "day0_python.ex26_group_by_first_letter",
@@ -354,7 +481,12 @@
         "kind": "function",
         "params": [
           "words"
-        ]
+        ],
+        "check": {
+          "label": "ex26 group by letter",
+          "call": "ex26_group_by_first_letter([\"apple\", \"avocado\", \"banana\"])",
+          "expected": "{\"a\": [\"apple\", \"avocado\"], \"b\": [\"banana\"]}"
+        }
       },
       {
         "id": "day0_python.ex27_grade",
@@ -367,7 +499,12 @@
         "kind": "function",
         "params": [
           "score"
-        ]
+        ],
+        "check": {
+          "label": "ex27 if/elif/else",
+          "call": "(ex27_grade(95), ex27_grade(85), ex27_grade(75), ex27_grade(20))",
+          "expected": "(\"A\", \"B\", \"C\", \"F\")"
+        }
       },
       {
         "id": "day0_python.ex28_bigger",
@@ -381,7 +518,12 @@
         "params": [
           "a",
           "b"
-        ]
+        ],
+        "check": {
+          "label": "ex28 ternary",
+          "call": "ex28_bigger(3, 9)",
+          "expected": "9"
+        }
       },
       {
         "id": "day0_python.ex29_sum_to_n",
@@ -394,7 +536,12 @@
         "kind": "function",
         "params": [
           "n"
-        ]
+        ],
+        "check": {
+          "label": "ex29 range sum",
+          "call": "ex29_sum_to_n(5)",
+          "expected": "15"
+        }
       },
       {
         "id": "day0_python.ex30_count_down",
@@ -407,7 +554,12 @@
         "kind": "function",
         "params": [
           "n"
-        ]
+        ],
+        "check": {
+          "label": "ex30 reverse range",
+          "call": "ex30_count_down(3)",
+          "expected": "[3, 2, 1]"
+        }
       },
       {
         "id": "day0_python.ex31_index_of",
@@ -421,7 +573,12 @@
         "params": [
           "items",
           "target"
-        ]
+        ],
+        "check": {
+          "label": "ex31 enumerate",
+          "call": "(ex31_index_of([5, 6, 7], 6), ex31_index_of([5], 9))",
+          "expected": "(1, -1)"
+        }
       },
       {
         "id": "day0_python.ex32_first_negative",
@@ -434,7 +591,12 @@
         "kind": "function",
         "params": [
           "nums"
-        ]
+        ],
+        "check": {
+          "label": "ex32 return None",
+          "call": "(ex32_first_negative([1, -2, -3]), ex32_first_negative([1, 2]))",
+          "expected": "(-2, None)"
+        }
       },
       {
         "id": "day0_python.ex33_skip_negatives",
@@ -447,7 +609,12 @@
         "kind": "function",
         "params": [
           "nums"
-        ]
+        ],
+        "check": {
+          "label": "ex33 continue",
+          "call": "ex33_skip_negatives([1, -2, 3])",
+          "expected": "[1, 3]"
+        }
       },
       {
         "id": "day0_python.ex34_stop_at_zero",
@@ -460,7 +627,12 @@
         "kind": "function",
         "params": [
           "nums"
-        ]
+        ],
+        "check": {
+          "label": "ex34 break",
+          "call": "ex34_stop_at_zero([1, 2, 0, 3])",
+          "expected": "[1, 2]"
+        }
       },
       {
         "id": "day0_python.ex35_pair_up",
@@ -474,7 +646,12 @@
         "params": [
           "names",
           "ages"
-        ]
+        ],
+        "check": {
+          "label": "ex35 zip",
+          "call": "ex35_pair_up([\"a\", \"b\"], [1, 2])",
+          "expected": "[(\"a\", 1), (\"b\", 2)]"
+        }
       },
       {
         "id": "day0_python.ex36_min_and_max",
@@ -487,7 +664,12 @@
         "kind": "function",
         "params": [
           "nums"
-        ]
+        ],
+        "check": {
+          "label": "ex36 return two",
+          "call": "ex36_min_and_max([3, 1, 4])",
+          "expected": "(1, 4)"
+        }
       },
       {
         "id": "day0_python.ex37_greet",
@@ -501,7 +683,12 @@
         "params": [
           "name",
           "greeting"
-        ]
+        ],
+        "check": {
+          "label": "ex37 default param",
+          "call": "(ex37_greet(\"A\"), ex37_greet(\"A\", \"Hi\"))",
+          "expected": "(\"Hello, A\", \"Hi, A\")"
+        }
       },
       {
         "id": "day0_python.ex38_append_safe",
@@ -515,7 +702,12 @@
         "params": [
           "item",
           "items"
-        ]
+        ],
+        "check": {
+          "label": "ex38 mutable default",
+          "call": "(ex38_append_safe(1), ex38_append_safe(2))",
+          "expected": "([1], [2])"
+        }
       },
       {
         "id": "day0_python.ex39_squares",
@@ -528,7 +720,12 @@
         "kind": "function",
         "params": [
           "n"
-        ]
+        ],
+        "check": {
+          "label": "ex39 comprehension",
+          "call": "ex39_squares(4)",
+          "expected": "[0, 1, 4, 9]"
+        }
       },
       {
         "id": "day0_python.ex40_evens_only",
@@ -541,7 +738,12 @@
         "kind": "function",
         "params": [
           "nums"
-        ]
+        ],
+        "check": {
+          "label": "ex40 filter",
+          "call": "ex40_evens_only([1, 2, 3, 4])",
+          "expected": "[2, 4]"
+        }
       },
       {
         "id": "day0_python.Dog",
@@ -552,7 +754,12 @@
         "prompt": "Give Dog an __init__ that stores `name` and `age` on the object,\nand a method `speak()` returning '<name> says woof'.",
         "starterCode": "class Dog:\n    \"\"\"Give Dog an __init__ that stores `name` and `age` on the object,\n    and a method `speak()` returning '<name> says woof'.\"\"\"\n    pass",
         "kind": "class",
-        "params": []
+        "params": [],
+        "check": {
+          "label": "ex41 class Dog",
+          "call": "_dog_check()",
+          "expected": "(\"Rex\", 3, \"Rex says woof\")"
+        }
       },
       {
         "id": "day0_python.Counter2",
@@ -563,7 +770,12 @@
         "prompt": "A counter starting at 0.\n.increment()  adds 1\n.value        the current count",
         "starterCode": "class Counter2:\n    \"\"\"A counter starting at 0.\n      .increment()  adds 1\n      .value        the current count\n    \"\"\"\n    pass",
         "kind": "class",
-        "params": []
+        "params": [],
+        "check": {
+          "label": "ex42 class Counter",
+          "call": "_counter_check()",
+          "expected": "2"
+        }
       },
       {
         "id": "day0_python.ex43_make_node",
@@ -574,7 +786,12 @@
         "prompt": "Return a ListNode whose val is 1 and whose next is a ListNode with\nval 2. Use the ListNode class imported at the bottom of this file.",
         "starterCode": "def ex43_make_node():\n    \"\"\"Return a ListNode whose val is 1 and whose next is a ListNode with\n    val 2. Use the ListNode class imported at the bottom of this file.\"\"\"\n    raise TODO",
         "kind": "function",
-        "params": []
+        "params": [],
+        "check": {
+          "label": "ex43 build a node",
+          "call": "_node_check()",
+          "expected": "(1, 2, None)"
+        }
       },
       {
         "id": "day0_python.ex44_walk_list",
@@ -587,7 +804,12 @@
         "kind": "function",
         "params": [
           "head"
-        ]
+        ],
+        "check": {
+          "label": "ex44 walk a list",
+          "call": "ex44_walk_list(ListNode(1, ListNode(2, ListNode(3))))",
+          "expected": "[1, 2, 3]"
+        }
       },
       {
         "id": "day0_python.ex45_safe_int",
@@ -600,7 +822,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex45 try/except",
+          "call": "(ex45_safe_int(\"42\"), ex45_safe_int(\"abc\"))",
+          "expected": "(42, 0)"
+        }
       },
       {
         "id": "day0_python.ex46_safe_divide",
@@ -614,7 +841,12 @@
         "params": [
           "a",
           "b"
-        ]
+        ],
+        "check": {
+          "label": "ex46 catch div zero",
+          "call": "(ex46_safe_divide(6, 2), ex46_safe_divide(1, 0))",
+          "expected": "(3.0, None)"
+        }
       },
       {
         "id": "day0_python.ex47_validate_age",
@@ -627,7 +859,12 @@
         "kind": "function",
         "params": [
           "age"
-        ]
+        ],
+        "check": {
+          "label": "ex47 raise",
+          "call": "_raise_check()",
+          "expected": "(\"ValueError\", \"age cannot be negative\", 5)"
+        }
       },
       {
         "id": "day0_python.ex48_error_name",
@@ -640,7 +877,12 @@
         "kind": "function",
         "params": [
           "fn"
-        ]
+        ],
+        "check": {
+          "label": "ex48 exception name",
+          "call": "(ex48_error_name(lambda: {}[\"x\"]), ex48_error_name(lambda: 1))",
+          "expected": "(\"KeyError\", \"no error\")"
+        }
       },
       {
         "id": "day0_python.ex49_sum_of_squares",
@@ -653,7 +895,12 @@
         "kind": "function",
         "params": [
           "n"
-        ]
+        ],
+        "check": {
+          "label": "ex49 sum + genexp",
+          "call": "ex49_sum_of_squares(4)",
+          "expected": "14"
+        }
       },
       {
         "id": "day0_python.ex50_word_lengths",
@@ -666,7 +913,12 @@
         "kind": "function",
         "params": [
           "words"
-        ]
+        ],
+        "check": {
+          "label": "ex50 dict comp",
+          "call": "ex50_word_lengths([\"a\", \"bb\"])",
+          "expected": "{\"a\": 1, \"bb\": 2}"
+        }
       }
     ]
   },
@@ -675,6 +927,8 @@
     "title": "DAY 1 DRILL - the Python DSA toolkit, by hand.",
     "sourceFile": "practice/drills/day1_toolkit.py",
     "exerciseCount": 25,
+    "gradableCount": 25,
+    "support": "TODO = NotImplementedError(\"fill this in\")\n\ndef _grid_check():\n    g = ex16_make_grid(2, 3)\n    if g != [[0, 0, 0], [0, 0, 0]]:\n        return False\n    g[0][0] = 1\n    return g[1][0] == 0",
     "exercises": [
       {
         "id": "day1_toolkit.ex01_count_chars",
@@ -687,7 +941,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex01 Counter",
+          "call": "ex01_count_chars(\"aabbb\")",
+          "expected": "{\"a\": 2, \"b\": 3}"
+        }
       },
       {
         "id": "day1_toolkit.ex02_safe_get",
@@ -701,7 +960,12 @@
         "params": [
           "d",
           "key"
-        ]
+        ],
+        "check": {
+          "label": "ex02 dict.get default",
+          "call": "ex02_safe_get({\"a\": 5}, \"z\")",
+          "expected": "0"
+        }
       },
       {
         "id": "day1_toolkit.ex03_group_by_length",
@@ -714,7 +978,12 @@
         "kind": "function",
         "params": [
           "words"
-        ]
+        ],
+        "check": {
+          "label": "ex03 defaultdict(list)",
+          "call": "dict(ex03_group_by_length([\"a\", \"bb\", \"cc\"]))",
+          "expected": "{1: [\"a\"], 2: [\"bb\", \"cc\"]}"
+        }
       },
       {
         "id": "day1_toolkit.ex04_build_graph",
@@ -727,7 +996,12 @@
         "kind": "function",
         "params": [
           "edges"
-        ]
+        ],
+        "check": {
+          "label": "ex04 adjacency list",
+          "call": "{k: sorted(v) for k, v in ex04_build_graph([(1, 2), (1, 3)]).items()}",
+          "expected": "{1: [2, 3], 2: [1], 3: [1]}"
+        }
       },
       {
         "id": "day1_toolkit.ex05_top_two",
@@ -740,7 +1014,12 @@
         "kind": "function",
         "params": [
           "nums"
-        ]
+        ],
+        "check": {
+          "label": "ex05 most_common",
+          "call": "ex05_top_two([1, 1, 1, 2, 2, 3])",
+          "expected": "[1, 2]"
+        }
       },
       {
         "id": "day1_toolkit.ex06_is_anagram",
@@ -754,7 +1033,12 @@
         "params": [
           "s",
           "t"
-        ]
+        ],
+        "check": {
+          "label": "ex06 anagram one-liner",
+          "call": "(ex06_is_anagram(\"anagram\", \"nagaram\"), ex06_is_anagram(\"rat\", \"car\"))",
+          "expected": "(True, False)"
+        }
       },
       {
         "id": "day1_toolkit.ex07_sort_by_second",
@@ -767,7 +1051,12 @@
         "kind": "function",
         "params": [
           "pairs"
-        ]
+        ],
+        "check": {
+          "label": "ex07 sort key",
+          "call": "ex07_sort_by_second([(1, 3), (2, 1)])",
+          "expected": "[(2, 1), (1, 3)]"
+        }
       },
       {
         "id": "day1_toolkit.ex08_sort_two_keys",
@@ -780,7 +1069,12 @@
         "kind": "function",
         "params": [
           "pairs"
-        ]
+        ],
+        "check": {
+          "label": "ex08 sort two keys",
+          "call": "ex08_sort_two_keys([(2, 5), (1, 5), (3, 9)])",
+          "expected": "[(3, 9), (1, 5), (2, 5)]"
+        }
       },
       {
         "id": "day1_toolkit.ex09_sort_by_abs",
@@ -793,7 +1087,12 @@
         "kind": "function",
         "params": [
           "nums"
-        ]
+        ],
+        "check": {
+          "label": "ex09 sort by abs",
+          "call": "ex09_sort_by_abs([-5, 2, -1])",
+          "expected": "[-1, 2, -5]"
+        }
       },
       {
         "id": "day1_toolkit.ex10_anagram_key",
@@ -806,7 +1105,12 @@
         "kind": "function",
         "params": [
           "word"
-        ]
+        ],
+        "check": {
+          "label": "ex10 anagram key",
+          "call": "ex10_anagram_key(\"cab\")",
+          "expected": "\"abc\""
+        }
       },
       {
         "id": "day1_toolkit.ex11_letter_index",
@@ -819,7 +1123,12 @@
         "kind": "function",
         "params": [
           "c"
-        ]
+        ],
+        "check": {
+          "label": "ex11 ord/chr index",
+          "call": "(ex11_letter_index(\"a\"), ex11_letter_index(\"z\"))",
+          "expected": "(0, 25)"
+        }
       },
       {
         "id": "day1_toolkit.ex12_reverse_words",
@@ -832,7 +1141,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex12 reverse words",
+          "call": "ex12_reverse_words(\"  the sky  is blue \")",
+          "expected": "\"blue is sky the\""
+        }
       },
       {
         "id": "day1_toolkit.ex13_keep_alnum_lower",
@@ -845,7 +1159,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex13 keep alnum",
+          "call": "ex13_keep_alnum_lower(\"A man, a plan!\")",
+          "expected": "\"amanaplan\""
+        }
       },
       {
         "id": "day1_toolkit.ex14_build_string",
@@ -858,7 +1177,12 @@
         "kind": "function",
         "params": [
           "chars"
-        ]
+        ],
+        "check": {
+          "label": "ex14 join",
+          "call": "ex14_build_string([\"a\", \"b\", \"c\"])",
+          "expected": "\"abc\""
+        }
       },
       {
         "id": "day1_toolkit.ex15_char_counts_array",
@@ -871,7 +1195,12 @@
         "kind": "function",
         "params": [
           "s"
-        ]
+        ],
+        "check": {
+          "label": "ex15 26-count array",
+          "call": "ex15_char_counts_array(\"abca\")[:4] + [len(ex15_char_counts_array(\"abca\"))]",
+          "expected": "[2, 1, 1, 0, 26]"
+        }
       },
       {
         "id": "day1_toolkit.ex16_make_grid",
@@ -885,7 +1214,12 @@
         "params": [
           "rows",
           "cols"
-        ]
+        ],
+        "check": {
+          "label": "ex16 grid no aliasing",
+          "call": "_grid_check()",
+          "expected": "True"
+        }
       },
       {
         "id": "day1_toolkit.ex17_neighbours",
@@ -901,7 +1235,12 @@
           "c",
           "rows",
           "cols"
-        ]
+        ],
+        "check": {
+          "label": "ex17 neighbours",
+          "call": "ex17_neighbours(0, 0, 2, 2)",
+          "expected": "[(0, 1), (1, 0)]"
+        }
       },
       {
         "id": "day1_toolkit.ex18_indices_of",
@@ -915,7 +1254,12 @@
         "params": [
           "nums",
           "target"
-        ]
+        ],
+        "check": {
+          "label": "ex18 enumerate",
+          "call": "ex18_indices_of([1, 2, 1], 1)",
+          "expected": "[0, 2]"
+        }
       },
       {
         "id": "day1_toolkit.ex19_pairwise_sums",
@@ -929,7 +1273,12 @@
         "params": [
           "a",
           "b"
-        ]
+        ],
+        "check": {
+          "label": "ex19 zip",
+          "call": "ex19_pairwise_sums([1, 2], [10, 20])",
+          "expected": "[11, 22]"
+        }
       },
       {
         "id": "day1_toolkit.ex20_transpose",
@@ -942,7 +1291,12 @@
         "kind": "function",
         "params": [
           "matrix"
-        ]
+        ],
+        "check": {
+          "label": "ex20 transpose",
+          "call": "ex20_transpose([[1, 2], [3, 4]])",
+          "expected": "[[1, 3], [2, 4]]"
+        }
       },
       {
         "id": "day1_toolkit.ex21_any_negative",
@@ -955,7 +1309,12 @@
         "kind": "function",
         "params": [
           "nums"
-        ]
+        ],
+        "check": {
+          "label": "ex21 any()",
+          "call": "(ex21_any_negative([1, -1]), ex21_any_negative([1, 2]))",
+          "expected": "(True, False)"
+        }
       },
       {
         "id": "day1_toolkit.ex22_rotate_left",
@@ -969,7 +1328,12 @@
         "params": [
           "nums",
           "k"
-        ]
+        ],
+        "check": {
+          "label": "ex22 deque rotate",
+          "call": "ex22_rotate_left([1, 2, 3, 4], 1)",
+          "expected": "[2, 3, 4, 1]"
+        }
       },
       {
         "id": "day1_toolkit.ex23_k_smallest",
@@ -983,7 +1347,12 @@
         "params": [
           "nums",
           "k"
-        ]
+        ],
+        "check": {
+          "label": "ex23 heapq k smallest",
+          "call": "ex23_k_smallest([5, 1, 9, 3], 2)",
+          "expected": "[1, 3]"
+        }
       },
       {
         "id": "day1_toolkit.ex24_k_largest",
@@ -997,7 +1366,12 @@
         "params": [
           "nums",
           "k"
-        ]
+        ],
+        "check": {
+          "label": "ex24 heapq k largest",
+          "call": "ex24_k_largest([5, 1, 9, 3], 2)",
+          "expected": "[9, 5]"
+        }
       },
       {
         "id": "day1_toolkit.ex25_insert_position",
@@ -1011,7 +1385,12 @@
         "params": [
           "sorted_nums",
           "x"
-        ]
+        ],
+        "check": {
+          "label": "ex25 bisect",
+          "call": "ex25_insert_position([1, 3, 3, 5], 3)",
+          "expected": "1"
+        }
       }
     ]
   }

@@ -169,6 +169,94 @@ async function run(id, code, session) {
   }
 }
 
+/**
+ * Grade one drill exercise.
+ *
+ * The verdict has to match `python -m drills.day0_python` exactly, so the same
+ * three outcomes the CLI distinguishes are reproduced here: an unfinished stub
+ * raising NotImplementedError is "not attempted yet" rather than a failure, any
+ * other exception is a failure carrying its traceback, and otherwise the answer
+ * is compared with `==` against the expected value.
+ *
+ * Each grading run gets a throwaway namespace. Sharing one would let a name
+ * defined while solving exercise 12 satisfy exercise 30, which would mark work
+ * correct that fails the moment it is run on its own.
+ */
+async function grade(id, payload) {
+  const instance = await ensurePyodide();
+  const { code, support, call, expected } = payload;
+
+  // Output during grading is the learner's own prints; keep them.
+  const collected = [];
+  instance.setStdout({ batched: (text) => collected.push(text) });
+  instance.setStderr({ batched: (text) => collected.push(text) });
+
+  const namespace = instance.globals.get("dict")();
+  const started = Date.now();
+
+  try {
+    // The learner's code first, so a syntax error is reported as theirs.
+    try {
+      await instance.runPythonAsync(code, { globals: namespace });
+    } catch (error) {
+      postMessage({
+        type: "graded",
+        id,
+        status: "code-error",
+        traceback: String(error && error.message ? error.message : error),
+        stdout: collected.join(""),
+        ms: Date.now() - started,
+      });
+      return;
+    }
+
+    if (support) {
+      await instance.runPythonAsync(support, { globals: namespace });
+    }
+
+    const harness = [
+      "import json as _json, traceback as _tb",
+      "_v = {}",
+      "try:",
+      "    _got = (" + call + ")",
+      "    _v['status'] = 'ran'",
+      "    _v['got'] = repr(_got)",
+      "except NotImplementedError:",
+      "    _v['status'] = 'todo'",
+      "except Exception:",
+      "    _v['status'] = 'error'",
+      "    _v['traceback'] = _tb.format_exc()",
+      "_exp = (" + expected + ")",
+      "_v['expected'] = repr(_exp)",
+      "if _v['status'] == 'ran':",
+      "    _v['passed'] = bool(_got == _exp)",
+      "_json.dumps(_v)",
+    ].join("\n");
+
+    const raw = await instance.runPythonAsync(harness, { globals: namespace });
+    const verdict = JSON.parse(raw);
+
+    postMessage({
+      type: "graded",
+      id,
+      ...verdict,
+      stdout: collected.join(""),
+      ms: Date.now() - started,
+    });
+  } catch (error) {
+    postMessage({
+      type: "graded",
+      id,
+      status: "error",
+      traceback: String(error && error.message ? error.message : error),
+      stdout: collected.join(""),
+      ms: Date.now() - started,
+    });
+  } finally {
+    namespace.destroy();
+  }
+}
+
 self.onmessage = (event) => {
   const { type, id, code, session } = event.data || {};
   if (type === "warmup") {
@@ -186,6 +274,19 @@ self.onmessage = (event) => {
     postMessage({ type: "reset-done", session });
     return;
   }
+  if (type === "grade") {
+    grade(id, event.data.payload).catch((error) =>
+      postMessage({
+        type: "graded",
+        id,
+        status: "error",
+        traceback: String(error),
+        ms: 0,
+      }),
+    );
+    return;
+  }
+
   if (type === "run") {
     run(id, code, session || "default").catch((error) =>
       postMessage({

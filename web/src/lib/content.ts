@@ -45,6 +45,15 @@ export type Problem = {
   orderInList: number | null;
 };
 
+/** The hidden assertion for an exercise, lifted out of the drill's CASES list. */
+export type Check = {
+  label: string;
+  /** Expression producing the learner's answer. */
+  call: string;
+  /** Expression producing what it should be. */
+  expected: string;
+};
+
 export type Exercise = {
   id: string;
   drillId: string;
@@ -55,6 +64,7 @@ export type Exercise = {
   starterCode: string;
   kind: "function" | "class";
   params: string[];
+  check: Check | null;
 };
 
 export type Drill = {
@@ -62,6 +72,10 @@ export type Drill = {
   title: string;
   sourceFile: string;
   exerciseCount: number;
+  /** How many exercises carry an assertion, so can be graded. */
+  gradableCount: number;
+  /** Helper definitions the assertions need, run before grading. */
+  support: string;
   exercises: Exercise[];
 };
 

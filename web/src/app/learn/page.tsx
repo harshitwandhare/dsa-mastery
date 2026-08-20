@@ -15,7 +15,7 @@ export default function LearnIndexPage() {
   return (
     <main className="mx-auto max-w-4xl px-5 py-14">
       <header>
-        <h1 className="text-3xl font-semibold tracking-tight">Curriculum</h1>
+        <h1 className="font-display text-3xl font-semibold tracking-tight">Curriculum</h1>
         <p className="mt-3 max-w-2xl text-text-muted">
           {contentStats.lessons} lessons, {contentStats.runnableBlocks} runnable
           code blocks. Read them in order &mdash; each one assumes the last.
@@ -33,7 +33,7 @@ export default function LearnIndexPage() {
                 <span className="font-mono text-sm text-text-faint">
                   {String(lesson.fileNumber).padStart(2, "0")}
                 </span>
-                <h2 className="flex-1 text-lg font-medium group-hover:text-accent">
+                <h2 className="font-display flex-1 text-lg font-medium group-hover:text-accent">
                   {lesson.title}
                 </h2>
                 <span className="shrink-0 font-mono text-xs text-text-faint">

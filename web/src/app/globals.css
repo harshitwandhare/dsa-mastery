@@ -1,91 +1,134 @@
 @import "tailwindcss";
 
-/* ---------------------------------------------------------------------------
-   Design tokens.
+/* ===========================================================================
+   Design language: a technical notebook.
 
-   Spec 20.9: dark by default, one accent colour, green for pass and red for
-   fail, and nothing else. Reading comes first, so the type scale and measure
-   are tuned for long-form prose rather than for a dashboard.
-   --------------------------------------------------------------------------- */
+   The two sibling projects are both dark navy with a saturated accent, which is
+   also what most developer tooling looks like. This is a book you can run code
+   inside, so it takes the opposite starting point: warm paper, ink-dark text,
+   a serif for anything that speaks, and one earthy accent doing all the work.
+
+   Light is the primary treatment and dark is a real second design rather than
+   an inversion, so a warm page stays warm at night instead of turning blue.
+   =========================================================================== */
+
 :root {
-  --bg: #0b0d10;
-  --bg-raised: #12151a;
-  --bg-inset: #0e1116;
-  --border: #232830;
-  --border-strong: #333a45;
+  color-scheme: light;
 
-  --text: #e6e9ee;
-  --text-muted: #98a1ae;
-  --text-faint: #6b7480;
+  /* Warm paper, not white. The slight yellow keeps long reading comfortable. */
+  --bg: #fbf8f3;
+  --bg-raised: #ffffff;
+  --bg-inset: #f3ede3;
+  --bg-sunken: #ece4d7;
 
-  --accent: #7dd3a0;
-  --accent-strong: #4ec07d;
-  --accent-dim: rgba(125, 211, 160, 0.12);
+  --border: #e2d9c9;
+  --border-strong: #cbbea8;
 
-  --pass: #4ec07d;
-  --fail: #f0776c;
-  --warn: #e3b341;
+  --text: #1c1815;
+  --text-muted: #5f574c;
+  --text-faint: #776e60;
 
-  --easy: #4ec07d;
-  --medium: #e3b341;
-  --hard: #f0776c;
+  /* Ochre. Warm enough to belong on paper, dark enough to pass AA on it. */
+  --accent: #9a5518;
+  --accent-strong: #7d430f;
+  /* Text drawn on top of --accent. Flips with the theme because the accent is
+     dark on paper and light on charcoal. */
+  --on-accent: #fdfaf5;
+  --accent-soft: #f6ead9;
+  --accent-line: #d9a86e;
+
+  --pass: #2f6f43;
+  --pass-soft: #e4f0e6;
+  --fail: #a3302a;
+  --fail-soft: #f8e6e3;
+  --warn: #8a6216;
+  --warn-soft: #f8eeda;
+
+  --easy: #2f6f43;
+  --medium: #8a6216;
+  --hard: #a3302a;
+
+  --shadow-card: 0 1px 2px rgba(28, 24, 21, 0.05), 0 4px 16px rgba(28, 24, 21, 0.04);
 }
 
-/* Light mode is available but not the default, per spec 20.9. */
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --bg: #ffffff;
-    --bg-raised: #f7f8fa;
-    --bg-inset: #f0f2f5;
-    --border: #e2e5ea;
-    --border-strong: #cbd1d9;
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
 
-    --text: #14181d;
-    --text-muted: #59626e;
-    --text-faint: #858d98;
+    /* Warm charcoal. Brown-black rather than blue-black, so the identity holds. */
+    --bg: #16130f;
+    --bg-raised: #1e1a15;
+    --bg-inset: #241f19;
+    --bg-sunken: #100e0b;
 
-    --accent: #1f8f52;
-    --accent-strong: #16713f;
-    --accent-dim: rgba(31, 143, 82, 0.1);
+    --border: #322b23;
+    --border-strong: #493f33;
 
-    --pass: #1f8f52;
-    --fail: #c0392b;
-    --warn: #9a6b00;
+    --text: #efe8dd;
+    --text-muted: #b0a494;
+    --text-faint: #8e8271;
 
-    --easy: #1f8f52;
-    --medium: #9a6b00;
-    --hard: #c0392b;
+    --accent: #e0a15c;
+    --accent-strong: #f0b877;
+    --on-accent: #16130f;
+    --accent-soft: #2b2118;
+    --accent-line: #6b4a28;
+
+    --pass: #6fc48a;
+    --pass-soft: #16241a;
+    --fail: #ea8b80;
+    --fail-soft: #2a1917;
+    --warn: #ddb15c;
+    --warn-soft: #271f12;
+
+    --easy: #6fc48a;
+    --medium: #ddb15c;
+    --hard: #ea8b80;
+
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.25);
   }
 }
 
-:root[data-theme="light"] {
-  --bg: #ffffff;
-  --bg-raised: #f7f8fa;
-  --bg-inset: #f0f2f5;
-  --border: #e2e5ea;
-  --border-strong: #cbd1d9;
+:root[data-theme="dark"] {
+  color-scheme: dark;
 
-  --text: #14181d;
-  --text-muted: #59626e;
-  --text-faint: #858d98;
+  --bg: #16130f;
+  --bg-raised: #1e1a15;
+  --bg-inset: #241f19;
+  --bg-sunken: #100e0b;
 
-  --accent: #1f8f52;
-  --accent-strong: #16713f;
-  --accent-dim: rgba(31, 143, 82, 0.1);
+  --border: #322b23;
+  --border-strong: #493f33;
 
-  --pass: #1f8f52;
-  --fail: #c0392b;
-  --warn: #9a6b00;
+  --text: #efe8dd;
+  --text-muted: #b0a494;
+  --text-faint: #8e8271;
 
-  --easy: #1f8f52;
-  --medium: #9a6b00;
-  --hard: #c0392b;
+  --accent: #e0a15c;
+  --accent-strong: #f0b877;
+  --on-accent: #16130f;
+  --accent-soft: #2b2118;
+  --accent-line: #6b4a28;
+
+  --pass: #6fc48a;
+  --pass-soft: #16241a;
+  --fail: #ea8b80;
+  --fail-soft: #2a1917;
+  --warn: #ddb15c;
+  --warn-soft: #271f12;
+
+  --easy: #6fc48a;
+  --medium: #ddb15c;
+  --hard: #ea8b80;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-raised: var(--bg-raised);
   --color-bg-inset: var(--bg-inset);
+  --color-bg-sunken: var(--bg-sunken);
   --color-border-subtle: var(--border);
   --color-border-strong: var(--border-strong);
   --color-text: var(--text);
@@ -93,25 +136,40 @@
   --color-text-faint: var(--text-faint);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
+  --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-line: var(--accent-line);
   --color-pass: var(--pass);
+  --color-pass-soft: var(--pass-soft);
   --color-fail: var(--fail);
+  --color-fail-soft: var(--fail-soft);
   --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
   --color-easy: var(--easy);
   --color-medium: var(--medium);
   --color-hard: var(--hard);
+
+  --font-display: var(--font-display-stack);
   --font-sans: var(--font-sans-stack);
   --font-mono: var(--font-mono-stack);
+
+  --shadow-card: var(--shadow-card);
 }
 
 html {
   scroll-behavior: smooth;
-  /* Headings sit under the sticky header when jumped to from the section nav. */
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 5.5rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -120,28 +178,45 @@ body {
   color: var(--text);
   font-family: var(--font-sans-stack);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: var(--accent-dim);
+  background: var(--accent-soft);
+  color: var(--text);
 }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: 3px;
+}
+
+/* The display face carries the personality; it is used sparingly and large. */
+.font-display {
+  font-family: var(--font-display-stack);
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em;
+}
+
+/* A hairline rule used to separate sections without a heavy border. */
+.rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--border-strong),
+    var(--border) 30%,
+    transparent
+  );
 }
 
 /* ---------------------------------------------------------------------------
-   Lesson prose.
-
-   The lessons are documents, not UI. ~70 characters of measure, generous line
-   height, and a real hierarchy, applied to server-rendered markdown HTML rather
-   than to components.
+   Lesson prose. Documents, not UI: ~68 characters of measure, generous
+   leading, and a hierarchy that reads like a textbook rather than a dashboard.
    --------------------------------------------------------------------------- */
 .prose {
   font-size: 1.0625rem;
-  line-height: 1.75;
+  line-height: 1.78;
   color: var(--text);
 }
 
@@ -153,31 +228,34 @@ body {
 .prose h2,
 .prose h3,
 .prose h4 {
-  font-weight: 650;
-  line-height: 1.25;
-  letter-spacing: -0.011em;
-  scroll-margin-top: 5rem;
+  font-family: var(--font-display-stack);
+  font-optical-sizing: auto;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.018em;
+  scroll-margin-top: 5.5rem;
+  color: var(--text);
 }
 
 .prose h1 {
-  font-size: 2rem;
+  font-size: clamp(2rem, 1.4rem + 2.2vw, 2.6rem);
   margin-top: 0;
 }
 
 .prose h2 {
-  font-size: 1.5rem;
-  margin-top: 2.5em;
-  padding-top: 1.25rem;
+  font-size: 1.55rem;
+  margin-top: 2.6em;
+  padding-top: 1.3rem;
   border-top: 1px solid var(--border);
 }
 
 .prose h3 {
-  font-size: 1.2rem;
+  font-size: 1.22rem;
   margin-top: 2em;
 }
 
 .prose h4 {
-  font-size: 1.0625rem;
+  font-size: 1.02rem;
   margin-top: 1.75em;
   color: var(--text-muted);
 }
@@ -187,14 +265,14 @@ body {
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  text-decoration-color: var(--accent-line);
+  transition: text-decoration-color 120ms ease;
 }
 
 .prose a:hover {
   text-decoration-color: var(--accent);
 }
 
-/* The anchor rehype-autolink-headings adds; visible on hover, invisible otherwise. */
 .prose .heading-anchor {
   color: var(--text-faint);
   text-decoration: none;
@@ -210,7 +288,7 @@ body {
 }
 
 .prose strong {
-  font-weight: 650;
+  font-weight: 640;
   color: var(--text);
 }
 
@@ -232,41 +310,49 @@ body {
 }
 
 .prose li::marker {
-  color: var(--text-faint);
+  color: var(--accent-line);
 }
 
+/* Blockquotes read as margin notes, which is what they are in the lessons. */
 .prose blockquote {
-  border-left: 3px solid var(--border-strong);
-  padding-left: 1.15em;
+  border-left: 2px solid var(--accent-line);
+  background: var(--accent-soft);
+  border-radius: 0 6px 6px 0;
+  padding: 0.85em 1.15em;
   color: var(--text-muted);
+}
+
+.prose blockquote > :first-child {
+  margin-top: 0;
 }
 
 .prose hr {
   border: 0;
   border-top: 1px solid var(--border);
-  margin: 2.5em 0;
+  margin: 2.75em 0;
 }
 
-/* Inline code, but not code inside a highlighted block. */
 .prose :not(pre) > code {
   font-family: var(--font-mono-stack);
-  font-size: 0.875em;
+  font-size: 0.865em;
   background: var(--bg-inset);
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 0.12em 0.36em;
+  padding: 0.1em 0.36em;
   white-space: nowrap;
+  color: var(--text);
 }
 
 /* ---------------------------------------------------------------------------
-   Tables. The curriculum leans on them heavily, so they get real attention.
-   Wide tables scroll inside their own container instead of pushing the page.
+   Tables. The curriculum leans on them heavily. Wide ones scroll inside their
+   own container rather than pushing the page sideways.
    --------------------------------------------------------------------------- */
 .prose .table-scroll {
   overflow-x: auto;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--bg-raised);
+  box-shadow: var(--shadow-card);
 }
 
 .prose table {
@@ -282,15 +368,15 @@ body {
 
 .prose th {
   text-align: left;
-  font-weight: 600;
+  font-weight: 620;
   color: var(--text);
-  padding: 0.6rem 0.85rem;
+  padding: 0.65rem 0.9rem;
   border-bottom: 1px solid var(--border-strong);
   white-space: nowrap;
 }
 
 .prose td {
-  padding: 0.6rem 0.85rem;
+  padding: 0.65rem 0.9rem;
   border-bottom: 1px solid var(--border);
   vertical-align: top;
 }
@@ -304,14 +390,16 @@ body {
 }
 
 /* ---------------------------------------------------------------------------
-   Code blocks. rehype-pretty-code emits the markup; these rules style it.
+   Code blocks. rehype-pretty-code emits the markup; these rules dress it.
    --------------------------------------------------------------------------- */
-.prose pre {
+.prose pre,
+pre[data-theme] {
   overflow-x: auto;
   padding: 1rem 1.1rem;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  line-height: 1.65;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 0.865rem;
+  line-height: 1.7;
   tab-size: 4;
 }
 
@@ -319,7 +407,8 @@ body {
   margin-top: 1.5em;
 }
 
-.prose pre code {
+.prose pre code,
+pre[data-theme] code {
   display: grid;
   font-family: var(--font-mono-stack);
   background: transparent;
@@ -333,21 +422,49 @@ body {
 
 /* Shiki writes both themes as variables; pick one per colour scheme. */
 .prose pre,
-.prose pre span {
+.prose pre span,
+pre[data-theme],
+pre[data-theme] span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .prose pre,
+  :root:not([data-theme="light"]) .prose pre span,
+  :root:not([data-theme="light"]) pre[data-theme],
+  :root:not([data-theme="light"]) pre[data-theme] span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
+}
+
+:root[data-theme="dark"] .prose pre,
+:root[data-theme="dark"] .prose pre span,
+:root[data-theme="dark"] pre[data-theme],
+:root[data-theme="dark"] pre[data-theme] span {
   color: var(--shiki-dark);
   background-color: var(--shiki-dark-bg);
 }
 
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) .prose pre,
-  :root:not([data-theme="dark"]) .prose pre span {
-    color: var(--shiki-light);
-    background-color: var(--shiki-light-bg);
+/* ---------------------------------------------------------------------------
+   Radix overlays: shared open/close motion for select, menu and dialog.
+   --------------------------------------------------------------------------- */
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-:root[data-theme="light"] .prose pre,
-:root[data-theme="light"] .prose pre span {
-  color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
+.overlay-panel {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  animation: overlay-in 120ms ease-out;
 }
