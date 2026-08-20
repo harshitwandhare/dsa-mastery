@@ -16,22 +16,36 @@ import * as THREE from "three";
  * prefers-reduced-motion, and never blocks reading the page.
  */
 
-type GlyphSpec = {
+export type GlyphSpec = {
   text: string;
-  position: [number, number, number];
+  /**
+   * Where to sit, as a share of the visible area rather than fixed world units.
+   * `x` is measured from the centre, so 0.42 means 84% of the way to the edge.
+   *
+   * The reading column is a fixed 768px in the middle of the hero and paints on
+   * top, so anything behind it cannot be picked up. Everything here therefore
+   * lives out in the margins, past where the text can reach: at the 1280px
+   * minimum the scene runs at, the column covers the middle 60%, so nothing
+   * sits closer to the centre than 0.36.
+   */
+  x: number;
+  y: number;
+  z: number;
   scale: number;
   tint: "accent" | "ink" | "pass";
 };
 
-const GLYPHS: GlyphSpec[] = [
-  { text: "</>", position: [-3.1, 1.35, -0.5], scale: 0.72, tint: "accent" },
-  { text: "{ }", position: [3.0, 1.75, -1.2], scale: 0.62, tint: "ink" },
-  { text: "[ ]", position: [2.45, -1.45, 0.4], scale: 0.58, tint: "pass" },
-  { text: "O(n)", position: [-2.65, -1.6, -0.2], scale: 0.5, tint: "ink" },
-  { text: "!=", position: [1.25, 2.25, 0.9], scale: 0.44, tint: "accent" },
-  { text: ":=", position: [-1.5, 2.05, 0.6], scale: 0.4, tint: "pass" },
-  { text: "[::-1]", position: [3.6, 0.15, -0.9], scale: 0.36, tint: "ink" },
-  { text: "def", position: [-3.7, -0.2, 0.7], scale: 0.42, tint: "accent" },
+export const GLYPHS: GlyphSpec[] = [
+  // Left margin.
+  { text: "</>", x: -0.4, y: 0.2, z: -0.5, scale: 1.15, tint: "accent" },
+  { text: "def", x: -0.38, y: -0.26, z: 0.7, scale: 0.62, tint: "ink" },
+  { text: ":=", x: -0.45, y: 0.36, z: 0.4, scale: 0.5, tint: "pass" },
+  { text: "O(n)", x: -0.36, y: -0.05, z: -1.1, scale: 0.78, tint: "ink" },
+  // Right margin.
+  { text: "{ }", x: 0.38, y: 0.28, z: -0.9, scale: 1.05, tint: "ink" },
+  { text: "[ ]", x: 0.375, y: -0.22, z: 0.5, scale: 0.9, tint: "pass" },
+  { text: "[::-1]", x: 0.45, y: 0.02, z: -0.4, scale: 0.52, tint: "ink" },
+  { text: "!=", x: 0.42, y: -0.36, z: 0.8, scale: 0.46, tint: "accent" },
 ];
 
 /** Read the live theme tokens so the scene recolours with the rest of the page. */
@@ -58,12 +72,20 @@ function useThemeColours() {
  * tracks the cursor exactly rather than drifting as it moves. Releasing hands it
  * back to the float, which eases it home.
  */
-function Glyph({ spec, colour }: { spec: GlyphSpec; colour: string }) {
+function Glyph({
+  spec,
+  colour,
+  position,
+}: {
+  spec: GlyphSpec;
+  colour: string;
+  position: [number, number, number];
+}) {
   const group = useRef<THREE.Group>(null);
   const [dragging, setDragging] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const home = useMemo(() => new THREE.Vector3(...spec.position), [spec.position]);
-  const target = useRef(new THREE.Vector3(...spec.position));
+  const home = useMemo(() => new THREE.Vector3(...position), [position]);
+  const target = useRef(new THREE.Vector3(...position));
   const { camera, size } = useThree();
 
   const plane = useMemo(() => new THREE.Plane(), []);
@@ -112,7 +134,7 @@ function Glyph({ spec, colour }: { spec: GlyphSpec; colour: string }) {
     >
       <group
         ref={group}
-        position={spec.position}
+        position={position}
         scale={spec.scale}
         onPointerOver={(event) => {
           event.stopPropagation();
@@ -160,12 +182,35 @@ function Glyph({ spec, colour }: { spec: GlyphSpec; colour: string }) {
 
 function Scene() {
   const colours = useThemeColours();
+  const { viewport } = useThree();
+
+  // Resolve the fractions against however much space there actually is, so the
+  // glyphs stay out in the margins on a 1024px laptop and a 2560px monitor
+  // alike instead of drifting under the text on one of them.
+  const placed = useMemo(
+    () =>
+      GLYPHS.map((spec) => ({
+        spec,
+        position: [
+          spec.x * viewport.width,
+          spec.y * viewport.height,
+          spec.z,
+        ] as [number, number, number],
+      })),
+    [viewport.width, viewport.height],
+  );
+
   return (
     <>
       <ambientLight intensity={1.1} />
       <directionalLight position={[4, 6, 5]} intensity={0.7} />
-      {GLYPHS.map((spec) => (
-        <Glyph key={spec.text} spec={spec} colour={colours[spec.tint]} />
+      {placed.map(({ spec, position }) => (
+        <Glyph
+          key={spec.text}
+          spec={spec}
+          colour={colours[spec.tint]}
+          position={position}
+        />
       ))}
     </>
   );
@@ -174,10 +219,11 @@ function Scene() {
 export default function HeroScene() {
   return (
     <Canvas
-      // Decoration only: hidden from the accessibility tree, and pointer events
-      // are enabled per-object so the hero's buttons stay clickable.
+      // Hidden from the accessibility tree, but it must still receive pointer
+      // events or the glyphs cannot be picked up at all. The hero copy paints
+      // above this on its own layer, so the buttons keep their clicks and the
+      // glyphs sit out where the text is not covering them.
       aria-hidden="true"
-      className="pointer-events-none"
       camera={{ position: [0, 0, 7], fov: 45 }}
       dpr={[1, 1.75]}
       gl={{ antialias: true, alpha: true }}

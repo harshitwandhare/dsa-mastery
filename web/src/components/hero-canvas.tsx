@@ -25,7 +25,7 @@ export function HeroCanvas() {
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const wide = window.matchMedia("(min-width: 768px)");
+    const wide = window.matchMedia("(min-width: 1280px)");
 
     const decide = () => setEnabled(!reduced.matches && wide.matches);
     decide();
@@ -41,7 +41,7 @@ export function HeroCanvas() {
   if (!enabled) return null;
 
   return (
-    <div className="absolute inset-0 -z-0 hidden md:block" aria-hidden="true">
+    <div className="absolute inset-0 -z-0 hidden xl:block" aria-hidden="true">
       <Scene />
     </div>
   );
