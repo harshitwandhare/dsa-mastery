@@ -1,7 +1,7 @@
 # The plan this curriculum is written against
 
 Every schedule, phase boundary, and time estimate in the lessons assumes the
-parameters below. If yours differ, the material still works — the calendar
+parameters below. If yours differ, the material still works; the calendar
 around it is what you would change.
 
 | | |
@@ -33,8 +33,8 @@ to lose two weeks. The reasoning is in
 ## Adapting it
 
 If you have more time per day, the phase boundaries move earlier but the order
-does not change — the dependencies between topics are real. If you have less,
-cut the [phase plan](README.md#4-phase-plan) from the back, not the front: the
+does not change, because the dependencies between topics are real. If you have less,
+cut the [phase plan](README.md#4-phase-plan) from the back, not the front. The
 first three files carry roughly 40% of what interviews actually ask.
 
 Progress is tracked in [tracker.md](tracker.md).
@@ -42,7 +42,7 @@ Progress is tracked in [tracker.md](tracker.md).
 ## Application timing, as researched in August 2026
 
 This is a snapshot, not a standing fact. Windows shift year to year, so treat
-the shape of it — that the big windows open in July and August and close fast —
+the shape of it, that the big windows open in July and August and close fast,
 rather than the exact dates.
 
 | Company | Summer 2027 application window |

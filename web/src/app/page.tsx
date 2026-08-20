@@ -57,8 +57,8 @@ export default function LandingPage() {
             A complete data-structures and algorithms course that starts at
             &ldquo;what is a variable&rdquo; and ends at system design. Read a
             lesson, edit the examples, run them, and practise against{" "}
-            {contentStats.problems} problems &mdash; without leaving the page or
-            opening a terminal.
+            {contentStats.problems} problems, without leaving the page or opening
+            a terminal.
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">

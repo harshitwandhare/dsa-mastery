@@ -9,6 +9,13 @@ reader can do, not only what changed in the code.
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.2.0] - 2026-08-18
+
+The platform is finished: every phase and feature in the
+[build specification](20-website-build-spec.md) is implemented.
+
 ### Added
 
 - The sixteen-pattern inventory as flashcards, generated from file 08. The
@@ -27,6 +34,43 @@ reader can do, not only what changed in the code.
   older file cannot wipe out newer work.
 - The mistakes log, grouped by category rather than listed flat, because the
   point is surfacing the three or four failure modes that keep recurring.
+- The drill runner: all 75 exercises graded in the browser against the
+  assertions extracted from the drill files, so passing here means passing
+  `python -m drills.day0_python`.
+- The problem workspace: the analysis template as required fields, the
+  22-minute timer, and attempts logged to a review schedule.
+- Progress charts and a review queue, both drawn only from what you have
+  actually done.
+- A hero you can play with, and a python that follows the page as you scroll.
+  Both are skipped under `prefers-reduced-motion` and below 1280px.
+
+### Changed
+
+- The site has its own design rather than the dark-navy-and-accent formula:
+  warm paper, Fraunces set optically, one ochre accent, and a dark mode that
+  stays warm instead of turning blue.
+- Native `<select>` elements are gone. They render their list with the
+  operating system, which ignores the page entirely.
+
+### Fixed
+
+- Two palette tokens failed WCAG AA while looking fine. `--text-faint` sat at
+  3.66 on paper and 4.28 on charcoal while being used for small metadata.
+- The hero glyphs could not be picked up. The canvas carried
+  `pointer-events: none`, and the reading column painted above the ones behind
+  it.
+- The complexity visualiser timed each call once, which put a set lookup below
+  the clock's resolution and reported a growth ratio of 0.0x. It now repeats
+  each measurement until it is measurable.
+- The code editor announced the previous exercise to a screen reader after
+  switching, because its `aria-label` was fixed when the editor was created.
+
+### Known limitations
+
+- Lighthouse has not been measured. The structural work is done, but the number
+  is unverified.
+- Offline is registered and the caches are in place, but a full
+  network-off reload has not been tested.
 
 ## [0.1.0] - 2026-08-18
 
@@ -36,7 +80,7 @@ infrastructure the repository had been missing.
 
 ### Added
 
-**The learning platform** — <https://dsa-mastery-delta.vercel.app>
+**The learning platform**: <https://dsa-mastery-delta.vercel.app>
 
 - Landing page explaining what the curriculum is, and routing into it.
 - All 21 lessons rendered as documents: syntax-highlighted code, scrollable
@@ -120,5 +164,6 @@ infrastructure the repository had been missing.
 - The dashboard points at the next lesson and drill rather than showing
   progress, because nothing is recorded yet.
 
-[Unreleased]: https://github.com/harshitwandhare/dsa-mastery/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/harshitwandhare/dsa-mastery/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/harshitwandhare/dsa-mastery/releases/tag/v0.2.0
 [0.1.0]: https://github.com/harshitwandhare/dsa-mastery/releases/tag/v0.1.0
