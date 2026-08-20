@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { HeroCanvas } from "@/components/hero-canvas";
+import { ScrollSnake } from "@/components/scroll-snake";
 import { allLessons, contentStats } from "@/lib/content";
 
 const STATS = [
@@ -33,9 +35,14 @@ export default function LandingPage() {
 
   return (
     <main>
-      {/* Hero */}
-      <section className="border-b border-border-subtle px-5 py-20 sm:py-28">
-        <div className="mx-auto max-w-3xl">
+      <ScrollSnake />
+
+      {/* Hero. The 3D layer sits behind the copy and is decoration only, so the
+          headline and buttons render and work with it absent. */}
+      <section className="relative overflow-hidden border-b border-border-subtle px-5 py-20 sm:py-28">
+        <HeroCanvas />
+
+        <div className="relative z-10 mx-auto max-w-3xl">
           <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-border-subtle bg-bg-raised px-3 py-1 font-mono text-xs text-text-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             Python runs in your browser
