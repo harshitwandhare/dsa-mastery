@@ -9,7 +9,15 @@ reader can do, not only what changed in the code.
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+
+- A Python scratchpad docked to every page. Open it with the button in the
+  corner or `Ctrl/Cmd + J`, resize it by dragging its top-left corner, expand it
+  to fill the window, and minimise it back to the button. Size and code persist
+  across navigation, so moving between lessons does not reset what you were in
+  the middle of.
+- "Try it here" on every runnable lesson block, which loads that snippet into
+  the scratchpad without scrolling the page or leaving the lesson.
 
 ## [0.2.0] - 2026-08-18
 
