@@ -19,6 +19,14 @@ reader can do, not only what changed in the code.
 - "Try it here" on every runnable lesson block, which loads that snippet into
   the scratchpad without scrolling the page or leaving the lesson.
 
+### Fixed
+
+- Every link in a lesson's "On this page" sidebar was dead. The pipeline and the
+  renderer each slugged headings their own way and disagreed on punctuation, so
+  "0.1 Running Python" became `0-1-running-python` in the sidebar and
+  `01-running-python` in the page. The sidebar is now built from the ids the
+  rendered page actually carries, so the two cannot drift again.
+
 ## [0.2.0] - 2026-08-18
 
 The platform is finished: every phase and feature in the
