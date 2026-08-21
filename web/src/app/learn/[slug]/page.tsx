@@ -33,26 +33,28 @@ export default async function LessonPage({ params }: LessonParams) {
   const lesson = getLesson(slug);
   if (!lesson) notFound();
 
-  const parts = await renderLesson(lesson.body, lesson.fenceRunnable);
+  const { parts, headings } = await renderLesson(lesson.body, lesson.fenceRunnable);
   const { previous, next } = lessonNeighbours(slug);
 
   return (
     <div className="mx-auto flex max-w-6xl gap-10 px-5 py-12">
       {/* On this page. Sticky, and only where there is room for it. */}
-      {lesson.sections.length > 1 && (
+      {headings.length > 1 && (
         <aside className="hidden w-56 shrink-0 lg:block">
           <nav aria-label="On this page" className="sticky top-20">
             <p className="mb-3 font-mono text-xs uppercase tracking-wide text-text-faint">
               On this page
             </p>
             <ul className="space-y-1.5 border-l border-border-subtle">
-              {lesson.sections.map((section) => (
-                <li key={section.anchor}>
+              {headings.map((heading) => (
+                <li key={heading.id}>
                   <a
-                    href={`#${section.anchor}`}
-                    className="-ml-px block border-l border-transparent py-0.5 pl-3 text-sm leading-snug text-text-muted transition-colors hover:border-accent hover:text-text"
+                    href={`#${heading.id}`}
+                    className={`-ml-px block border-l border-transparent py-0.5 text-sm leading-snug text-text-muted transition-colors hover:border-accent hover:text-text ${
+                      heading.depth === 3 ? "pl-6" : "pl-3"
+                    }`}
                   >
-                    {section.heading}
+                    {heading.text}
                   </a>
                 </li>
               ))}
