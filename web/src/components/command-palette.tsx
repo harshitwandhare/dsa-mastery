@@ -71,6 +71,7 @@ function buildIndex(): Entry[] {
 
 const SHORTCUTS = [
   { keys: "Ctrl / Cmd + K", does: "Open this search" },
+  { keys: "Ctrl / Cmd + J", does: "Open the scratchpad" },
   { keys: "Ctrl / Cmd + Enter", does: "Run the code you are editing" },
   { keys: "?", does: "Show these shortcuts" },
   { keys: "Esc", does: "Close whatever is open" },

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 
 import { CommandPalette } from "@/components/command-palette";
+import { Scratchpad } from "@/components/scratchpad";
 import { ServiceWorker } from "@/components/service-worker";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -103,6 +104,7 @@ export default function RootLayout({
           {children}
         </div>
         <SiteFooter />
+        <Scratchpad />
       </body>
     </html>
   );

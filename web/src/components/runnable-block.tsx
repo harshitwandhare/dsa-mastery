@@ -5,6 +5,7 @@ import { useState } from "react";
 import { CodeEditor } from "@/components/code-editor";
 import { PythonOutput } from "@/components/python-output";
 import { usePython } from "@/components/use-python";
+import { sendToScratchpad } from "@/lib/scratchpad-store";
 
 type Props = {
   /** The Python source, as written in the lesson. */
@@ -62,6 +63,15 @@ export function RunnableBlock({ code, html, session }: Props) {
           className="rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-on-accent transition-colors hover:bg-accent-strong disabled:opacity-60"
         >
           {running ? "Running" : "Run"}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => sendToScratchpad(editing || edited ? draft : code)}
+          title="Open this in the scratchpad, so you can change it without losing your place"
+          className="rounded-md border border-border-strong px-3 py-1.5 text-sm text-text-muted transition-colors hover:text-text"
+        >
+          Try it here
         </button>
 
         {!editing && (
