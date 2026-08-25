@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { HeroCanvas } from "@/components/hero-canvas";
 import { ScrollSnake } from "@/components/scroll-snake";
-import { allLessons, contentStats } from "@/lib/content";
+import { contentStats, lessonsInTrack } from "@/lib/content";
 
 const STATS = [
   { value: contentStats.lessons, label: "lessons, written from scratch" },
@@ -30,7 +30,7 @@ const STEPS = [
 ];
 
 export default function LandingPage() {
-  const lessons = allLessons();
+  const lessons = lessonsInTrack("interview");
   const first = lessons[0];
 
   return (
@@ -139,7 +139,8 @@ export default function LandingPage() {
                 The roadmap
               </h2>
               <p className="mt-2 text-text-muted">
-                {contentStats.lessons} lessons in the order they should be read.
+                {contentStats.interviewLessons} lessons in the order they should
+                be read.
               </p>
             </div>
             <Link
@@ -173,6 +174,15 @@ export default function LandingPage() {
               </li>
             ))}
           </ol>
+
+          <p className="mt-6 text-sm text-text-muted">
+            Taking a graduate algorithms class? The{" "}
+            <Link href="/course" className="text-accent hover:underline">
+              course track
+            </Link>{" "}
+            adds {contentStats.courseLessons} proof-first lessons, from
+            asymptotics through NP-completeness.
+          </p>
         </div>
       </section>
     </main>

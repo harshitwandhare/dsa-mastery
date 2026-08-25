@@ -52,6 +52,18 @@ def strip_md(s: str) -> str:
 
 
 # ---------------------------------------------------------------- lessons --
+# Where the interview curriculum ends and the course track begins. Files 00-20
+# are the interview track; 21 and up are the graduate-algorithms track, which is
+# read on its own and proves things rather than implementing them. The file
+# numbers have to stay one contiguous run from zero, so the split is a boundary
+# rather than a separate numbering range.
+COURSE_TRACK_START = 21
+
+
+def track_for(file_number: int) -> str:
+    return "course" if file_number >= COURSE_TRACK_START else "interview"
+
+
 def build_lessons() -> list[dict]:
     lessons = []
     for path in sorted(ROOT.glob("*.md")):
@@ -83,10 +95,13 @@ def build_lessons() -> list[dict]:
         fence_flags = runnable_fences(text)
         runnable = sum(fence_flags)
 
+        file_number = int(path.name[:2])
+
         lessons.append(
             {
                 "slug": slugify(path.name),
-                "fileNumber": int(path.name[:2]),
+                "fileNumber": file_number,
+                "track": track_for(file_number),
                 "title": title,
                 "sections": sections,
                 "estimatedMinutes": minutes,

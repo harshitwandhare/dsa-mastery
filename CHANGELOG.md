@@ -11,6 +11,19 @@ reader can do, not only what changed in the code.
 
 ### Added
 
+- A course track: eight new lessons (files 21 to 28) for a graduate algorithms
+  class of the CLRS and Erickson kind. It assumes nothing, starts at what a
+  logarithm is, and ends at writing an NP-completeness proof that earns full
+  marks, by way of asymptotics from the definitions, recurrences, divide and
+  conquer, dynamic programming, greedy, graphs and network flow. Where the
+  interview track optimises for writing working code fast, this one optimises
+  for writing proofs that a grader can verify, so every algorithm arrives with
+  the loop invariant, exchange argument, or reduction that justifies it.
+- A "Course" tab, and a lesson index at `/course` that opens with what
+  separates the two tracks, because the difference is the reason to pick one.
+  Lessons carry the track they belong to, so `/learn` stays the interview
+  curriculum and next/previous links no longer walk from the end of one
+  curriculum into the start of another.
 - A Python scratchpad docked to every page. Open it with the button in the
   corner or `Ctrl/Cmd + J`, resize it by dragging its top-left corner, expand it
   to fill the window, and minimise it back to the button. Size and code persist

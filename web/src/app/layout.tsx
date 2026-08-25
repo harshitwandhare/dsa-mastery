@@ -41,11 +41,11 @@ export const metadata: Metadata = {
     template: "%s · DSA Mastery",
   },
   description:
-    "A complete data-structures and algorithms curriculum written from first principles: 21 lessons, 315 indexed problems, 75 graded Python drills, and a Python runtime built into the page.",
+    "A complete data-structures and algorithms curriculum written from first principles: 29 lessons across an interview track and a graduate course track, 315 indexed problems, 75 graded Python drills, and a Python runtime built into the page.",
   openGraph: {
     title: "DSA Mastery",
     description:
-      "21 lessons, 315 problems, 75 graded drills, and Python running in the browser. Built from first principles for interview preparation.",
+      "29 lessons, 315 problems, 75 graded drills, and Python running in the browser. Built from first principles for interviews and for graduate algorithms.",
     type: "website",
     url: SITE,
   },

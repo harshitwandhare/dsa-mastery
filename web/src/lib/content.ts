@@ -18,9 +18,17 @@ export type Section = {
   anchor: string;
 };
 
+/**
+ * Which curriculum a lesson belongs to. `interview` is files 00-20, read in
+ * order to prepare for interviews. `course` is files 21+, the graduate
+ * algorithms track, which is proof-first and stands on its own.
+ */
+export type Track = "interview" | "course";
+
 export type Lesson = {
   slug: string;
   fileNumber: number;
+  track: Track;
   title: string;
   sections: Section[];
   estimatedMinutes: number;
@@ -100,21 +108,34 @@ export const drills = drillsJson as Drill[];
 export const glossary = glossaryJson as GlossaryTerm[];
 export const patterns = patternsJson as Pattern[];
 
-/** Lessons in curriculum order, which is file-number order. */
+/** Every lesson from both tracks, in file-number order. */
 export function allLessons(): Lesson[] {
   return [...lessons].sort((a, b) => a.fileNumber - b.fileNumber);
+}
+
+/** One track's lessons, in reading order. */
+export function lessonsInTrack(track: Track): Lesson[] {
+  return allLessons().filter((lesson) => lesson.track === track);
 }
 
 export function getLesson(slug: string): Lesson | undefined {
   return lessons.find((lesson) => lesson.slug === slug);
 }
 
-/** The lesson before and after this one, for the footer navigation. */
+/**
+ * The lesson before and after this one, for the footer navigation.
+ *
+ * Neighbours stay inside the lesson's own track. The two curricula are read
+ * separately, so walking off the end of the interview track into the course
+ * track would present them as one sequence when they are not.
+ */
 export function lessonNeighbours(slug: string): {
   previous?: Lesson;
   next?: Lesson;
 } {
-  const ordered = allLessons();
+  const lesson = getLesson(slug);
+  if (!lesson) return {};
+  const ordered = lessonsInTrack(lesson.track);
   const index = ordered.findIndex((lesson) => lesson.slug === slug);
   if (index === -1) return {};
   return {
@@ -162,6 +183,8 @@ export function glossaryBySection(): { section: string; terms: GlossaryTerm[] }[
 /** Totals used by the landing page and the dashboard. */
 export const contentStats = {
   lessons: lessons.length,
+  interviewLessons: lessons.filter((lesson) => lesson.track === "interview").length,
+  courseLessons: lessons.filter((lesson) => lesson.track === "course").length,
   problems: problems.length,
   neetcode150: problems.filter((problem) => problem.neetcodeTier === 150).length,
   blind75: problems.filter((problem) => problem.inBlind75).length,

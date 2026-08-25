@@ -7,10 +7,10 @@
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230)](https://github.com/astral-sh/ruff)
 [![License: MIT + CC BY 4.0](https://img.shields.io/badge/license-MIT%20%2B%20CC--BY--4.0-green)](LICENSE)
 
-A complete interview-preparation curriculum written from first principles: 21
-lessons, 315 indexed problems, 75 graded Python drills, and a runnable practice
-environment. Everything is generated from the markdown, so the lessons and the
-tooling can never disagree.
+A complete algorithms curriculum written from first principles, in two tracks:
+21 interview lessons and 8 graduate course lessons, plus 315 indexed problems,
+75 graded Python drills, and a runnable practice environment. Everything is
+generated from the markdown, so the lessons and the tooling can never disagree.
 
 ## Read it in the browser
 
@@ -120,6 +120,24 @@ Work through these in order. Each file is self-contained teaching, not a link du
 | 20 | [Learning Platform Build Spec](20-website-build-spec.md) | Complete spec for the interactive website — hand to a build agent | When you want it built |
 | — | [Tracker](tracker.md) | Spaced-repetition log + progress table | Daily |
 | — | [practice/](practice/) | The runnable project: scaffolder, timer, benchmarks, 124 verified algorithms | Daily |
+
+### Course track (files 21–28)
+
+A second, independent curriculum for a graduate algorithms class of the CLRS and
+Erickson kind. Where the interview track optimises for writing working code
+fast, this one optimises for writing proofs that earn full marks. It assumes
+nothing from files 00–20, so it can be read cold.
+
+| # | File | Covers |
+|---|---|---|
+| 21 | [The Course Track: Orientation](21-course-track-orientation.md) | What the class is, how it is graded, pseudocode conventions, the maths toolkit, how to write a proof that scores |
+| 22 | [Asymptotics from Zero](22-asymptotics-from-zero.md) | O, Omega, Theta, o, omega from the definitions; proofs with explicit constants; the limit method; reading complexity off loops; amortized analysis |
+| 23 | [Recurrences](23-recurrences.md) | Recursion trees, the master theorem and where it fails, substitution, iteration, change of variables, subtract-and-conquer, unequal splits |
+| 24 | [Divide and Conquer](24-divide-and-conquer.md) | Mergesort, counting inversions, quickselect, median of medians, the sorting lower bound, Karatsuba, Strassen, closest pair, KMP and Rabin-Karp |
+| 25 | [Dynamic Programming](25-dynamic-programming.md) | The five-step recipe, cut-and-paste proofs, the canonical problem set, pseudo-polynomial bounds, DP on trees and DAGs |
+| 26 | [Greedy Algorithms](26-greedy.md) | Exchange arguments, greedy-stays-ahead, activity selection, minimizing lateness, Huffman, MSTs and the cut property, matroids |
+| 27 | [Graphs and Network Flow](27-graphs-and-network-flow.md) | BFS/DFS structure theorems, topological sort, SCCs, all four shortest-path algorithms, Ford-Fulkerson, max-flow min-cut, modelling with flow |
+| 28 | [NP-Completeness](28-np-completeness.md) | P and NP, reductions in the right direction, Cook-Levin, the standard hard problems, writing a hardness proof, approximation, undecidability |
 
 **Reading order if you're starting today:** [17](17-practice-setup.md) (set up the environment) → **[19 §19.1–19.2](19-prerequisites-and-glossary.md)** (the maths and vocabulary everything assumes, ~20 min) → **[00](00-python-from-zero.md)** → 01 → 02 → 03 → 04 → 05 → 06 → 07, with 08 and 12 open alongside from day one. Then 09 as orientation, then 15, 11, 13, 14. File 16 runs one hour a week throughout.
 
