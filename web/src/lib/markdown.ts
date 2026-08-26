@@ -21,7 +21,7 @@ import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
-import type { Element, Root } from "hast";
+import type { Element, ElementContent, Root } from "hast";
 import { visit } from "unist-util-visit";
 
 /**
@@ -145,6 +145,34 @@ export type LessonPart =
   | { kind: "html"; html: string }
   | { kind: "python"; html: string; code: string };
 
+/** A heading in the rendered lesson, with the id the page actually carries. */
+export type LessonHeading = {
+  id: string;
+  text: string;
+  depth: 2 | 3;
+};
+
+export type RenderedLesson = {
+  parts: LessonPart[];
+  headings: LessonHeading[];
+};
+
+/** The visible text of a heading, ignoring the anchor link appended to it. */
+function headingText(node: Element): string {
+  const pieces: string[] = [];
+  const walk = (current: ElementContent) => {
+    if (current.type === "text") pieces.push(current.value);
+    else if (current.type === "element") {
+      const classes = current.properties?.className;
+      const isAnchor =
+        Array.isArray(classes) && classes.includes("heading-anchor");
+      if (!isAnchor) current.children.forEach(walk);
+    }
+  };
+  node.children.forEach(walk);
+  return pieces.join("").trim();
+}
+
 /**
  * Render a lesson as an ordered list of parts.
  *
@@ -162,11 +190,12 @@ export async function renderLesson(
    * offering Run on those guarantees a NameError, so they render as plain code.
    */
   fenceRunnable: boolean[] = [],
-): Promise<LessonPart[]> {
+): Promise<RenderedLesson> {
   const tree = processor.parse(markdown);
   const hast = (await processor.run(tree)) as Root;
 
   const parts: LessonPart[] = [];
+  const headings: LessonHeading[] = [];
   let buffer: Root["children"] = [];
   let fenceIndex = 0;
 
@@ -180,6 +209,21 @@ export async function renderLesson(
   };
 
   for (const node of hast.children) {
+    // Collect headings from the same tree that rehype-slug just gave ids to.
+    // Deriving them anywhere else means two slug implementations that have to
+    // agree forever, and they did not: every sidebar link was dead because the
+    // pipeline turned "0.1" into "0-1" while rehype-slug produced "01".
+    if (node.type === "element" && (node.tagName === "h2" || node.tagName === "h3")) {
+      const id = typeof node.properties?.id === "string" ? node.properties.id : "";
+      if (id) {
+        headings.push({
+          id,
+          text: headingText(node),
+          depth: node.tagName === "h2" ? 2 : 3,
+        });
+      }
+    }
+
     const code = node.type === "element" ? runnableSource(node) : null;
     if (code === null) {
       buffer.push(node);
@@ -204,7 +248,7 @@ export async function renderLesson(
   }
   flush();
 
-  return parts;
+  return { parts, headings };
 }
 
 /** The Python source of a runnable block, or null if this is not one. */
