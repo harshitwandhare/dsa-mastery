@@ -202,7 +202,7 @@ Cases 1 and 3 require the gap to be a **polynomial factor**, `n^eps` for some fi
 T(n) = 2 T(n/2) + n log n
 ```
 
-Here `a = 2, b = 2`, watershed `W(n) = n`. Is `f(n) = n log n` bigger than `n`? Yes. Is it *polynomially* bigger, meaning is `n log n = Omega(n^(1+eps))` for some fixed `eps > 0`? **No**, because `log n` grows slower than `n^eps` for every `eps > 0`. So the gap is real but sub-polynomial, and the master theorem in this form **does not apply**. Say so on the exam, then solve it with a recursion tree:
+Here `a = 2, b = 2`, watershed `W(n) = n`. Is `f(n) = n log n` bigger than `n`? Yes. Is it *polynomially* bigger, meaning is `n log n = Omega(n^(1+eps))` for some fixed `eps > 0`? **No**, because `log n` grows slower than `n^eps` for every `eps > 0`. So the gap is real but sub-polynomial, and the master theorem in this form **does not apply**. Say so, then solve it with a recursion tree:
 
 ```
 level i: 2^i nodes, each costing (n/2^i) lg(n/2^i) = (n/2^i)(lg n - i)
@@ -210,7 +210,7 @@ level cost: n(lg n - i)
 total: sum_{i=0}^{lg n} n(lg n - i) = n * sum_{j=0}^{lg n} j = n * Theta(lg^2 n) = Theta(n lg^2 n)
 ```
 
-So `T(n) = Theta(n log^2 n)`. Writing "master theorem gives `Theta(n log n)`" here is wrong and is a favourite exam trap.
+So `T(n) = Theta(n log^2 n)`. Writing "master theorem gives `Theta(n log n)`" here is wrong and is a common trap.
 
 **The extended case 2**, which some courses give you and which handles exactly this family:
 
@@ -220,7 +220,7 @@ With `k = 1` that gives `Theta(n log^2 n)`, matching the tree. Use it if your co
 
 ### The regularity condition in case 3
 
-`a f(n/b) <= c f(n)` for some `c < 1` says the work is genuinely shrinking as you descend, so the root really does dominate. It holds for every polynomial `f`, so in practice you check it, note that it holds, and move on. It fails for pathological `f` like `n^2 (2 + sin n)`, which is why the condition is there at all. Mention it in one clause on homework so the grader sees you know it exists.
+`a f(n/b) <= c f(n)` for some `c < 1` says the work is genuinely shrinking as you descend, so the root really does dominate. It holds for every polynomial `f`, so in practice you check it, note that it holds, and move on. It fails for pathological `f` like `n^2 (2 + sin n)`, which is why the condition is there at all. Mention it in one clause so a reader sees you know it exists.
 
 ### When the master theorem does not apply at all
 
@@ -342,7 +342,7 @@ T(n) = 2T(n/2) + n
 
 At `k = lg n`: `T(n) = n T(1) + n lg n = Theta(n lg n)`. Confirmed again.
 
-**On homework, use iteration to find the answer and substitution to prove it.** Iteration's "spot the pattern" step is not a proof, and a strict grader will say so.
+**Use iteration to find the answer and substitution to prove it.** Iteration's "spot the pattern" step is not a proof, and a strict reader will say so.
 
 ---
 
@@ -474,9 +474,9 @@ The master theorem is the special case `k = 1`, where `p = log_b a`. Problem 10 
 
 ---
 
-## 23.11 The exam checklist
+## 23.11 The checklist
 
-When a recurrence appears on an exam, run this in order:
+When a recurrence appears, run this in order:
 
 ```
 1. Is it a T(n/b) + f(n) with constant a, b?
@@ -493,7 +493,7 @@ When a recurrence appears on an exam, run this in order:
 6. ALWAYS state the base case assumption and the floor/ceiling omission.
 ```
 
-And two habits that pick up free marks:
+And two habits worth keeping:
 
 - **State which case you are in and why.** "Case 1, since `f(n) = n = O(n^(2 - 0.5))`" earns the point that "Case 1" alone does not.
 - **Sanity check against a known algorithm.** If you derive `Theta(n)` for mergesort, you made an arithmetic error. Keep the landmark table from 23.3 in your head as a set of tripwires.

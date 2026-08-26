@@ -2,7 +2,7 @@
 
 Assumes [25 — Dynamic Programming](25-dynamic-programming.md).
 
-Greedy algorithms are the easiest to write and the hardest to justify. **The algorithm is usually three lines. The proof is the assignment.** More points are lost in this unit than any other, because a plausible-sounding greedy that happens to be wrong looks exactly like a correct one until you find the counterexample.
+Greedy algorithms are the easiest to write and the hardest to justify. **The algorithm is usually three lines. The proof is the work.** More people go wrong in this unit than any other, because a plausible-sounding greedy that happens to be wrong looks exactly like a correct one until you find the counterexample.
 
 ---
 
@@ -40,7 +40,7 @@ The workhorse. The shape:
 
 > Let `G` be the greedy solution and `O` be any optimal solution. If `O = G`, done. Otherwise, find the first place they differ. Show that you can **modify `O` to agree with `G` at that place** without making `O` worse and without breaking feasibility. Repeating this transformation turns `O` into `G` while never decreasing quality, so `G` is optimal too.
 
-The two obligations, and graders check both:
+The two obligations, and both get checked:
 
 - **The exchange preserves feasibility.** After swapping, the solution still satisfies the constraints.
 - **The exchange does not worsen the objective.** New value is at least as good as old.
@@ -76,7 +76,7 @@ Note this is the **unweighted** version. Weighted needs DP (file 25), and the re
 | Fewest **conflicts** | fails on a carefully built instance; the standard one has 4 rows |
 | Earliest **finish** time | **correct** |
 
-Being able to produce those counterexamples on demand is itself an exam skill.
+Being able to produce those counterexamples on demand is itself a skill worth drilling.
 
 ### The algorithm
 
@@ -124,7 +124,7 @@ Let `g_1, g_2, ...` be greedy's picks in order and `o_1, o_2, ...` be any other 
 
 *Conclusion.* Suppose the other solution has more activities, `m > |G|`. Then `o_{|G|+1}` exists, and `s[o_{|G|+1}] >= f[o_{|G|}] >= f[g_{|G|}]`, so it was compatible with greedy's last pick and greedy would have taken it. Contradiction. Hence `|G| >= m`. QED
 
-**Both proofs are full credit.** Learn both shapes; some problems suit one much better than the other.
+**Both proofs are complete.** Learn both shapes; some problems suit one much better than the other.
 
 ### Why weights break it
 
@@ -198,7 +198,7 @@ Both factors are non-negative: `f[a] >= f[x]` by choice of x, and `depth(a) >= d
 
 Induction on the number of characters completes the proof. QED
 
-Huffman is the best example in the course of a greedy whose choice property is genuinely non-obvious and whose proof is genuinely short once you see the right exchange.
+Huffman is the best example in this track of a greedy whose choice property is genuinely non-obvious and whose proof is genuinely short once you see the right exchange.
 
 ---
 
@@ -268,7 +268,7 @@ MST-PRIM(G, w, r)
 | Prim (Fibonacci heap) | heap | `O(E + V log V)` | dense |
 | Prim (array) | array | `O(V^2)` | very dense, `E ~ V^2` |
 
-**Uniqueness.** If all edge weights are distinct, the MST is unique. Proof: suppose two distinct MSTs T1 and T2; take the minimum-weight edge in exactly one of them, say `e` in T1; adding `e` to T2 creates a cycle containing an edge `e'` not in T1; by minimality of `e`, `w(e) < w(e')`, so swapping gives a lighter spanning tree than T2, contradiction. This "distinct weights implies unique MST" fact is a standard exam question, as is its converse being false.
+**Uniqueness.** If all edge weights are distinct, the MST is unique. Proof: suppose two distinct MSTs T1 and T2; take the minimum-weight edge in exactly one of them, say `e` in T1; adding `e` to T2 creates a cycle containing an edge `e'` not in T1; by minimality of `e`, `w(e) < w(e')`, so swapping gives a lighter spanning tree than T2, contradiction. This "distinct weights implies unique MST" fact gets asked constantly, as does its converse being false.
 
 ---
 
@@ -305,11 +305,11 @@ Have these ready as counterexamples.
 | Set cover | take the set covering the most uncovered | `ln n` approximation, provably not better unless P = NP. |
 | Weighted interval scheduling | earliest finish time | one long job of weight 100 versus two short ones of weight 1 each. |
 
-**Fractional knapsack is the exception that proves the rule.** If you may take fractions of items, the ratio greedy **is** optimal, by a clean exchange argument: any solution not following ratio order can be improved by swapping a unit of lower-ratio material for higher-ratio material. The 0/1 restriction is what breaks it, because you cannot make the swap in fractional amounts. Being able to say precisely why the same rule works in one case and not the other is exam gold.
+**Fractional knapsack is the exception that proves the rule.** If you may take fractions of items, the ratio greedy **is** optimal, by a clean exchange argument: any solution not following ratio order can be improved by swapping a unit of lower-ratio material for higher-ratio material. The 0/1 restriction is what breaks it, because you cannot make the swap in fractional amounts. Being able to say precisely why the same rule works in one case and not the other is worth the extra sentence every time.
 
 ---
 
-## 26.9 How to attack a greedy problem on an exam
+## 26.9 How to attack a greedy problem
 
 ```
 1. Write down 3 or 4 plausible greedy rules.
@@ -321,9 +321,9 @@ Have these ready as counterexamples.
    plausible one, and solve with DP.
 ```
 
-Step 4 is worth stating because **"greedy does not work here, and here is why, so I use DP"** is a stronger answer than silently using DP. It shows the grader you considered the cheaper option and ruled it out for a reason.
+Step 4 is worth stating because **"greedy does not work here, and here is why, so I use DP"** is a stronger answer than silently using DP. It shows you considered the cheaper option and ruled it out for a reason.
 
-### The sentences that earn marks
+### The sentences that carry the argument
 
 - "Sort by X. We claim greedy is optimal."
 - "Let O be an optimal solution differing from G, and let k be the first index where they differ."
@@ -331,7 +331,7 @@ Step 4 is worth stating because **"greedy does not work here, and here is why, s
 - "The objective does not worsen because ..."
 - "Repeating this transformation converts O into G without decreasing quality, so G is optimal."
 
-### The sentences that lose marks
+### The sentences that give away a gap
 
 - "Greedy clearly works here." No.
 - "It is intuitive that taking the smallest first is best." No.

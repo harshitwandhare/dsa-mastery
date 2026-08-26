@@ -1,6 +1,6 @@
 # 22 — Asymptotics from Zero
 
-**Assumes nothing.** If you have never seen a Big-O in your life, start here. If you have seen them but keep guessing on true/false quiz questions, that is a symptom of learning the *notation* without the *definition*, and this file fixes it.
+**Assumes nothing.** If you have never seen a Big-O in your life, start here. If you have seen them but still guess on true/false questions, that is a symptom of learning the *notation* without the *definition*, and this file fixes it.
 
 Read [21 — The Course Track: Orientation](21-course-track-orientation.md) first for the proof conventions used throughout.
 
@@ -142,7 +142,7 @@ That fourth line is the one that gets tested. "f is bounded above by g" and "g i
 
 ## 22.4 Proving a bound from the definition
 
-The homework asks for this and the exam asks for this, so drill the mechanics.
+This is the mechanical skill everything else rests on, so drill it.
 
 ### Example 1: prove `3n^2 + 500n + 9000 = O(n^2)`
 
@@ -198,7 +198,7 @@ Now: `2^(2n) = O(2^n)`?
 
 ## 22.5 The limit method: the shortcut you will actually use
 
-Grinding out constants is slow. Limits do the same work in one line, and they are accepted on homework provided you state which case of the rule you are in.
+Grinding out constants is slow. Limits do the same work in one line, and they are accepted provided you state which case of the rule you are in.
 
 Compute:
 
@@ -219,7 +219,7 @@ That last row matters more than it looks, and it is where the definition and the
 
 Take `f(n) = n(2 + sin n)` and `g(n) = n`. The ratio oscillates between 1 and 3 forever, so `lim f/g` does not exist. Yet `f = O(g)` holds perfectly well with `c = 3`, and `f = Omega(g)` holds with `c = 1`, so in fact `f = Theta(g)`. **Boundedness is the real requirement. The limit is a convenient sufficient condition, not the definition.** If a limit fails to exist, fall back to the definition rather than concluding anything.
 
-### The classic quiz question, decoded
+### The classic true/false question, decoded
 
 > You are told that the limit of `f(n)/g(n)` as n goes to infinity is **at most** 10. You can conclude:
 > (a) `f(n) = O(g(n))`  (b) `g(n) = O(f(n))`  (c) both  (d) neither
@@ -256,7 +256,7 @@ Memorize this ordering. Everything to the right eventually and permanently domin
    <  n^2  <  n^3  <  n^k  <  2^n  <  3^n  <  n!  <  n^n
 ```
 
-Names, since exam questions use them:
+Names, since questions get phrased with them:
 
 | Growth | Name | Feels like |
 |---|---|---|
@@ -270,7 +270,7 @@ Names, since exam questions use them:
 | `O(2^n)` | exponential | all subsets |
 | `O(n!)` | factorial | all permutations |
 
-Facts worth internalizing because they are quiz fodder:
+Facts worth internalizing, because they get asked constantly:
 
 - **Log base is irrelevant.** `log_2 n` and `log_10 n` differ by a constant factor, so they are Theta of each other. Hence we write `O(log n)` with no base at all.
 - **Any positive power of n beats any power of log n.** Even `n^0.0001` eventually overtakes `(log n)^100`. Logs are astonishingly slow.
@@ -281,7 +281,7 @@ Facts worth internalizing because they are quiz fodder:
 
 ### Comparing two expressions fast
 
-When an exam asks "is `f = O(g)`, `Omega(g)`, or `Theta(g)`?", the fastest reliable move is to **take logs of both** when they are products, powers, or exponentials.
+When you are asked "is `f = O(g)`, `Omega(g)`, or `Theta(g)`?", the fastest reliable move is to **take logs of both** when they are products, powers, or exponentials.
 
 Example: compare `n^(log n)` and `2^n`.
 
@@ -298,7 +298,7 @@ This works because `log` is strictly increasing, so it preserves ordering. It co
 
 ## 22.7 Reading complexity off code
 
-Most exam questions hand you code, not algebra. The rules are mechanical.
+Most questions hand you code, not algebra. The rules are mechanical.
 
 ### Rule 1: constant work is O(1)
 
@@ -311,7 +311,7 @@ if x > y:
 
 A fixed number of primitive operations, independent of n. O(1).
 
-Careful with what "primitive" means. `arr[i]` is O(1). But `arr.insert(0, x)` in Python is O(n), and `s1 + s2` for strings of length n is O(n). In pseudocode on an exam, assume only the RAM-model primitives are O(1) and say so if a step is more.
+Careful with what "primitive" means. `arr[i]` is O(1). But `arr.insert(0, x)` in Python is O(n), and `s1 + s2` for strings of length n is O(n). In pseudocode, assume only the RAM-model primitives are O(1) and say so if a step is more.
 
 ### Rule 2: sequential blocks add, so the biggest wins
 
@@ -381,7 +381,7 @@ while i > 0
     i = i - 1
 ```
 
-That is `Theta(n)`. **Divide gives log, subtract gives linear.** Getting this backwards is a classic exam loss.
+That is `Theta(n)`. **Divide gives log, subtract gives linear.** Getting this backwards is a classic mistake.
 
 ### Rule 6: a doubly-nested log is a real thing
 
@@ -419,7 +419,7 @@ Using `lg(n!) = Theta(n lg n)` from the toolkit. Answer: `Theta(n lg n)`.
 
 ## 22.8 The question everyone gets wrong: what Omega on a loop really means
 
-Here is a true/false question of a kind that appears on quizzes constantly.
+Here is a true/false question of a kind that gets asked constantly.
 
 > An algorithm has two nested for loops, the outer ranging `i = 1 to n` and the inner ranging `j = 1 to n`. Inside the inner loop there is some **unknown** piece of code. You can conclude the running time must be `Omega(n^2)`.
 
@@ -435,7 +435,7 @@ Now notice the flip side, which is the actual lesson. Could you conclude `O(n^2)
 
 Instructors reuse this because students memorize "nested loops means n^2" as a Theta statement and never notice it is only half true.
 
-The one caveat a very careful grader might raise: if the unknown code contains a `break` or a `return` that escapes the loops early, the `n^2` iterations do not all happen. Standard course convention treats "some unknown piece of code" as straight-line code inside the loop, and the intended answer is True. If you want to be bulletproof on an exam, write "assuming the inner code does not exit the loops early, True, because the loop control itself executes n^2 times regardless of the body."
+The one caveat a careful reader might raise: if the unknown code contains a `break` or a `return` that escapes the loops early, the `n^2` iterations do not all happen. The standard convention treats "some unknown piece of code" as straight-line code inside the loop, and the intended answer is True. If you want to be airtight, write "assuming the inner code does not exit the loops early, True, because the loop control itself executes n^2 times regardless of the body."
 
 ---
 
@@ -507,7 +507,7 @@ f(n) = n            if n is even,  n^2 if n is odd
 g(n) = n^2          if n is even,  n   if n is odd
 ```
 
-Neither dominates the other, in either direction, past any point. Real algorithms rarely look like this, but exam questions do.
+Neither dominates the other, in either direction, past any point. Real algorithms rarely look like this, but constructed examples do.
 
 **Ignoring the input-size definition.** "Size of the input" means the number of *bits* to write it down. For an array of n numbers we usually say the size is n and treat each number as O(1) bits, which is fine and standard. But for a problem whose input is a single number N, the input size is `log N`, not `N`. An algorithm that loops N times on input N is **exponential** in the input size. This distinction is invisible for most of the course and then becomes the entire point in file 28, where it is the difference between "polynomial" and "pseudo-polynomial".
 
