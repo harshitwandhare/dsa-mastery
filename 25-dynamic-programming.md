@@ -6,7 +6,7 @@ Assumes [24 — Divide and Conquer](24-divide-and-conquer.md). The interview tra
 
 ## 25.1 What DP actually is
 
-Two conditions must hold. State them by name in every homework answer, because graders look for them.
+Two conditions must hold. State them by name in every written solution; they are the first thing a reader checks for.
 
 **1. Optimal substructure.** An optimal solution to the problem contains within it optimal solutions to subproblems. If you knew the optimal answers to the smaller instances, you could assemble the optimal answer to the big one.
 
@@ -108,22 +108,22 @@ BOTTOM-UP-FIB(n)
 | Space optimization | hard | easy (keep only the last row) |
 | Risk | stack overflow at large n | wasted work on unreachable states |
 
-Both are correct DP and both earn full credit. Use top-down when the reachable state space is much smaller than the full table, or when the dependency order is awkward. Use bottom-up when you want to compress space.
+Both are correct DP and both are complete answers. Use top-down when the reachable state space is much smaller than the full table, or when the dependency order is awkward. Use bottom-up when you want to compress space.
 
 ### Recovering the solution, not just the value
 
-`OPT[n]` gives you the optimal *value*. Exam questions almost always also want the optimal *solution*. Two standard techniques:
+`OPT[n]` gives you the optimal *value*. You are almost always asked for the optimal *solution* as well. Two standard techniques:
 
 1. **Store choices.** Alongside `OPT[i]`, record `choice[i]` = which option achieved the max. Then walk backwards from the final state following `choice`, which is `O(n)` or `O(n + m)`.
 2. **Recompute by comparison.** Do not store anything extra; at the end, walk back and at each state re-derive which predecessor produced the stored value. Same time, less space.
 
-Say which one you are using and give the backtracking loop. "Standard backtracking through the choice table recovers the solution in O(n)" is one sentence and it is worth marks.
+Say which one you are using and give the backtracking loop. "Standard backtracking through the choice table recovers the solution in O(n)" is one sentence and it does the job.
 
 ---
 
 ## 25.5 The canonical problems
 
-Know these cold. Exam problems are usually one of these with the story changed.
+Know these cold. Most problems you meet are one of these with the story changed.
 
 ### Rod cutting
 
@@ -158,9 +158,9 @@ K[i][j] = max( K[i-1][j],  v[i] + K[i-1][j - w[i]] ) otherwise
 
 **States** `n * W`, **work per state** `O(1)`, so **`Theta(nW)`**.
 
-**The pseudo-polynomial trap, and this is a guaranteed exam question.** `Theta(nW)` looks polynomial. It is not polynomial in the **input size**. The number W is written in binary using `lg W` bits, so the input size is `Theta(n log W + n log(max v))` and the running time `nW = n * 2^(lg W)` is **exponential in the input size**. Such an algorithm is called **pseudo-polynomial**: polynomial in the *numeric value* of the input, exponential in its *encoding length*. 0/1 knapsack is NP-hard (file 28) and this algorithm does not contradict that.
+**The pseudo-polynomial trap, and it is the thing that always gets asked.** `Theta(nW)` looks polynomial. It is not polynomial in the **input size**. The number W is written in binary using `lg W` bits, so the input size is `Theta(n log W + n log(max v))` and the running time `nW = n * 2^(lg W)` is **exponential in the input size**. Such an algorithm is called **pseudo-polynomial**: polynomial in the *numeric value* of the input, exponential in its *encoding length*. 0/1 knapsack is NP-hard (file 28) and this algorithm does not contradict that.
 
-**Space.** Only row `i-1` is needed, so `O(W)` suffices. If you iterate `j` **downwards** you can even use a single 1D array, because the downward order guarantees `K[j - w[i]]` still holds the `i-1` value. That direction detail is a classic bug and a classic exam question.
+**Space.** Only row `i-1` is needed, so `O(W)` suffices. If you iterate `j` **downwards** you can even use a single 1D array, because the downward order guarantees `K[j - w[i]]` still holds the `i-1` value. That direction detail is a classic bug and a classic question.
 
 **Unbounded knapsack** (unlimited copies) changes one index: `K[i][j] = max(K[i-1][j], v[i] + K[i][j - w[i]])`, using `K[i]` rather than `K[i-1]` because the item can be reused. In the 1D version, iterate `j` **upwards**.
 
@@ -343,9 +343,9 @@ That is the shape. Definition, recurrence, substructure proof, pseudocode, induc
 
 **Forgetting base cases.** State them all, including the degenerate ones (`i = 0`, empty string, capacity 0). Half of DP bugs live there.
 
-**Claiming polynomial when it is pseudo-polynomial.** If a bound involves a numeric value from the input rather than the number of items, say the word pseudo-polynomial. Graders in this course specifically watch for it.
+**Claiming polynomial when it is pseudo-polynomial.** If a bound involves a numeric value from the input rather than the number of items, say the word pseudo-polynomial. It is the distinction a careful reader is specifically watching for.
 
-**Confusing "greedy works" with "DP is unnecessary".** If greedy works, prove it (file 26). If you cannot prove it, use DP and say why greedy fails, ideally with a counterexample. A counterexample to a greedy is worth marks even in a DP answer, because it justifies the more expensive approach.
+**Confusing "greedy works" with "DP is unnecessary".** If greedy works, prove it (file 26). If you cannot prove it, use DP and say why greedy fails, ideally with a counterexample. A counterexample to a greedy is worth including even in a DP answer, because it justifies the more expensive approach.
 
 ---
 
