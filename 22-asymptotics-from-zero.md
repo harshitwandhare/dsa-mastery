@@ -219,20 +219,19 @@ That last row matters more than it looks, and it is where the definition and the
 
 Take `f(n) = n(2 + sin n)` and `g(n) = n`. The ratio oscillates between 1 and 3 forever, so `lim f/g` does not exist. Yet `f = O(g)` holds perfectly well with `c = 3`, and `f = Omega(g)` holds with `c = 1`, so in fact `f = Theta(g)`. **Boundedness is the real requirement. The limit is a convenient sufficient condition, not the definition.** If a limit fails to exist, fall back to the definition rather than concluding anything.
 
-### The classic true/false question, decoded
+### The trap: a finite limit only buys you one direction
 
-> You are told that the limit of `f(n)/g(n)` as n goes to infinity is **at most** 10. You can conclude:
-> (a) `f(n) = O(g(n))`  (b) `g(n) = O(f(n))`  (c) both  (d) neither
+Suppose all you are told about two functions is that `f(n)/g(n)` approaches a **finite** limit `L`, with no promise that `L` is nonzero. What follows?
 
-The wording is engineered. "At most 10" pins `L` into the interval `[0, 10]`.
+**You get `f = O(g)`, and that is all.** Finiteness alone puts you in row one or row two of the table, and both of those rows give the upper bound. Concretely: if `L` is finite then past some `n0` the ratio stays below `L + 1`, so `f(n) <= (L+1) g(n)`, which is the definition with `c = L + 1`.
 
-**Finite,** so row one or row two of the table applies, and both give you `f = O(g)`. Statement (a) is true. Concretely: if `L <= 10`, then past some `n0` the ratio is below 11, so `f(n) <= 11 g(n)`, which is the definition with `c = 11`.
+**You do not get the reverse.** Nothing excluded `L = 0`, and `L = 0` is exactly the row where `g = O(f)` dies. Take `f(n) = n` and `g(n) = n^2`. The limit is 0, which is certainly finite, so the hypothesis holds. `f = O(g)` since `n <= n^2`. But `g = O(f)` would mean `n^2 <= c n`, which Example 4 disproved. So the reverse direction fails, and with it any claim of Theta.
 
-**But 0 is not excluded,** and `L = 0` is exactly the row where the reverse direction dies. Counterexample: `f(n) = n`, `g(n) = n^2`. Then `L = 0 <= 10`, the hypothesis holds. `f = O(g)` since `n <= n^2`. But `g = O(f)` would mean `n^2 <= c*n`, which we disproved in Example 4. So (b) is false, which kills (c) too. And since (a) is provably true, (d) is out.
+The whole thing in one sentence:
 
-**Answer: (a) only.**
+> **A finite limit gives you O in one direction. You only get Theta when the limit is finite AND nonzero.**
 
-The trap in one sentence: **a finite limit buys you O in one direction; you only get Theta when the limit is finite AND nonzero.** "At most 10" hands you finiteness while quietly withholding nonzero-ness. Had the question said "the limit is exactly 10", the answer flips to (c), because 10 is finite and positive so `f = Theta(g)`.
+This is worth drilling because the two hypotheses look almost identical and are not. "The limit is at most some constant" hands you finiteness while quietly withholding nonzero-ness, so it gives `f = O(g)` alone. "The limit is exactly some positive constant" hands you both, so it gives `f = Theta(g)`. Read which one you were given before answering.
 
 ### L'Hopital, and when you need it
 
@@ -417,25 +416,31 @@ Using `lg(n!) = Theta(n lg n)` from the toolkit. Answer: `Theta(n lg n)`.
 
 ---
 
-## 22.8 The question everyone gets wrong: what Omega on a loop really means
+## 22.8 What Omega on a loop really means
 
-Here is a true/false question of a kind that gets asked constantly.
+Consider a fragment you cannot fully see:
 
-> An algorithm has two nested for loops, the outer ranging `i = 1 to n` and the inner ranging `j = 1 to n`. Inside the inner loop there is some **unknown** piece of code. You can conclude the running time must be `Omega(n^2)`.
+```
+for i = 1 to n
+    for j = 1 to n
+        <unknown code>
+```
 
-Most students answer False, reasoning "we do not know the inner code, so we cannot conclude anything". That reasoning is wrong, and seeing why is worth more than the point.
+Two nested loops, each running `1` to `n`, with a body you know nothing about. What can you conclude about the running time?
 
-**Answer: True.**
+The instinct is "nothing, since the body is unknown". That instinct is wrong, and seeing why is worth more than the conclusion itself.
 
-Ask which *direction* of bound is being requested. `Omega` is a **floor**. The loop scaffolding alone, ignoring the mystery body entirely, must execute its increment-and-test `n^2` times. The unknown body can only *add* work, since work is non-negative. So `n^2` is a guaranteed lower bound, and `Omega(n^2)` holds no matter what is inside.
+**You can conclude `Omega(n^2)`.**
+
+Ask which *direction* of bound is available. `Omega` is a **floor**. The loop scaffolding alone, ignoring the mystery body entirely, must execute its increment-and-test `n^2` times. The unknown body can only *add* work, since work is non-negative. So `n^2` is a guaranteed lower bound, and `Omega(n^2)` holds no matter what is inside.
 
 Now notice the flip side, which is the actual lesson. Could you conclude `O(n^2)`? **No.** If the hidden body were itself an `O(n^3)` subroutine, the total is `n^5`. Could you conclude `Theta(n^2)`? Also no, since Theta requires the O.
 
 > **Loop structure alone gives you lower bounds for free. It never gives you upper bounds.**
 
-Instructors reuse this because students memorize "nested loops means n^2" as a Theta statement and never notice it is only half true.
+This catches people out because "nested loops means n^2" gets memorized as a Theta statement, and almost nobody notices it is only half true.
 
-The one caveat a careful reader might raise: if the unknown code contains a `break` or a `return` that escapes the loops early, the `n^2` iterations do not all happen. The standard convention treats "some unknown piece of code" as straight-line code inside the loop, and the intended answer is True. If you want to be airtight, write "assuming the inner code does not exit the loops early, True, because the loop control itself executes n^2 times regardless of the body."
+The one caveat a careful reader might raise: if the unknown code contains a `break` or a `return` that escapes the loops early, the `n^2` iterations do not all happen. The usual convention treats an unspecified body as straight-line code, which keeps the conclusion. If you want to be airtight, say so explicitly: assuming the body does not exit the loops early, the running time is `Omega(n^2)`, because the loop control alone executes `n^2` times regardless of what the body does.
 
 ---
 

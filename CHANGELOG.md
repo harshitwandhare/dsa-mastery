@@ -9,6 +9,13 @@ reader can do, not only what changed in the code.
 
 ## [Unreleased]
 
+### Fixed
+
+- Long inline code no longer pushes the page sideways. Inline spans were set to
+  never wrap, which is right for `O(n log n)` and wrong for the reading-order
+  chains, so a lesson page measured 1262px against a 375px phone viewport. They
+  wrap now, and no route scrolls horizontally at any width.
+
 ### Added
 
 - A course track: eight new lessons (files 21 to 28) for a graduate algorithms
