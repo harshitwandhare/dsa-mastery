@@ -1,6 +1,6 @@
 # 27 — Graphs and Network Flow
 
-Assumes [26 — Greedy](26-greedy.md). This is the largest unit in the second half of the course and the one with the most quotable theorems. **Know the theorems by name.** Half the exam problems are solved by modelling the input as a graph and then citing something on this page.
+Assumes [26 — Greedy](26-greedy.md). This is the largest unit in the second half of the material and the one with the most quotable theorems. **Know the theorems by name.** Half of what you will be asked is solved by modelling the input as a graph and then citing something on this page.
 
 ---
 
@@ -24,7 +24,7 @@ A graph `G = (V, E)`. Write `n = |V|` and `m = |E|`, or `V` and `E` used as numb
 
 **Default to adjacency lists** and say so. Almost every bound in this file is `O(n + m)` or `O(m log n)`, which assumes lists.
 
-**Never write `O(n)` when you mean `O(n + m)`.** With two independent parameters, neither dominates, and dropping one is a real error that graders catch.
+**Never write `O(n)` when you mean `O(n + m)`.** With two independent parameters, neither dominates, and dropping one is a real error that a careful reader catches.
 
 ---
 
@@ -118,7 +118,7 @@ TOPOLOGICAL-SORT(G)
 
 **Kahn's algorithm** is the alternative: repeatedly output a vertex of in-degree 0 and remove it. Also `O(V + E)`, and it has the useful side effect of **detecting cycles** (if it stalls with vertices remaining, there is a cycle) and of enumerating orders.
 
-**Why it matters:** topological order is the evaluation order for any DP whose state graph is a DAG, and it makes longest path, shortest path, and counting paths all linear-time on DAGs. That contrast (linear on a DAG, NP-hard in general for longest path) is a favourite exam point.
+**Why it matters:** topological order is the evaluation order for any DP whose state graph is a DAG, and it makes longest path, shortest path, and counting paths all linear-time on DAGs. That contrast (linear on a DAG, NP-hard in general for longest path) is worth carrying with you.
 
 ---
 
@@ -140,15 +140,15 @@ STRONGLY-CONNECTED-COMPONENTS(G)
 
 **Why it works, in one idea.** The **component graph** (contract each SCC to a single vertex) is always a DAG. Processing in decreasing finish order visits the component DAG in topological order, so the second DFS starts in a "source" component of the original and cannot escape it in the transpose. Proving this cleanly needs a lemma: if `C` and `C'` are distinct SCCs with an edge from C to C', then `max finish in C > max finish in C'`.
 
-**Tarjan's algorithm** does it in a single DFS pass using low-link values. Faster in practice, more intricate. Know that it exists; most courses examine Kosaraju.
+**Tarjan's algorithm** does it in a single DFS pass using low-link values. Faster in practice, more intricate. Know that it exists; Kosaraju is the one usually taught.
 
-**The component graph is a DAG** is itself an exam-worthy fact, and it is the standard first step for problems like "given implications, find contradictions" (2-SAT is solved exactly this way: build the implication graph, and the formula is satisfiable iff no variable shares an SCC with its negation).
+**The component graph is a DAG** is itself a fact worth memorizing, and it is the standard first step for problems like "given implications, find contradictions" (2-SAT is solved exactly this way: build the implication graph, and the formula is satisfiable iff no variable shares an SCC with its negation).
 
 ---
 
 ## 27.6 Shortest paths
 
-Four algorithms. Choosing correctly is most of the marks.
+Four algorithms. Choosing correctly is most of the work.
 
 | Algorithm | Handles | Time | Notes |
 |---|---|---|---|
@@ -240,7 +240,7 @@ The 2D version above is correct because `d[k][i][k] = d[k-1][i][k]` (a shortest 
 
 `Theta(V^3)` time, `Theta(V^2)` space. Detects negative cycles by checking for a negative diagonal entry.
 
-### Choosing on an exam
+### Choosing between them
 
 ```
 unweighted?                       -> BFS,            O(V+E)
@@ -306,16 +306,16 @@ FORD-FULKERSON(G, s, t)
 
 **(3 implies 1):** `|f| <= c(S,T)` for every cut, by the flow-value lemma and the capacity constraint. So a flow achieving some cut's capacity is maximum. QED
 
-**The theorem is the most useful single fact in the second half of the course.** It gives you a *certificate*: to prove a flow is maximum, exhibit a cut of the same capacity. Exam questions ask exactly this.
+**The theorem is the most useful single fact in the second half of the material.** It gives you a *certificate*: to prove a flow is maximum, exhibit a cut of the same capacity. That is exactly what gets asked.
 
-**How to read the min cut off a max flow** (also an exam question): run the max flow, then take `S` = the vertices reachable from s in the final residual graph. The edges from S to T are saturated and form the min cut.
+**How to read the min cut off a max flow** (also a standard question): run the max flow, then take `S` = the vertices reachable from s in the final residual graph. The edges from S to T are saturated and form the min cut.
 
 ### Running time, and why the choice of path matters
 
 Ford-Fulkerson as stated does not specify how to find the augmenting path, and that omission is not innocent.
 
 - With **integer** capacities, each augmentation increases the flow by at least 1, so there are at most `|f*|` iterations, giving `O(E |f*|)`. That depends on the *values* of the capacities, so it is **pseudo-polynomial**. The classic bad instance is a 4-vertex diamond with capacities 1000, 1000, 1, 1000, 1000, where a pathological path choice alternates through the capacity-1 edge and takes 2000 iterations.
-- With **irrational** capacities, it can fail to terminate at all, and can even converge to the wrong value. Worth one sentence on an exam.
+- With **irrational** capacities, it can fail to terminate at all, and can even converge to the wrong value. Worth one sentence whenever you cite the algorithm.
 
 **Edmonds-Karp** fixes it: always choose the **shortest** augmenting path, found by BFS.
 
@@ -335,7 +335,7 @@ Obvious from the algorithm (every bottleneck is an integer if you start at 0 wit
 
 ## 27.9 Modelling with flow
 
-This is what exams actually test. The algorithm is a black box you cite; the skill is building the network.
+This is what actually gets tested. The algorithm is a black box you cite; the skill is building the network.
 
 ### Bipartite matching
 
@@ -345,7 +345,7 @@ This is what exams actually test. The algorithm is a black box you cite; the ski
 
 **Claim: the maximum matching size equals the maximum flow value.**
 
-*Proof (both directions, and graders want both).*
+*Proof (both directions, and both are required).*
 
 *Matching to flow.* Given a matching M, push one unit along `s -> u -> v -> t` for each matched pair `(u,v)`. Capacities are respected because each vertex is in at most one pair, so each unit-capacity edge from s or to t carries at most 1. Conservation holds. Value is `|M|`.
 
@@ -387,7 +387,7 @@ If an edge must carry at least `l(u,v)`, use a **circulation with demands** form
 7. State and prove the correspondence in BOTH directions.
 ```
 
-Step 7 is where the marks are. "Max flow equals max matching" is not a proof; the two constructions above are.
+Step 7 is where the substance is. "Max flow equals max matching" is not a proof; the two constructions above are.
 
 ---
 

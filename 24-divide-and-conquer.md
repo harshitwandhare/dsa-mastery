@@ -34,7 +34,7 @@ Step: on input of size n, the algorithm forms subproblems of size < n. By the
 Therefore correct for all n, by strong induction on n.  QED
 ```
 
-Note **strong** induction: the subproblems are of size `n/2`, not `n-1`, so ordinary induction on `n-1` gives you nothing. Every divide-and-conquer correctness proof in this course is strong induction, and writing "by induction on n" without the word strong is a small but real loss of points.
+Note **strong** induction: the subproblems are of size `n/2`, not `n-1`, so ordinary induction on `n-1` gives you nothing. Every divide-and-conquer correctness proof in this track is strong induction, and writing "by induction on n" without the word strong is a small but real loss of points.
 
 The step almost always reduces to proving **one lemma about the combine**. Isolate that lemma, prove it, and cite it. That is what a clean proof looks like.
 
@@ -80,13 +80,13 @@ The sentinel `INF` at the end of each half is a small trick that removes the "on
 
 **Space.** `Theta(n)` auxiliary for the temporary arrays. Mergesort is not in-place, and that is its real cost. (In-place merging exists but is complicated and slow in practice.)
 
-**Stability.** The `<=` on line 6 is not cosmetic. It makes ties resolve in favour of the left half, which preserves the original relative order of equal elements. Change it to `<` and mergesort stops being stable. Exam questions ask this.
+**Stability.** The `<=` on line 6 is not cosmetic. It makes ties resolve in favour of the left half, which preserves the original relative order of equal elements. Change it to `<` and mergesort stops being stable, which is exactly what gets asked about.
 
 ---
 
 ## 24.3 Counting inversions
 
-The first problem where divide and conquer is not obvious, and a favourite homework problem.
+The first problem where divide and conquer is not obvious, and a classic exercise.
 
 > **Problem.** Given `A[1..n]`, count the pairs `(i, j)` with `i < j` and `A[i] > A[j]`.
 
@@ -139,7 +139,7 @@ PARTITION(A, p, r)
 8  return i + 1
 ```
 
-**Partition invariant.** At the start of each iteration of line 3, for any index `k`: if `p <= k <= i` then `A[k] <= x`; if `i+1 <= k <= j-1` then `A[k] > x`; if `k = r` then `A[k] = x`. Initialization, maintenance, and termination follow the same drill as `MERGE`, and this is a standard exam question, so be able to write it.
+**Partition invariant.** At the start of each iteration of line 3, for any index `k`: if `p <= k <= i` then `A[k] <= x`; if `i+1 <= k <= j-1` then `A[k] > x`; if `k = r` then `A[k] = x`. Initialization, maintenance, and termination follow the same drill as `MERGE`, and this is a standard exercise, so be able to write it.
 
 Partition is `Theta(n)` and **in place**, which is quicksort's whole advantage.
 
@@ -155,7 +155,7 @@ This happens on **already-sorted input** with the last-element pivot, which is e
 
 **The 99-to-1 split is fine.** `T(n) = T(n/100) + T(99n/100) + Theta(n)` is `Theta(n log n)` by the tree argument in 23.8: every level costs `n`, the shallowest path has depth `log_100 n` and the deepest has depth `log_{100/99} n`, and both are `Theta(log n)`. **Any constant-fraction split gives `n log n`.** Quicksort is only bad when the split fraction is not constant, and random pivots make that vanishingly unlikely.
 
-**Randomized quicksort.** Replace line 1 of `PARTITION` with "exchange `A[r]` with `A[random(p, r)]`" first. The expected running time is then `Theta(n log n)` on **every** input, because the randomness lives in the algorithm rather than in an assumption about the data. That is a strictly stronger guarantee than "average case over random inputs", and saying so in an exam answer is worth a mark.
+**Randomized quicksort.** Replace line 1 of `PARTITION` with "exchange `A[r]` with `A[random(p, r)]`" first. The expected running time is then `Theta(n log n)` on **every** input, because the randomness lives in the algorithm rather than in an assumption about the data. That is a strictly stronger guarantee than "average case over random inputs", and saying so precisely is worth the extra clause.
 
 *Sketch of the expected-time proof.* Let `z_1 < z_2 < ... < z_n` be the sorted elements and let `X_ij` indicate whether `z_i` and `z_j` are ever compared. They are compared iff the first pivot chosen from the range `{z_i, ..., z_j}` is `z_i` or `z_j`, which has probability `2/(j - i + 1)`. Total expected comparisons:
 
@@ -195,7 +195,7 @@ Expected time `Theta(n)`, worst case `Theta(n^2)`.
 
 ### Median of medians (deterministic linear)
 
-The famous BFPRT algorithm, and the standard hard exam question, because the analysis is a recurrence with two different fractions.
+The famous BFPRT algorithm. It is the hard one, because the analysis is a recurrence with two different fractions.
 
 ```
 SELECT(A, k)
@@ -222,7 +222,7 @@ Master theorem does not apply (unequal splits). But `1/5 + 7/10 = 9/10 < 1`, so 
 
 Prove it by substitution to be safe: claim `T(n) <= cn`. Then `T(n) <= c(n/5) + c(7n/10) + an = (9c/10)n + an <= cn` provided `c/10 >= a`, that is `c >= 10a`. Works.
 
-**Why groups of 5?** Groups of 3 give `T(n/3) + T(2n/3) + Theta(n)`, and `1/3 + 2/3 = 1`, giving `Theta(n log n)`, which defeats the purpose. Groups of 7 also work (`1/7 + 5/7 = 6/7 < 1`). Five is the smallest odd group size that makes the fractions sum below 1. **This is a guaranteed exam question and the answer is "the fractions must sum to less than 1".**
+**Why groups of 5?** Groups of 3 give `T(n/3) + T(2n/3) + Theta(n)`, and `1/3 + 2/3 = 1`, giving `Theta(n log n)`, which defeats the purpose. Groups of 7 also work (`1/7 + 5/7 = 6/7 < 1`). Five is the smallest odd group size that makes the fractions sum below 1. **This is the question that always gets asked, and the answer is "the fractions must sum to less than 1".**
 
 In practice the constant factor is bad enough that randomized quickselect is what people actually use. Median of medians matters because it proves linear-time selection is *possible*, which is then used as a subroutine in worst-case-linear algorithms elsewhere.
 
@@ -247,7 +247,7 @@ Therefore `h = Omega(n log n)`. QED
 
 Read step 1 carefully, because it is where the argument actually lives. If two distinct permutations shared a leaf, the algorithm would produce the same output for two inputs needing different outputs, so it would be wrong on one of them.
 
-**What the theorem does and does not say.** It bounds **comparison-based** sorting. Counting sort, radix sort, and bucket sort run in `O(n)` or `O(n + k)` and do not contradict it, because they do not compare elements to each other; they use the values as array indices. Any exam question of the form "algorithm X sorts in linear time, contradiction?" is answered by "X is not comparison-based, so the bound does not apply."
+**What the theorem does and does not say.** It bounds **comparison-based** sorting. Counting sort, radix sort, and bucket sort run in `O(n)` or `O(n + k)` and do not contradict it, because they do not compare elements to each other; they use the values as array indices. Any question of the form "algorithm X sorts in linear time, contradiction?" is answered by "X is not comparison-based, so the bound does not apply."
 
 **The transferable technique.** Every information-theoretic lower bound has this shape:
 
@@ -363,7 +363,7 @@ C21 = P3 + P4
 C22 = P5 + P1 - P3 - P7
 ```
 
-Verifying these identities is pure algebra and is a legitimate homework exercise; the point for the exam is the recurrence:
+Verifying these identities is pure algebra and is worth doing once; the point here is the recurrence:
 
 ```
 T(n) = 7 T(n/2) + Theta(n^2)
@@ -373,7 +373,7 @@ T(n) = 7 T(n/2) + Theta(n^2)
 
 **Know these numbers:** naive is `n^3`, block-recursive is still `n^3`, Strassen is `n^2.807`. Faster algorithms exist (Coppersmith-Winograd and successors, currently around `n^2.371`) but are galactic, meaning the constants make them useless in practice. The lower bound is `Omega(n^2)` trivially, since you must read the input, and closing the gap between `2` and `2.371` is a famous open problem.
 
-**Practical caveats** worth one sentence on an exam: Strassen has a large constant, is numerically less stable than the naive method, and needs extra memory, so implementations switch to naive multiplication below a crossover size of roughly 32 to 128.
+**Practical caveats** worth one sentence: Strassen has a large constant, is numerically less stable than the naive method, and needs extra memory, so implementations switch to naive multiplication below a crossover size of roughly 32 to 128.
 
 ---
 
@@ -399,7 +399,7 @@ CLOSEST-PAIR(P)
 
 *Proof.* Consider the `d x 2d` rectangle above p, spanning the strip's width and height d. Partition it into eight `d/2 x d/2` squares. Any two points inside the same small square are at distance at most `d/sqrt(2) < d`. But all points in the left half are at pairwise distance `>= d` (that is what `dl >= d` means), and likewise on the right. So each small square contains **at most one** point. Hence at most 8 points lie in the rectangle, one of which is p, so **at most 7 candidates.** QED
 
-That is why line 7 says 7, and "why 7?" is an exam question. The exact constant does not matter, only that it is a constant, which makes line 7 `Theta(size of strip)` rather than quadratic.
+That is why line 7 says 7, and "why 7?" is the question that follows. The exact constant does not matter, only that it is a constant, which makes line 7 `Theta(size of strip)` rather than quadratic.
 
 **Recurrence.** Naively, sorting the strip by y at every level costs `Theta(n log n)`, giving `T(n) = 2T(n/2) + Theta(n log n) = Theta(n log^2 n)` by the extended case 2. To get `Theta(n log n)`, presort by y once at the start and have the recursion return its points in y-order, so the strip can be built by a linear merge. Then `T(n) = 2T(n/2) + Theta(n) = Theta(n log n)`.
 
@@ -460,7 +460,7 @@ KMP-MATCHER(T, P)
 
 **Running time `Theta(n + m)`.** The proof is an **amortized** argument, which is why it appears here after file 22 introduced the idea: `k` increases by at most 1 per iteration of the outer loop, so it increases at most `n` times total; each iteration of the inner `while` strictly decreases `k`, and `k` never goes below 0, so the inner loop runs at most `n` times in total across the entire execution. Hence `O(n)` for the matcher and by the identical argument `O(m)` for the preprocessing.
 
-Worth stating explicitly on an exam: the inner `while` looks like it makes the algorithm quadratic and does not, and the reason is a potential-function argument on `k`.
+Worth stating explicitly: the inner `while` looks like it makes the algorithm quadratic and does not, and the reason is a potential-function argument on `k`.
 
 **Which to use.** KMP for worst-case guarantees and streaming (it never backs up in the text). Rabin-Karp when you want multiple patterns at once or 2D. In practice, library implementations often use Boyer-Moore variants that are sublinear on typical text.
 
