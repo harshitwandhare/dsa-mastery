@@ -64,7 +64,15 @@ export default async function LessonPage({ params }: LessonParams) {
       )}
 
       <main className="min-w-0 flex-1">
-        <p className="font-mono text-sm text-text-faint">
+        {/* Which curriculum this belongs to, and the way back to its index. */}
+        <Link
+          href={lesson.track === "course" ? "/course" : "/learn"}
+          className="font-mono text-xs uppercase tracking-wide text-text-faint transition-colors hover:text-accent"
+        >
+          {lesson.track === "course" ? "Course track" : "Interview track"}
+        </Link>
+
+        <p className="mt-2 font-mono text-sm text-text-faint">
           Lesson {String(lesson.fileNumber).padStart(2, "0")} ·{" "}
           {lesson.estimatedMinutes} min read
           {lesson.runnableBlocks > 0 && (
