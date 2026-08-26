@@ -27,7 +27,7 @@ That is why the `Theta(nW)` knapsack DP from file 25 does not prove `P = NP`. It
 - **NP-hard** = at least as hard as everything in NP, meaning every problem in NP reduces to it in polynomial time.
 - **NP-complete** = in NP **and** NP-hard.
 
-**NP does not stand for "not polynomial".** It stands for **nondeterministic polynomial**, and the verifier definition above is the one to use. Getting this wrong in an exam answer is a visible, avoidable error.
+**NP does not stand for "not polynomial".** It stands for **nondeterministic polynomial**, and the verifier definition above is the one to use. Getting this wrong is a visible, avoidable error.
 
 The verifier framing is the useful one. `SAT` is in NP because if I claim a formula is satisfiable, I hand you a satisfying assignment and you check it in linear time. `CLIQUE` is in NP because I hand you the k vertices and you check all pairs in `O(k^2)`. **Proving membership in NP is nearly always this easy, and it is worth one paragraph of your answer, never more.**
 
@@ -105,7 +105,7 @@ Know each one's statement, and know at least one reduction into and out of it.
 | **3-COLOURING** | Same, with k = 3 |
 | **LONGEST PATH** | Is there a simple path of length at least k? |
 
-The classic reduction map, and knowing the arrows is worth real marks:
+The classic reduction map, and knowing the arrows is worth the memorization:
 
 ```
                         SAT
@@ -135,7 +135,7 @@ The classic reduction map, and knowing the arrows is worth real marks:
 
 **INDEPENDENT SET and CLIQUE.** `S` is independent in G **iff** `S` is a clique in the **complement** graph. Map `(G,k)` to `(complement of G, k)`.
 
-Those three together mean CLIQUE, INDEPENDENT SET, and VERTEX COVER are all the same problem wearing different clothes, and you can move between them in one sentence each. That is often the fastest route in a homework problem.
+Those three together mean CLIQUE, INDEPENDENT SET, and VERTEX COVER are all the same problem wearing different clothes, and you can move between them in one sentence each. That is often the fastest route through a problem.
 
 ---
 
@@ -155,7 +155,7 @@ Four parts. Write the headers.
 >    - If the Y-instance is a YES, then the constructed X-instance is a YES. (Take a solution to Y, build one for X.)
 >    - If the constructed X-instance is a YES, then the Y-instance is a YES. (Take a solution to X, build one for Y.)
 
-**Part 4 is where the marks live, and the second direction is the one people skip.** Half of a reduction proof is showing that the construction cannot be "cheated", meaning that no solution to X exists other than the ones corresponding to real solutions of Y. Skipping it is the difference between full credit and half.
+**Part 4 is where the substance lives, and the second direction is the one people skip.** Half of a reduction proof is showing that the construction cannot be "cheated", meaning that no solution to X exists other than the ones corresponding to real solutions of Y. Skipping it leaves the proof genuinely incomplete, not merely terse.
 
 ### Worked: VERTEX COVER is NP-complete
 
@@ -201,7 +201,7 @@ The main creative step. Match the *shape*.
 
 ## 28.7 The boundary: what makes a problem tip over
 
-Pairs of problems that look alike and sit on opposite sides. These are exam favourites, because they show that the hardness is not vague difficulty but a sharp structural threshold.
+Pairs of problems that look alike and sit on opposite sides. These get asked constantly, because they show that hardness is not vague difficulty but a sharp structural threshold.
 
 | In P | NP-complete | What changed |
 |---|---|---|
@@ -226,7 +226,7 @@ Second, **restricting the input structure can restore tractability**. Many NP-ha
 
 ## 28.8 What to do when a problem is NP-hard
 
-An exam question can ask "and what would you do in practice?" Have the four answers ready.
+"And what would you do in practice?" is the natural follow-up. Have the four answers ready.
 
 **1. Approximation algorithms.** Accept a solution within a provable factor of optimal.
 
@@ -234,7 +234,7 @@ An exam question can ask "and what would you do in practice?" Have the four answ
 >
 > *Proof.* The chosen edges form a matching, since once an edge is picked both its endpoints are covered and no later edge can share one. Any vertex cover must include at least one endpoint of each matched edge, so `|OPT| >= (number of matched edges) = |C|/2`, giving `|C| <= 2|OPT|`. QED
 
-That proof is three lines and is a standard exam question. Other landmarks: greedy set cover is a `ln n` approximation and that is optimal unless P = NP; metric TSP has a 2-approximation from an MST and a 3/2-approximation from Christofides; general TSP has **no** constant-factor approximation unless P = NP (proved by a reduction from Hamiltonian cycle that makes non-tour edges enormous).
+That proof is three lines and is worth having memorized. Other landmarks: greedy set cover is a `ln n` approximation and that is optimal unless P = NP; metric TSP has a 2-approximation from an MST and a 3/2-approximation from Christofides; general TSP has **no** constant-factor approximation unless P = NP (proved by a reduction from Hamiltonian cycle that makes non-tour edges enormous).
 
 **2. Exact exponential algorithms with better constants.** `O(2^n * n^2)` DP over subsets for TSP (Held-Karp) beats `O(n!)` brute force enormously and is exact. Branch and bound with good pruning solves large real instances.
 
@@ -246,7 +246,7 @@ That proof is three lines and is a standard exam question. Other landmarks: gree
 
 ## 28.9 Undecidability, in one page
 
-Beyond NP-hard there is "no algorithm exists at all", and most courses spend one lecture here.
+Beyond NP-hard there is "no algorithm exists at all", which is worth a short detour.
 
 > **Halting problem.** Given a program P and input x, does P halt on x? **Undecidable.**
 
@@ -262,9 +262,9 @@ Now ask what `D(D)` does. If `D(D)` halts, then `H(D,D)` said "halts", so D loop
 
 The self-reference is the whole trick, and it is the same diagonalization Cantor used for the uncountability of the reals and Godel used for incompleteness.
 
-**Rice's theorem** generalizes: **every** non-trivial semantic property of programs is undecidable. "Does this program ever output 7?", "Are these two programs equivalent?", "Does this program have a bug of type T?" All undecidable. Which is why static analysers are necessarily either incomplete or unsound, a fact worth knowing outside the exam too.
+**Rice's theorem** generalizes: **every** non-trivial semantic property of programs is undecidable. "Does this program ever output 7?", "Are these two programs equivalent?", "Does this program have a bug of type T?" All undecidable. Which is why static analysers are necessarily either incomplete or unsound, a fact worth carrying well beyond this material.
 
-**Keep the hierarchy straight**, because exam questions test whether you conflate the levels:
+**Keep the hierarchy straight**, because the standard questions test whether you conflate the levels:
 
 ```
 P  subset of  NP  subset of  PSPACE  subset of  EXPTIME  subset of  ...  subset of  DECIDABLE  subset of  ALL PROBLEMS
@@ -295,14 +295,14 @@ The reason NP-completeness exists as a separate theory is that we have no techni
 
 ---
 
-## 28.11 Exam checklist for this unit
+## 28.11 Checklist for this unit
 
 ```
 Asked to prove X is NP-complete?
   1. X in NP: certificate + polynomial verifier.  (one paragraph)
   2. Pick Y: match the SHAPE of X to the table in 28.6.
   3. Reduce Y -> X.  Direction: known-hard to new.  Say it out loud.
-  4. Prove BOTH directions of the iff.  The second one is where the marks are.
+  4. Prove BOTH directions of the iff.  The second one is where the substance is.
   5. Note the construction is polynomial-time.
 
 Asked whether an algorithm contradicts NP-completeness?
@@ -352,7 +352,7 @@ Do not read this until you have written your own attempt on paper.
 
 6. Build an MST T of the complete metric graph. Walk T in a DFS preorder, listing vertices, and shortcut past repeats (legal by the triangle inequality). **Factor:** the optimal tour minus one edge is a spanning tree, so `w(T) <= OPT`. The full DFS traversal uses each tree edge exactly twice, costing `2w(T) <= 2 OPT`, and shortcutting only decreases cost by the triangle inequality. So the tour costs at most `2 OPT`. Christofides improves to 3/2 by adding a minimum matching on the odd-degree vertices instead of doubling.
 
-7. **Self-reduction.** Pick two non-adjacent vertices u, v and test whether the graph with u and v merged is still 3-colourable. If yes, merge them permanently (this commits u and v to the same colour); if no, add the edge `uv` (committing them to different colours). Either way the graph gains structure, and repeating until the graph is a complete multipartite graph on 3 parts reveals the colour classes. Each step is one call to the decider and there are `O(V^2)` steps, so the whole thing is polynomial. This "decision implies search" self-reduction works for essentially every NP-complete problem and is a standard exam question.
+7. **Self-reduction.** Pick two non-adjacent vertices u, v and test whether the graph with u and v merged is still 3-colourable. If yes, merge them permanently (this commits u and v to the same colour); if no, add the edge `uv` (committing them to different colours). Either way the graph gains structure, and repeating until the graph is a complete multipartite graph on 3 parts reveals the colour classes. Each step is one call to the decider and there are `O(V^2)` steps, so the whole thing is polynomial. This "decision implies search" self-reduction works for essentially every NP-complete problem and is a standard exercise.
 
 8. **NP-hard** means every problem in NP reduces to it; it need not be in NP, and it need not even be a decision problem. **NP-complete** means NP-hard **and** in NP. The halting problem is NP-hard (every NP problem reduces to it, since you can reduce to "does this brute-force search halt with success") but is not in NP, indeed not decidable at all, so it is NP-hard and not NP-complete. The optimization version of TSP is another example, since it is not a decision problem.
 
@@ -361,7 +361,7 @@ Do not read this until you have written your own attempt on paper.
 
 ## 28.13 You have finished the course track
 
-What you should now be able to do on a blank page, under time pressure:
+What you should now be able to do on a blank page, with nothing open:
 
 - State the definitions of O, Omega, Theta, o, omega, and prove a bound from the definition.
 - Set up a recurrence from pseudocode and solve it three ways.
@@ -370,6 +370,6 @@ What you should now be able to do on a blank page, under time pressure:
 - Cite max-flow min-cut, the cut property, and Cook-Levin by name and use them.
 - Prove a problem NP-complete in four labelled parts, both directions.
 
-If any of those is shaky, the fix is not rereading. Go to the practice set at the end of the relevant file, cover the answers, and write full solutions in ink. That is the only activity that transfers to an exam hall.
+If any of those is shaky, the fix is not rereading. Go to the practice set at the end of the relevant file, cover the answers, and write full solutions in ink. That is the only activity that transfers to a blank page under time pressure.
 
 Back to [21 — The Course Track: Orientation](21-course-track-orientation.md) for the weekly study loop, or across to [08 — Interview Craft](08-interview-craft.md) if you want the other track.

@@ -1,6 +1,6 @@
 # 21 — The Course Track: Orientation
 
-**This file starts a second track.** Files 00 through 20 are the interview track: patterns, speed, pass the phone screen. Files 21 through 28 are the **course track**, written for a graduate algorithms class of the CLRS + Erickson kind (UT Dallas CS 6363, Advanced Algorithm Design and Analysis, and its equivalents everywhere else).
+**This file starts a second track.** Files 00 through 20 are the interview track: patterns, speed, pass the phone screen. Files 21 through 28 are the **course track**, written the way a graduate algorithms textbook is written: every algorithm arrives with the argument that justifies it.
 
 They are different sports played with the same equipment.
 
@@ -13,19 +13,19 @@ They are different sports played with the same equipment.
 | "Correct" means | no failing case found | correctness argued for **all** inputs |
 | Typical answer | 30 lines of Python | one page of English and math |
 
-You can be excellent at the first and get a C in the second. The gap is not intelligence, it is that nobody ever taught you that **the algorithm is the easy half and the proof is the graded half**.
+You can be excellent at the first and lost in the second. The gap is not intelligence, it is that nobody ever taught you that **the algorithm is the easy half and the proof is the half that counts**.
 
 > ### How to read the course track
 >
 > Read 21 through 28 in order. Each assumes the previous one. They assume **nothing** from files 00–20, so you can start here cold, but the interview track is a good source of concrete implementations for everything proved here.
 >
-> Notation is written in plain text rather than typeset math, on purpose: `O(n^2)`, `Theta(n log n)`, `sum_{i=1}^{n}`. You will read the typeset version in CLRS and write it in your homework. Learning to translate between the two is part of the skill.
+> Notation is written in plain text rather than typeset math, on purpose: `O(n^2)`, `Theta(n log n)`, `sum_{i=1}^{n}`. You will read the typeset version in CLRS and write it out by hand. Learning to translate between the two is part of the skill.
 >
 > `21 Orientation -> 22 Asymptotics -> 23 Recurrences -> 24 Divide and Conquer -> 25 Dynamic Programming -> 26 Greedy -> 27 Graphs and Flow -> 28 NP-Completeness`
 
 ---
 
-## 21.1 What the class actually is
+## 21.1 What this material actually teaches
 
 Strip away the topic list and a graduate algorithms course teaches exactly four skills, in this order of weight:
 
@@ -34,7 +34,7 @@ Strip away the topic list and a graduate algorithms course teaches exactly four 
 3. **Prove** your algorithm correct, using induction, an exchange argument, or a cut-and-paste argument.
 4. **Reduce** one problem to another, both to solve things and to prove things are hard.
 
-The topic list (sorting, graphs, flow, NP-completeness) is the *vehicle*. The four skills are the cargo. Every exam question is one of the four wearing a costume.
+The topic list (sorting, graphs, flow, NP-completeness) is the *vehicle*. The four skills are the cargo. Almost every problem you will be set is one of the four wearing a costume.
 
 ### The five paradigms, in one table
 
@@ -52,60 +52,41 @@ And the sixth thing, which is not a design paradigm but a proof technique: **low
 
 ---
 
-## 21.2 The grading reality, and how to actually top the class
+## 21.2 How to study this material
 
-A typical distribution for this course:
+The gap between reading an algorithm and being able to reconstruct it is enormous, and reading more does not close it. Four habits do.
 
-- **Exams 60%.** Two of them, each covering one half, second one not cumulative.
-- **Homeworks 26%.** Around six, lowest dropped, groups of up to three allowed.
-- **Quizzes 14%.** Short, after most lectures, lowest two dropped.
+**Write from memory.** After finishing a section, close the file and write a one-page summary on blank paper. Recognition feels like knowledge and is not knowledge. If you cannot restate the master theorem's three cases without looking, you do not know it, however many times you have read them.
 
-Three consequences that most students miss.
+**Attempt alone before discussing.** Working through a hard problem with other people is genuinely useful, and it is useless if you have not first spent forty-five minutes stuck on it yourself. The struggle is where the learning happens; the discussion only consolidates it. Reversed, you watch someone else learn.
 
-**Exams are 60% and they are closed-book and timed.** Homework is where you *learn*, but it is not where the grade is. A student who does great homework in a group and cannot reproduce a recurrence solve alone in 90 minutes gets a B. Your homework habit should therefore be: solve it alone first, *then* meet the group. Reversed, you learn nothing and find out in the exam hall.
+**Redo solved problems cold.** Once a week, take a problem you already solved and solve it again from a blank page with nothing open. This is the single activity that most reliably converts "I followed that" into "I can produce that".
 
-**Grading is relative to the class average with no fixed curve.** This is a gift, not a threat. It means the target is not "get 95%", it is "be reliably in the top decile of a hard exam where the average might be 55%". On a brutal exam, the difference between a B and an A is often one problem where you wrote a *partially correct* proof instead of nothing. Which leads directly to the single highest-yield habit in this class:
+**Never leave a proof blank.** When you cannot finish, write down what you do know: the definition of the thing being asked, the base case, the induction hypothesis, and an honest statement of what remains to be shown. A structured partial argument is worth far more than a blank page, and writing the skeleton often shows you the missing step.
 
-> **Never leave a proof blank.** Write the definition of the thing being asked. Write the base case. State the induction hypothesis. State what you would need to show. Partial credit in proof-based grading is enormous and most students, faced with a problem they cannot finish, write nothing. Structure is worth points even when the middle is missing.
-
-**Quizzes are 14% and are the cheapest points in the course.** They come after a lecture, they are open-note, they test whether you watched. Getting 100% on quizzes while the class averages 80% is a free third of a letter grade. Do the quiz the same day as the lecture, every time.
-
-### The weekly loop that produces an A
-
-```
-Lecture day:      attend, then do the quiz within 24h while it is fresh
-                  write a one-page summary of the lecture from memory, no notes
-Homework release: attempt every problem ALONE for 45 minutes each before any group meeting
-Group meeting:    compare, argue, but write your own solution in your own words
-Weekly:           redo one already-solved problem from scratch, closed book
-Before exam:      solve past exams under a timer, in ink, no references
-```
-
-The "from memory, no notes" summary is the part people skip and it is the part that works. Recognition feels like knowledge and is not knowledge. If you cannot restate the master theorem's three cases on a blank page, you do not know it, no matter how many times you have read it.
+That last habit is worth generalizing. **Most of the difficulty in this material is not having ideas, it is knowing what a complete argument looks like.** Once the shape is automatic, you can tell in seconds whether your own reasoning has a hole in it, which is most of the skill.
 
 ---
 
-## 21.3 Academic integrity, stated plainly
+## 21.3 Using this file honestly
 
-Course policies of this type typically say: you may work in groups of up to three; you may discuss with a limited number of students outside your group and must name them; you must write solutions **in your own words**; and you must solve problems **without outside sources**, which explicitly includes searching online and using AI. Any source you do use must be cited, and failure to cite is plagiarism.
+This is a textbook. Reading it to learn a technique is what textbooks are for, and it is the same act as reading CLRS or Erickson.
 
-So be exact about what this file is. **This is a textbook.** Reading a textbook to learn a technique is what textbooks are for, and it is the same act as reading CLRS or Erickson. Taking a homework problem, finding the answer, and transcribing it is cheating, and it is cheating whether the source is a book, a friend, a website, or a model.
+If you are taking a course, your instructor's rules on collaboration, outside sources, and citation govern, and they vary. Read them and follow them. The general principle that holds everywhere: **learn the method from the explanation, then close it and solve the assigned problem yourself, in your own words.** If a worked example here was close enough to something you were assigned that you leaned on it, cite it. Citing costs nothing.
 
-The line is: **learn the method from the explanation, then close it and solve the assigned problem yourself.** If a worked example here is close enough to an assigned problem that you leaned on it, cite it. Citing costs you nothing. Not citing can cost you the degree.
-
-There is also a purely selfish argument. 60% of the grade is a closed-book timed exam. Any shortcut that gets a homework done without building the skill is a loan you repay at 3x in the exam hall.
+There is also a purely practical argument. Anything you get through without building the skill is a loan, and it comes due the first time you have to produce the argument from a blank page with nothing open.
 
 ---
 
-## 21.4 How to write a proof that gets full marks
+## 21.4 How to write a proof that holds up
 
-This is the section to reread before every homework. Most lost points in this course are not wrong ideas, they are correct ideas presented in a form that the grader cannot verify.
+This is the section to reread before every written solution. Most of what goes wrong here is not wrong ideas, it is correct ideas presented in a form a reader cannot verify.
 
 ### The four-part answer
 
-Every "design an algorithm for X" problem wants four things, usually in this order. Label them literally with headers. Graders love headers.
+Every "design an algorithm for X" problem wants four things, usually in this order. Label them literally with headers. Someone checking your work should never have to guess which part they are looking at.
 
-**1. The idea, in English, in three sentences.** Before any pseudocode. If the grader understands your approach from the first paragraph, everything after is confirmation and you will be read generously. If they have to reverse-engineer your intent from pseudocode, you will be read suspiciously.
+**1. The idea, in English, in three sentences.** Before any pseudocode. If a reader understands your approach from the first paragraph, everything after is confirmation and you will be read generously. If they have to reverse-engineer your intent from pseudocode, you will be read suspiciously.
 
 > *Idea: we sort the intervals by right endpoint and repeatedly take the first interval that does not overlap what we have already taken. Sorting by right endpoint means each accepted interval leaves the maximum possible room for the rest.*
 
@@ -132,7 +113,7 @@ Each of these is developed with worked examples in the files that follow. What m
 
 Cross these out of your vocabulary for the semester:
 
-- *"Clearly..."* and *"Obviously..."* and *"It is easy to see that..."* These are exactly the places graders look for gaps. If it is genuinely obvious, one more clause proving it costs you a line. If it is not obvious, you just advertised the hole.
+- *"Clearly..."* and *"Obviously..."* and *"It is easy to see that..."* These are exactly the places a careful reader looks for gaps. If it is genuinely obvious, one more clause proving it costs you a line. If it is not obvious, you just advertised the hole.
 - *"And so on..."* and *"...similarly for the other cases."* Do the other cases, or say precisely why they are symmetric.
 - *"This works because it tries all possibilities."* Does it? Prove that every possibility is reached.
 - *"By induction."* Naming the technique is not applying it. Write the base case, write the hypothesis, write the step.
@@ -188,7 +169,7 @@ Erickson's notes use a lighter style with a similar spirit. Either is fine; cons
 
 ## 21.6 The mathematical toolkit you need on day one
 
-Not a full course in discrete math, just the specific facts that appear over and over. If any of these is unfamiliar, spend an hour on it now rather than losing an exam problem to it in October.
+Not a full treatment of discrete maths, just the specific facts that appear over and over. If any of these is unfamiliar, spend an hour on it now rather than losing a problem to it later.
 
 ### Logarithms
 
@@ -216,7 +197,7 @@ sum_{i=0}^{inf} x^i = 1/(1 - x)                for |x| < 1
 sum_{i=1}^{n} 1/i   = H_n = ln n + O(1)        = Theta(log n), the harmonic sum
 ```
 
-The geometric series is the single most important one in this course, for a reason worth stating early: **a geometric series is dominated by its largest term, up to a constant factor.** If a recursion tree's level costs form a geometric series, you do not have to sum it carefully, you just take the biggest level and multiply by a constant. That intuition is the entire content of the master theorem.
+The geometric series is the single most important one here, for a reason worth stating early: **a geometric series is dominated by its largest term, up to a constant factor.** If a recursion tree's level costs form a geometric series, you do not have to sum it carefully, you just take the biggest level and multiply by a constant. That intuition is the entire content of the master theorem.
 
 ### Factorials and Stirling
 
@@ -245,7 +226,7 @@ C(n,k) <= (en/k)^k                          <- useful bound
 
 ### Graph vocabulary
 
-Assumed from day one, so make sure all of it is instant: vertex, edge, directed vs undirected, weighted, degree, in-degree, out-degree, path, simple path, cycle, connected, strongly connected, tree, forest, DAG, subgraph, spanning tree, bipartite, adjacency list, adjacency matrix. File 27 rebuilds these anyway, but the lectures will use them before then.
+Assumed from day one, so make sure all of it is instant: vertex, edge, directed vs undirected, weighted, degree, in-degree, out-degree, path, simple path, cycle, connected, strongly connected, tree, forest, DAG, subgraph, spanning tree, bipartite, adjacency list, adjacency matrix. File 27 rebuilds these anyway, but they get used before then.
 
 ---
 
@@ -281,7 +262,7 @@ MAX-SUBARRAY(A)
 
 **Running time.** The loop runs `n` times and each iteration does a constant number of arithmetic and comparison operations, so the total is `Theta(n)`. Space is `O(1)` beyond the input.
 
-Notice the proportions. Six lines of algorithm, four paragraphs of proof. **That ratio is the class.** If your homework looks like mostly code, you are writing an interview answer, not a course answer.
+Notice the proportions. Six lines of algorithm, four paragraphs of proof. **That ratio is the whole difference between the two tracks.** If your written solution is mostly code, you are answering the interview question, not this one.
 
 ---
 
