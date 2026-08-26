@@ -339,8 +339,13 @@ body {
   border: 1px solid var(--border);
   border-radius: 4px;
   padding: 0.1em 0.36em;
-  white-space: nowrap;
   color: var(--text);
+  /* Wraps rather than running off the page. `nowrap` reads better on short
+     spans like `O(n log n)`, but the curriculum also puts long reading-order
+     chains in inline code, and those pushed the whole page sideways on a
+     phone. Short spans still fit on one line without any help. */
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 
 /* ---------------------------------------------------------------------------
@@ -383,10 +388,6 @@ body {
 
 .prose tbody tr:last-child td {
   border-bottom: 0;
-}
-
-.prose td :not(pre) > code {
-  white-space: pre-wrap;
 }
 
 /* ---------------------------------------------------------------------------
