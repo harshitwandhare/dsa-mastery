@@ -309,7 +309,7 @@ DSA gets you through the interview. It doesn't get you the interview.
 **Rough funnel math:** ~100 applications → ~10 OAs → ~4 phone screens → ~2 onsites → 1 offer. Those ratios improve substantially with referrals, and they're better than average for anyone with real shipped projects.
 
 **Priority order:**
-1. **Referrals.** A referral is worth roughly 5–10 cold applications. Ask UTD alumni on LinkedIn, ask anyone who has starred or contributed to your repos, ask people you've interacted with in OSS. A short, specific message with your GitHub link works.
+1. **Referrals.** A referral is worth roughly 5–10 cold applications. Ask alumni from your university on LinkedIn, ask anyone who has starred or contributed to your repos, ask people you've interacted with in OSS. A short, specific message with your GitHub link works.
 2. **Apply within 48 hours of a posting going live.** Rolling review is real and the early pile gets read properly.
 3. **Resume:** one page, projects-first (your projects are stronger than most candidates' internships), quantified bullets, ATS-safe formatting. You already have the résumé engine for this.
 4. **GitHub:** your profile is a live artifact. Pinned repos with real READMEs, CI badges, and clear demos do work that a resume line cannot.
