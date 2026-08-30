@@ -132,7 +132,7 @@ nothing from files 00–20, so it can be read cold.
 |---|---|---|
 | 21 | [The Course Track: Orientation](21-course-track-orientation.md) | What the class is, how it is graded, pseudocode conventions, the maths toolkit, how to write a proof that scores |
 | 22 | [Asymptotics from Zero](22-asymptotics-from-zero.md) | O, Omega, Theta, o, omega from the definitions; proofs with explicit constants; the limit method; reading complexity off loops; amortized analysis |
-| 23 | [Recurrences](23-recurrences.md) | Recursion trees, the master theorem and where it fails, substitution, iteration, change of variables, subtract-and-conquer, unequal splits |
+| 23 | [Recursion and Recurrences](23-recurrences.md) | Reduction and the recursion template, Tower of Hanoi from scratch, binary search, fast exponentiation, maximum subarray four ways, recursion trees, the master theorem and where it fails, substitution, iteration, change of variables, subtract-and-conquer, unequal splits |
 | 24 | [Divide and Conquer](24-divide-and-conquer.md) | Mergesort, counting inversions, quickselect, median of medians, the sorting lower bound, Karatsuba, Strassen, closest pair, KMP and Rabin-Karp |
 | 25 | [Dynamic Programming](25-dynamic-programming.md) | The five-step recipe, cut-and-paste proofs, the canonical problem set, pseudo-polynomial bounds, DP on trees and DAGs |
 | 26 | [Greedy Algorithms](26-greedy.md) | Exchange arguments, greedy-stays-ahead, activity selection, minimizing lateness, Huffman, MSTs and the cut property, matroids |

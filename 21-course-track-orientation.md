@@ -185,6 +185,15 @@ The change-of-base identity is why **the base of a logarithm never matters insid
 
 Two conventions from CLRS: `lg n` means `log_2 n`, and `lg^k n` means `(lg n)^k`, not `lg` applied k times (that is `lg* n`, the iterated logarithm, which is a different and much slower-growing thing).
 
+The iterated logarithm is worth defining properly once, since it turns up in the analysis of union-find and nowhere else you will care about:
+
+```
+lg* n = 0                if n <= 1
+lg* n = 1 + lg*(lg n)    if n > 1
+```
+
+In words: how many times you have to hit n with `lg` before it drops to 1 or below. It grows so slowly that `lg* n <= 5` for every n you will ever meet, since `lg*(2^65536) = 5`. Formally `lg* n = o(log log log n)`, and for practical purposes it is a constant that we are too honest to call one.
+
 ### Summations you must know cold
 
 ```
@@ -221,8 +230,13 @@ C(n,k) <= (en/k)^k                          <- useful bound
 ### Proof by induction, contradiction, contraposition
 
 - **Induction**: prove P(base), prove P(<n) implies P(n). Use **strong** induction by default.
+- **Two ways to count the same thing**: if two expressions both count the elements of one set, they are equal. This is the cleanest proof of `sum_{i=1}^{n} i = n(n+1)/2`. Both sides count pairs `(j, k)` with `j < k` drawn from `n + 1` people. The left side fixes `k` and counts the choices of `j` below it. The right side picks any person, then a second, then divides by 2 because each pair got counted twice. No algebra, no induction, and it generalizes.
 - **Contradiction**: assume the negation, derive something false. The workhorse for lower bounds and for "no such algorithm exists".
 - **Contraposition**: to prove "if A then B", prove "if not B then not A". These are logically identical and one direction is usually far easier.
+
+**One induction proof that is wrong, and worth staring at.** Claim: all people have the same name. Base case, one person: one name, true. Inductive step: given `n + 1` people `P_1, ..., P_{n+1}`, look at `S_1 = {P_1, ..., P_n}` and `S_2 = {P_2, ..., P_{n+1}}`. Each has size `n`, so by the hypothesis everyone in `S_1` shares a name and everyone in `S_2` shares a name. The two sets overlap, so all `n + 1` names agree.
+
+The conclusion is false, so find the broken step before reading on. It is the overlap. `S_1` and `S_2` share a member only when `n >= 2`, so the step never carries the base case `n = 1` to `n = 2`, and the whole chain fails at its first link. The lesson generalizes: **an inductive step that quietly assumes the input is large enough is the most common way a wrong proof looks right.** When you write one, check it against the smallest case the step is supposed to handle, not against a comfortable large case.
 
 ### Graph vocabulary
 
@@ -271,7 +285,7 @@ Notice the proportions. Six lines of algorithm, four paragraphs of proof. **That
 | File | Covers | The one skill it builds |
 |---|---|---|
 | [22 — Asymptotics from Zero](22-asymptotics-from-zero.md) | O, Omega, Theta, o, omega, limits, loop counting, summations | reading a bound and knowing exactly what it does and does not claim |
-| [23 — Recurrences](23-recurrences.md) | substitution, recursion trees, master theorem, changing variables | turning a recursive algorithm into a closed-form running time |
+| [23 — Recursion and Recurrences](23-recurrences.md) | reduction, the recursion template, Tower of Hanoi, substitution, recursion trees, master theorem, changing variables | writing a recursive algorithm, proving it correct, and turning it into a closed-form running time |
 | [24 — Divide and Conquer](24-divide-and-conquer.md) | mergesort, quickselect, Karatsuba, Strassen, closest pair, sorting lower bound, pattern matching | designing a split-and-combine algorithm and proving it |
 | [25 — Dynamic Programming](25-dynamic-programming.md) | the recipe, optimal substructure, the standard problem zoo | going from recursive definition to table to correctness proof |
 | [26 — Greedy](26-greedy.md) | exchange arguments, greedy stays ahead, scheduling, Huffman, MST | proving that never reconsidering is safe |

@@ -40,6 +40,8 @@ Two justifications for dropping constants specifically:
 
 The honest caveat, which good courses state and bad ones do not: **constants sometimes decide the winner in practice.** Strassen's matrix multiply is asymptotically better than the naive method and is slower until the matrices are large. Insertion sort beats mergesort below roughly n = 30, which is why real sort libraries switch to it at small sizes. Asymptotics is the first question, not the only question.
 
+The same caveat pointed the other way: **`O(1)` says nothing about the size of the constant.** `10^85` is `O(1)`, and `10^85` is roughly the number of atoms in the observable universe. When someone reports a constant-time or linear-time result, the asymptotics is a claim about shape, not about whether the thing runs. Read the constant when the constant is available.
+
 ---
 
 ## 22.2 The five notations as a comparison system
@@ -251,7 +253,7 @@ Repeat as needed. `n^k / 2^n` needs k applications and lands at 0 every time, wh
 Memorize this ordering. Everything to the right eventually and permanently dominates everything to the left.
 
 ```
-1  <  log log n  <  log n  <  (log n)^2  <  n^0.5  <  n  <  n log n
+1  <  lg* n  <  log log n  <  log n  <  (log n)^2  <  n^0.5  <  n  <  n log n
    <  n^2  <  n^3  <  n^k  <  2^n  <  3^n  <  n!  <  n^n
 ```
 
@@ -276,6 +278,8 @@ Facts worth internalizing, because they get asked constantly:
 - **Any exponential beats any polynomial.** Even `1.0001^n` eventually overtakes `n^1000`.
 - **`n log n` is strictly between `n` and `n^2`.** Not "basically linear" and not "basically quadratic". This is why `Theta(n log n)` comparison sorting is a genuinely meaningful result.
 - **`log(n!) = Theta(n log n)`.** Used in the sorting lower bound in file 24.
+- **`lg* n` is slower than everything.** The iterated logarithm, defined in 21.6, is `o(log log log n)` and never exceeds 5 on any input that fits in this universe. It shows up in exactly one place worth remembering, the analysis of union-find.
+- **The bottom of the table runs out of universe fast.** At a hundred petaflops, with about 3 x 10^7 seconds in a year, and one supercomputer per atom in the observable universe, you still cannot finish `n!` steps for `n = 1000`, or `2^n` for `n = 400`. The gap between polynomial and exponential is not a matter of waiting or of buying hardware, and file 28 is built on that fact.
 - **`2^n` and `n!` are not the same.** `n!` is much worse. `n! / 2^n` goes to infinity.
 
 ### Comparing two expressions fast
@@ -563,4 +567,4 @@ Do not read this until you have written your own attempt on paper.
 
 ---
 
-Next: [23 — Recurrences](23-recurrences.md), which is how you get a running time out of an algorithm that calls itself.
+Next: [23 — Recursion and Recurrences](23-recurrences.md), which is how you write an algorithm that calls itself and then get a running time out of it.
