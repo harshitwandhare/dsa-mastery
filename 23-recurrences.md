@@ -1,12 +1,247 @@
-# 23 — Recurrences
+# 23 — Recursion and Recurrences
 
-**The single most tested skill in the first half of the course.** An algorithm that calls itself does not have an obvious operation count, so we write down an equation that the count satisfies and then solve the equation. That equation is a recurrence.
+**The most tested skill in the first half of this track.** Two halves, in order. First, how to write an algorithm that calls itself and prove it correct without ever tracing it. Second, how to turn that algorithm into a running time: a recursive procedure has no obvious operation count, so we write down an equation the count satisfies and then solve the equation. That equation is a recurrence.
+
+If you only want the solving techniques, start at 23.5. If recursion itself has never fully clicked, start at 23.1 and do not skip Hanoi.
 
 Assumes [22 — Asymptotics from Zero](22-asymptotics-from-zero.md).
 
 ---
 
-## 23.1 Where a recurrence comes from
+## 23.1 Recursion is induction run backwards
+
+Induction proves a statement about `n` by assuming it for smaller values. Recursion *solves* a problem of size `n` by assuming you can already solve smaller ones. Same idea, opposite direction, and every recursive algorithm in this track is correct for exactly the reason its matching induction proof is valid.
+
+The underlying move is **reduction**: solve problem A by calling a black box for problem B. When B is the same problem on a smaller input, the reduction is a recursion.
+
+The rule that makes this workable, and the one people fight hardest:
+
+> **Do not open the black box.** When you write the recursive call, assume it returns the right answer. Do not trace it. Do not think about what it does two levels down.
+
+Tracing your own recursion by hand is the biggest time sink in this material. It feels like understanding and it is not. The recursive call is a promise, and induction is what makes the promise good. Some notes call the thing that keeps the promise the "recursion fairy"; it is the induction hypothesis wearing a hat.
+
+### The template
+
+1. If the input is small enough to handle outright, handle it. This is the **base case**, and it has to be solved by some other method, not by recursion.
+2. Otherwise, reduce to one or more strictly smaller instances of the same problem, combine their answers, return.
+
+Two failure modes, both fatal and both common:
+
+- **No base case.** The recursion never bottoms out.
+- **A subproblem that is not strictly smaller.** `T(n)` calling `T(n)` in disguise. Watch for this when the "smaller" input is smaller in a way you never actually measured.
+
+Every recursive algorithm you write should come with two sentences: what the base case is, and why the recursive call is on a strictly smaller input. Those two sentences are also the base case and the inductive step of the correctness proof, so writing them costs nothing and earns the proof for free.
+
+---
+
+## 23.2 Tower of Hanoi, derived from nothing
+
+The setup. Three pegs, call them `src`, `tmp`, `dst`. At the start `src` holds `n` disks, all different sizes, stacked largest at the bottom. The other two pegs are empty. Two rules:
+
+- Move one disk at a time, always the top disk of some peg.
+- A larger disk may never sit on a smaller disk.
+
+Goal: move the whole stack to `dst`.
+
+### Do not think about the top disk
+
+The instinct is to ask which disk moves first. That instinct produces nothing. With `n = 4` you can bash out the sequence by hand; with `n = 6` you cannot, and no pattern you can name has appeared.
+
+Look at the **largest** disk instead. At some moment it has to move from `src` to `dst`. Consider the state of the world immediately before that move. Three things have to be true, and they are forced:
+
+1. `dst` is empty, because anything sitting there would be smaller than the largest disk.
+2. `src` holds only the largest disk, because it has to be on top to move.
+3. Therefore all the other `n - 1` disks are stacked on `tmp`.
+
+That is not a strategy anyone chose. It is the only configuration the rules permit. And it hands you the algorithm:
+
+1. Move the top `n - 1` disks from `src` to `tmp`.
+2. Move the largest disk from `src` to `dst`.
+3. Move those `n - 1` disks from `tmp` to `dst`.
+
+Steps 1 and 3 are the same problem on `n - 1` disks. Do not think about how they work. That is the whole point.
+
+One thing worth checking, since it is the reason the rules never bite: while you shuffle the `n - 1` smaller disks around in step 1, the largest disk sits on `src` underneath them, and it is larger than every one of them, so it never blocks a legal move. The largest disk is effectively invisible to the subproblem. That observation is what lets the recursion ignore it.
+
+### The code
+
+```
+HANOI(n, src, dst, tmp)
+1  if n > 0
+2      HANOI(n - 1, src, tmp, dst)
+3      move disk n from src to dst
+4      HANOI(n - 1, tmp, dst, src)
+```
+
+Three lines of body. The base case is `n = 0`: moving zero disks takes no moves, so the procedure does nothing and returns. Using `n = 0` rather than `n = 1` as the base is not a stylistic choice, it is what makes line 2 legal when `n = 1`.
+
+Note the third argument shifting on each call. On line 2 the destination peg is being used as scratch space; on line 4 the source peg is. Getting those swaps right is the only fiddly part of the code, and the way to get them right is to name the parameters by role, never by peg.
+
+### Correctness
+
+By induction on `n`.
+
+- **Base case, `n = 0`.** Nothing to move, and the procedure moves nothing. The claim holds.
+- **Inductive step.** Assume `HANOI(m, ...)` legally moves `m` disks between any two named pegs for all `m < n`. Line 2 moves `n - 1` disks from `src` to `tmp` legally, by the hypothesis, and every one of them is smaller than disk `n`, which sits under them the whole time and constrains nothing. Line 3 is legal because `dst` is now empty. Line 4 moves the `n - 1` disks onto `dst`, again by the hypothesis, and each is smaller than disk `n`, which is now the bottom of `dst`, so no rule is broken. Therefore `HANOI(n, ...)` is correct.
+
+That proof is four sentences long, and it is short only because we refused to unroll the recursion.
+
+### How many moves
+
+Let `T(n)` be the number of disk moves for `n` disks. Read it straight off the code:
+
+```
+T(0) = 0
+T(n) = T(n - 1) + 1 + T(n - 1) = 2 T(n - 1) + 1
+```
+
+Solve it two ways, because both techniques get used constantly for the rest of the track.
+
+**Expansion.** Substitute repeatedly and look for the pattern:
+
+```
+T(n) = 2 T(n-1) + 1
+     = 2(2 T(n-2) + 1) + 1        = 4 T(n-2) + 2 + 1
+     = 4(2 T(n-3) + 1) + 2 + 1    = 8 T(n-3) + 4 + 2 + 1
+     ...
+     = 2^k T(n-k) + (2^(k-1) + ... + 2 + 1)
+```
+
+Stop at `k = n`, where `T(0) = 0` kills the first term, and what is left is the geometric sum `2^(n-1) + ... + 2 + 1 = 2^n - 1`.
+
+**Recursion tree.** Each call spawns two calls of size `n - 1` and does 1 unit of work itself. The tree is a complete binary tree of height `n`: level 1 has 1 node, level 2 has 2, level `l` has `2^(l-1)`, and every node costs 1. Total:
+
+```
+sum_{l=1}^{n} 2^(l-1) = 2^n - 1
+```
+
+Both give `T(n) = 2^n - 1`, so `T(n) = Theta(2^n)`. If you would rather verify than derive, guess `T(n) = 2^n - 1` and check by induction: `2(2^(n-1) - 1) + 1 = 2^n - 1`. That is the substitution method of 23.7, and on this recurrence it takes one line.
+
+**And it is optimal.** Not just "our algorithm takes `2^n - 1` moves" but "no algorithm does better". The forced-configuration argument above is the proof: *any* legal solution has to at some point put all `n - 1` smaller disks on `tmp`, and has to later move them all to `dst`, so any solution costs at least `2 M(n-1) + 1` moves where `M` is the true optimum. Same recurrence, same answer. Lower bounds this clean are rare, so enjoy this one.
+
+The story attached to the puzzle has 64 golden disks and the world ending when the last one lands. At one move per second that is `2^64 - 1` seconds, roughly 5.8 x 10^11 years, comfortably longer than the universe has existed. This is what "exponential" means in practice, and it is worth carrying into file 28: a correct algorithm can be completely useless.
+
+---
+
+## 23.3 Three more recursions, each derived by hand
+
+Hanoi is the cleanest example and it is not the shape you meet most often. These three are.
+
+### Binary search: shrink by a factor
+
+```
+BIN-SEARCH(val, A, low, high)
+1  if high < low
+2      return NOT-FOUND
+3  mid = floor((low + high) / 2)
+4  if val < A[mid]  return BIN-SEARCH(val, A, low, mid - 1)
+5  if val > A[mid]  return BIN-SEARCH(val, A, mid + 1, high)
+6  return mid
+```
+
+The subproblem is "the same search on a subarray", and the subarray is strictly smaller because `mid` itself is excluded either way. With `m = high - low + 1` as the size:
+
+```
+T(m) <= T(m/2) + Theta(1)
+```
+
+which unrolls to `Theta(log m)`. Each step adds 1 and halves the size, so the count is the number of halvings, and `n / 2^x = 1` gives `x = lg n`.
+
+Contrast the two shapes now, because much of the first half of this track lives in the gap between them:
+
+```
+T(n) = T(n - 1) + 1   ->  Theta(n)        subtract one, count the steps
+T(n) = T(n/2)   + 1   ->  Theta(log n)    halve, count the halvings
+```
+
+### Fast exponentiation: one call, not two
+
+Computing `a^n` by repeated multiplication takes `n - 1` multiplications. Recursion does much better, because `a^n` is built out of `a^(n/2)`:
+
+```
+FAST-POWER(a, n)
+1  if n == 1  return a
+2  x = FAST-POWER(a, floor(n/2))
+3  if n is even  return x * x
+4  else          return x * x * a
+```
+
+Line 2 is called **once**, not twice. Writing `FAST-POWER(a, n/2) * FAST-POWER(a, n/2)` computes the same value twice and gives `T(n) = 2T(n/2) + 1 = Theta(n)`, throwing away the entire gain. Store it in a variable. This is the smallest possible instance of the idea behind file 25.
+
+```
+T(n) <= T(n/2) + 2  =  O(log n)
+```
+
+**Pulling back the curtain.** That count is multiplications, under the RAM model assumption that a multiplication costs `O(1)`. For big numbers that assumption is a lie worth noticing once. If `a > 1` then `a^m` has `Theta(m)` bits, and the fastest known multiplication of two `k`-bit numbers costs `O(k log k)`. So squaring `a^(n/2)` costs `Theta(n log n)` bit operations, and the real recurrence is
+
+```
+T(n) = T(n/2) + n log n  =  Theta(n log n)
+```
+
+dominated entirely by the final multiplication. The algorithm is still excellent. The point is that "cost" depends on which operations you declared to be unit cost, and you should know which model you are in before quoting a number.
+
+### Maximum subarray sum: the same problem, four ways
+
+Given `A[1..n]`, find the largest value of `sum_{k=i}^{j} A[k]` over all `i <= j`, or 0 if every such sum is negative. Watching this problem improve is the best short tour of the paradigms in this track.
+
+**Version 1, fill in every sum.** Compute `W[i][j] = sum of A[i..j]` for all pairs and take the max. Adding up the sums naively costs
+
+```
+sum_{j=1}^{n} sum_{i=1}^{j} (j - i + 1) = Theta(n^3)
+```
+
+**Version 2, recurse by peeling off the last element.** Let `maxSum(i, j)` be the answer on `A[i..j]`. Look at `A[n]`. Either the best subarray uses it or it does not:
+
+1. It does not: the answer is `maxSum(1, n-1)`.
+2. It does: the answer is the best subarray of `A[1..n]` that is *forced to end at* `A[n]`.
+
+Case 2 is a different and easier problem, so give it its own name. Let `maxEndAt(i, j)` be the largest sum of a subarray of `A[i..j]` that ends exactly at `A[j]`:
+
+```
+maxEndAt(i, j)
+1  if j < i  return 0
+2  return max(A[j], A[j] + maxEndAt(i, j - 1))
+```
+
+Either you start fresh at `A[j]`, or you extend the best run that ended at `A[j-1]`. That is `T(n) = T(n-1) + 1 = Theta(n)`.
+
+Now the part people trip on. You do **not** have to decide which of the two cases holds. Compute both and take the larger:
+
+```
+maxSum(i, j)
+1  if j < i  return 0
+2  return max(maxSum(i, j - 1), maxEndAt(i, j))
+```
+
+`T(n) = T(n-1) + n`, which unrolls to `sum_{k=1}^{n} k = Theta(n^2)`. Two lines of recursion beat the table.
+
+**Version 3, cut in the middle instead of at the end.** Peeling one element off is a poor reduction, because it produces a tree of depth `n`. Split the array in half instead. The best subarray lies entirely left of the midpoint, entirely right of it, or **crosses** it. A crossing subarray has to contain both `A[mid]` and `A[mid+1]`, so its best value is the best run ending at `A[mid]` plus the best run starting at `A[mid+1]`, and each of those is one linear scan (`maxStartAt` is `maxEndAt` read right to left):
+
+```
+maxSum(i, j)
+1  if j < i  return 0
+2  mid = floor((i + j) / 2)
+3  return max(maxSum(i, mid),
+4             maxSum(mid + 1, j),
+5             maxEndAt(i, mid) + maxStartAt(mid + 1, j))
+```
+
+`T(n) = 2 T(n/2) + n = Theta(n log n)`. Same information, same work per level, and the only thing that changed is **where we cut**.
+
+Put the two trees side by side, because this comparison is the reason divide and conquer is a named technique:
+
+| Cut | Recurrence | Tree | Total |
+|---|---|---|---|
+| At the end | `T(n) = T(n-1) + n` | depth `n`, level `i` costs `n - i` | `Theta(n^2)` |
+| In the middle | `T(n) = 2T(n/2) + n` | depth `lg n`, every level costs `n` | `Theta(n log n)` |
+
+A long skinny tree traded for a short fat one. **Get the problem size down fast.**
+
+**Version 4, for honesty.** This problem is solvable in `Theta(n)` by a single left-to-right scan that carries `maxEndAt` along as a running value. That is Kadane's algorithm, in the interview track, file 06. Divide and conquer being the interesting answer here is a teaching convenience, not a fact about the problem.
+
+---
+
+## 23.4 Where a recurrence comes from
 
 Take mergesort:
 
@@ -59,7 +294,7 @@ The other common shape is **subtract-and-conquer**:
 T(n) = a T(n - b) + f(n)
 ```
 
-which behaves completely differently and is covered in 23.7.
+which behaves completely differently and is covered in 23.10.
 
 ### Three conventions that save you pain
 
@@ -71,7 +306,7 @@ which behaves completely differently and is covered in 23.7.
 
 ---
 
-## 23.2 Method 1: the recursion tree
+## 23.5 Method 1: the recursion tree
 
 **Do this first, always.** Even when you plan to finish with the master theorem, draw the tree, because it tells you *why* the answer is what it is and it is the only method that survives when the master theorem does not apply.
 
@@ -145,7 +380,7 @@ Sanity checks: mergesort has `n^(log_2 2) = n^1 = n` leaves, correct, one per el
 
 ---
 
-## 23.3 Method 2: the master theorem
+## 23.6 Method 2: the master theorem
 
 The tree argument, packaged. Use it to write the answer down fast once you have understood the tree.
 
@@ -236,7 +471,7 @@ For all of these: recursion tree, or substitution.
 
 ---
 
-## 23.4 Method 3: substitution (guess and verify)
+## 23.7 Method 3: substitution (guess and verify)
 
 The most powerful method and the only one that is a genuine proof from first principles. Guess the answer, then prove it by induction.
 
@@ -310,7 +545,7 @@ Note that the constraint flipped: the upper bound needed `c >= 1`, the lower bou
 
 ---
 
-## 23.5 Method 4: iteration / expansion
+## 23.8 Method 4: iteration / expansion
 
 Unroll the recurrence a few times, spot the pattern, sum it. Less rigorous than substitution but excellent for *finding* the guess that substitution then verifies.
 
@@ -346,7 +581,7 @@ At `k = lg n`: `T(n) = n T(1) + n lg n = Theta(n lg n)`. Confirmed again.
 
 ---
 
-## 23.6 Method 5: change of variables
+## 23.9 Method 5: change of variables
 
 For recurrences where the argument shrinks in a strange way.
 
@@ -369,7 +604,7 @@ T(n) = Theta(lg n * lg lg n)
 
 ---
 
-## 23.7 Subtract-and-conquer recurrences
+## 23.10 Subtract-and-conquer recurrences
 
 `T(n) = a T(n - b) + f(n)` behaves nothing like the divide case. There is a separate rule.
 
@@ -394,7 +629,7 @@ The intuition is that the recursion depth is now `n/b`, which is linear rather t
 
 ---
 
-## 23.8 Unequal splits
+## 23.11 Unequal splits
 
 `T(n) = T(n/3) + T(2n/3) + n`.
 
@@ -410,7 +645,7 @@ Master theorem does not apply. Recursion tree:
 
 ---
 
-## 23.9 Worked set with full solutions
+## 23.12 Worked set with full solutions
 
 Cover the answers. Do these on paper.
 
@@ -454,9 +689,21 @@ Claim `T(n) <= cn^2`. Step: `T(n) <= 2c(n/2)^2 + n^2 = cn^2/2 + n^2 = cn^2 (1/2 
 
 Not master. Guess `T(n) = O(n^alpha)` and find alpha by substituting `n^alpha`: we need `(1/2)^alpha + (1/4)^alpha = 1`. Let `x = (1/2)^alpha`, then `x + x^2 = 1`, so `x = (sqrt(5)-1)/2 ~ 0.618`. Then `alpha = -lg(0.618) ~ 0.694`. **`Theta(n^0.694)`.** This "solve for the exponent that makes the fractions sum to 1" trick is the poor man's Akra-Bazzi and is worth knowing.
 
+**11. Hanoi with a twist: the pegs are in a row, and a disk may only move between adjacent pegs.**
+
+So `src` and `dst` are never directly connected; every move goes through `tmp`. To move `n` disks from `src` to `dst`: move `n-1` to `dst`, move disk n to `tmp`, move the `n-1` back to `src`, move disk n to `dst`, move the `n-1` to `dst` one last time. That is `T(n) = 3T(n-1) + 2`, so `T(n) = 3^n - 1` and **`Theta(3^n)`**. The point of the exercise is that the recurrence changes because the *reduction* changed, not because the analysis did.
+
+**12. Why is `T(n) = 2T(n/2) + 1` not `Theta(n log n)`?**
+
+Because `f(n) = 1`, not `n`. `W = n^(log_2 2) = n` dominates, case 1, so **`Theta(n)`**. Concretely: the tree has `n` leaves, each costing 1, and the internal levels form an increasing geometric series dominated by the leaf level. Every level costing the same is what produces the extra `log n`, and that only happens when `f(n)` matches `W`.
+
+**13. `FIB(n)` returns `FIB(n-1) + FIB(n-2)`. Give the number of calls, and say why memoizing changes it.**
+
+`T(n) = T(n-1) + T(n-2) + 1`, which grows like `phi^n` with `phi = (1+sqrt 5)/2`, so **`Theta(phi^n)`**. The two subtractive calls overlap almost entirely: there are only `n` distinct subproblems but the tree recomputes them exponentially often. Storing each result the first time it is computed collapses the count to `Theta(n)`. That single observation is all of file 25.
+
 ---
 
-## 23.10 The Akra-Bazzi method, for completeness
+## 23.13 The Akra-Bazzi method, for completeness
 
 If your course covers it, it handles unequal splits in full generality. For
 
@@ -474,7 +721,7 @@ The master theorem is the special case `k = 1`, where `p = log_b a`. Problem 10 
 
 ---
 
-## 23.11 The checklist
+## 23.14 The checklist
 
 When a recurrence appears, run this in order:
 
@@ -496,7 +743,7 @@ When a recurrence appears, run this in order:
 And two habits worth keeping:
 
 - **State which case you are in and why.** "Case 1, since `f(n) = n = O(n^(2 - 0.5))`" earns the point that "Case 1" alone does not.
-- **Sanity check against a known algorithm.** If you derive `Theta(n)` for mergesort, you made an arithmetic error. Keep the landmark table from 23.3 in your head as a set of tripwires.
+- **Sanity check against a known algorithm.** If you derive `Theta(n)` for mergesort, you made an arithmetic error. Keep the landmark table from 23.6 in your head as a set of tripwires.
 
 ---
 

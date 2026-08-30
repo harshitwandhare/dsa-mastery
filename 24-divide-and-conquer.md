@@ -1,6 +1,6 @@
 # 24 — Divide and Conquer
 
-The first real design paradigm. Assumes [23 — Recurrences](23-recurrences.md), because every analysis in this file is a recurrence you now know how to solve.
+The first real design paradigm. Assumes [23 — Recursion and Recurrences](23-recurrences.md), because every analysis in this file is a recurrence you now know how to solve.
 
 ---
 
@@ -153,7 +153,7 @@ T(n) = T(n-1) + T(0) + Theta(n) = T(n-1) + Theta(n) = Theta(n^2)
 
 This happens on **already-sorted input** with the last-element pivot, which is exactly the input people test with, and is why naive quicksort has an embarrassing reputation.
 
-**The 99-to-1 split is fine.** `T(n) = T(n/100) + T(99n/100) + Theta(n)` is `Theta(n log n)` by the tree argument in 23.8: every level costs `n`, the shallowest path has depth `log_100 n` and the deepest has depth `log_{100/99} n`, and both are `Theta(log n)`. **Any constant-fraction split gives `n log n`.** Quicksort is only bad when the split fraction is not constant, and random pivots make that vanishingly unlikely.
+**The 99-to-1 split is fine.** `T(n) = T(n/100) + T(99n/100) + Theta(n)` is `Theta(n log n)` by the tree argument in 23.11: every level costs `n`, the shallowest path has depth `log_100 n` and the deepest has depth `log_{100/99} n`, and both are `Theta(log n)`. **Any constant-fraction split gives `n log n`.** Quicksort is only bad when the split fraction is not constant, and random pivots make that vanishingly unlikely.
 
 **Randomized quicksort.** Replace line 1 of `PARTITION` with "exchange `A[r]` with `A[random(p, r)]`" first. The expected running time is then `Theta(n log n)` on **every** input, because the randomness lives in the algorithm rather than in an assumption about the data. That is a strictly stronger guarantee than "average case over random inputs", and saying so precisely is worth the extra clause.
 
@@ -218,7 +218,7 @@ SELECT(A, k)
 T(n) = T(n/5) + T(7n/10) + Theta(n)
 ```
 
-Master theorem does not apply (unequal splits). But `1/5 + 7/10 = 9/10 < 1`, so by the rule in 23.8 the level costs form a decreasing geometric series with ratio 9/10, the root dominates, and **`T(n) = Theta(n)`**.
+Master theorem does not apply (unequal splits). But `1/5 + 7/10 = 9/10 < 1`, so by the rule in 23.11 the level costs form a decreasing geometric series with ratio 9/10, the root dominates, and **`T(n) = Theta(n)`**.
 
 Prove it by substitution to be safe: claim `T(n) <= cn`. Then `T(n) <= c(n/5) + c(7n/10) + an = (9c/10)n + an <= cn` provided `c/10 >= a`, that is `c >= 10a`. Works.
 

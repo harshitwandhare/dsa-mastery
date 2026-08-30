@@ -18,6 +18,22 @@ reader can do, not only what changed in the code.
 
 ### Added
 
+- Recursion is now taught before recurrences instead of assumed. File 23 opens
+  with reduction and the recursion template, derives Tower of Hanoi from the
+  rules alone (including why the algorithm is optimal, not merely correct),
+  proves it by induction, and solves `2T(n-1)+1` by expansion, by tree, and by
+  substitution. Then binary search, fast exponentiation with its bit-level
+  caveat, and maximum subarray sum four ways, which is the shortest honest
+  argument for why you cut a problem in the middle rather than at the end.
+  Three new worked problems close it. The file is now "Recursion and
+  Recurrences".
+- The day-one toolkit covers what it kept assuming: the iterated logarithm with
+  its real definition, proof by double counting, and one deliberately wrong
+  induction proof to show what a broken inductive step looks like from the
+  inside. Asymptotics gained the two limits of the notation that get quoted
+  back at you, that `O(1)` says nothing about the size of the constant, and
+  that no amount of hardware rescues an exponential.
+
 - A course track: eight new lessons (files 21 to 28) for a graduate algorithms
   class of the CLRS and Erickson kind. It assumes nothing, starts at what a
   logarithm is, and ends at writing an NP-completeness proof that earns full
