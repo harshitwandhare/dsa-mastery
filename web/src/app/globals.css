@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
 
 /* ===========================================================================
    Design language: a technical notebook.
@@ -468,4 +469,41 @@ pre[data-theme] span {
   border-radius: 10px;
   box-shadow: var(--shadow-card);
   animation: overlay-in 120ms ease-out;
+}
+
+/* ===========================================================================
+   Maths, set by KaTeX.
+
+   The course track is asymptotics, recurrences and summations, and those read
+   as source code when they are set in a monospace span. KaTeX puts them in a
+   real maths face instead. Two adjustments to its defaults: it ships a colour
+   of its own, which has to follow the page's ink in both themes, and a display
+   block on a phone has to scroll inside itself rather than widening the page.
+   =========================================================================== */
+
+.katex {
+  color: inherit;
+  font-size: 1.04em;
+}
+
+.katex-display {
+  margin: 1.35rem 0;
+  padding: 0.1rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* A bare $$...$$ on a narrow screen is the one thing that can still push the
+   page sideways, so give it its own scroll box like tables and code have. */
+.katex-display > .katex {
+  text-align: center;
+  white-space: normal;
+}
+
+/* KaTeX renders a parse failure in its own red; make it legible on warm paper
+   and obvious enough in review that a broken expression does not ship. */
+.katex-error {
+  color: var(--accent-strong, #b3261e) !important;
+  font-family: var(--font-mono-stack), monospace;
+  font-size: 0.9em;
 }

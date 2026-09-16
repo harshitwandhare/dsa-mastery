@@ -16,6 +16,29 @@ reader can do, not only what changed in the code.
   chains, so a lesson page measured 1262px against a 375px phone viewport. They
   wrap now, and no route scrolls horizontally at any width.
 
+### Changed
+
+- The course track's maths is typeset rather than printed as source. A file
+  about asymptotics that sets `Theta(n^2)` and `sum_{i=1}^{n} 1/i` in a
+  monospace code span is showing you the notation for the mathematics instead
+  of the mathematics, and next to a set of lecture slides it reads as unfinished.
+  KaTeX now renders it: real Greek, real superscripts and subscripts, a real
+  summation sign, and floor and ceiling brackets that are brackets.
+
+  1,959 inline spans across the nine course-track files were converted by
+  `tools/asciimath.py`, which only rewrites a span when it recognizes every
+  token in it, so anything ambiguous stays monospace rather than becoming
+  nonsense. Headings are deliberately excluded: a heading is also its own
+  sidebar entry, and KaTeX emits each expression three times over, which a
+  plain-text extraction concatenates into "O(n2)O(n^2)O(n2)".
+
+  The interview track was left alone on purpose. It already writes complexity
+  as `O(n²)` with real superscripts in prose, and its code spans are genuinely
+  code, so there was nothing to fix.
+
+  `lesson-math-renders.test.ts` renders all thirty lessons and fails on a
+  KaTeX error, which is what makes the bulk conversion safe to repeat.
+
 ### Added
 
 - Probability, from the definition of a sample space up. File 24 gains a

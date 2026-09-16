@@ -14,10 +14,12 @@
 import rehypeAutolinkHeadings, {
   type Options as AutolinkOptions,
 } from "rehype-autolink-headings";
+import rehypeKatex from "rehype-katex";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
@@ -121,10 +123,18 @@ const AUTOLINK_OPTIONS: AutolinkOptions = {
 const processor = unified()
   .use(remarkParse)
   .use(remarkGfm)
+  // $...$ and $$...$$ become math nodes here and are typeset by KaTeX below.
+  // Asymptotics is the whole subject of the course track, so `Theta(n^2)` set
+  // in a monospace code span reads as source rather than as the mathematics it
+  // is. Everything that is genuinely code stays in a fence or a code span.
+  .use(remarkMath)
   .use(remarkRehype)
   .use(keepRawSource)
   .use(rehypeSlug)
   .use(rehypeAutolinkHeadings, AUTOLINK_OPTIONS)
+  // throwOnError:false so one malformed expression renders in red rather than
+  // taking the whole lesson page down with it.
+  .use(rehypeKatex, { throwOnError: false, strict: false })
   .use(rehypePrettyCode, {
     // Both themes are emitted as CSS variables; globals.css picks one per scheme.
     theme: { dark: "github-dark-dimmed", light: "github-light" },
@@ -164,9 +174,14 @@ function headingText(node: Element): string {
     if (current.type === "text") pieces.push(current.value);
     else if (current.type === "element") {
       const classes = current.properties?.className;
-      const isAnchor =
-        Array.isArray(classes) && classes.includes("heading-anchor");
-      if (!isAnchor) current.children.forEach(walk);
+      const named = (name: string) => Array.isArray(classes) && classes.includes(name);
+      // KaTeX writes every expression three times: MathML for screen readers,
+      // an <annotation> holding the raw TeX, and the visual spans. Taking the
+      // text of all three concatenates them, so a heading with maths in it
+      // reaches the sidebar as "O(n2)O(n^2)O(n2)". Keep the visual copy only.
+      if (named("katex-mathml")) return;
+      if (named("heading-anchor")) return;
+      current.children.forEach(walk);
     }
   };
   node.children.forEach(walk);
