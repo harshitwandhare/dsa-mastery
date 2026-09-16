@@ -170,6 +170,12 @@ def to_tex(src: str) -> str | None:
     if src.strip() in CODE_SPANS or CODE_MARKERS.search(src):
         return None
 
+    # Unbalanced parentheses are a typo in the source. Converting anyway turns
+    # "n^(log_b a" into a superscripted open bracket, which renders as nonsense
+    # without KaTeX raising anything, so refuse and leave it visible as code.
+    if src.count("(") != src.count(")"):
+        return None
+
     out = src
 
     # Set braces have to reach maths mode as \{ \}, but the braces this function
