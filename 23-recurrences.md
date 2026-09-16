@@ -28,7 +28,7 @@ Tracing your own recursion by hand is the biggest time sink in this material. It
 Two failure modes, both fatal and both common:
 
 - **No base case.** The recursion never bottoms out.
-- **A subproblem that is not strictly smaller.** `T(n)` calling `T(n)` in disguise. Watch for this when the "smaller" input is smaller in a way you never actually measured.
+- **A subproblem that is not strictly smaller.** $T(n)$ calling $T(n)$ in disguise. Watch for this when the "smaller" input is smaller in a way you never actually measured.
 
 Every recursive algorithm you write should come with two sentences: what the base case is, and why the recursive call is on a strictly smaller input. Those two sentences are also the base case and the inductive step of the correctness proof, so writing them costs nothing and earns the proof for free.
 
@@ -45,23 +45,23 @@ Goal: move the whole stack to `dst`.
 
 ### Do not think about the top disk
 
-The instinct is to ask which disk moves first. That instinct produces nothing. With `n = 4` you can bash out the sequence by hand; with `n = 6` you cannot, and no pattern you can name has appeared.
+The instinct is to ask which disk moves first. That instinct produces nothing. With $n = 4$ you can bash out the sequence by hand; with $n = 6$ you cannot, and no pattern you can name has appeared.
 
 Look at the **largest** disk instead. At some moment it has to move from `src` to `dst`. Consider the state of the world immediately before that move. Three things have to be true, and they are forced:
 
 1. `dst` is empty, because anything sitting there would be smaller than the largest disk.
 2. `src` holds only the largest disk, because it has to be on top to move.
-3. Therefore all the other `n - 1` disks are stacked on `tmp`.
+3. Therefore all the other $n - 1$ disks are stacked on `tmp`.
 
 That is not a strategy anyone chose. It is the only configuration the rules permit. And it hands you the algorithm:
 
-1. Move the top `n - 1` disks from `src` to `tmp`.
+1. Move the top $n - 1$ disks from `src` to `tmp`.
 2. Move the largest disk from `src` to `dst`.
-3. Move those `n - 1` disks from `tmp` to `dst`.
+3. Move those $n - 1$ disks from `tmp` to `dst`.
 
-Steps 1 and 3 are the same problem on `n - 1` disks. Do not think about how they work. That is the whole point.
+Steps 1 and 3 are the same problem on $n - 1$ disks. Do not think about how they work. That is the whole point.
 
-One thing worth checking, since it is the reason the rules never bite: while you shuffle the `n - 1` smaller disks around in step 1, the largest disk sits on `src` underneath them, and it is larger than every one of them, so it never blocks a legal move. The largest disk is effectively invisible to the subproblem. That observation is what lets the recursion ignore it.
+One thing worth checking, since it is the reason the rules never bite: while you shuffle the $n - 1$ smaller disks around in step 1, the largest disk sits on `src` underneath them, and it is larger than every one of them, so it never blocks a legal move. The largest disk is effectively invisible to the subproblem. That observation is what lets the recursion ignore it.
 
 ### The code
 
@@ -73,7 +73,7 @@ HANOI(n, src, dst, tmp)
 4      HANOI(n - 1, tmp, dst, src)
 ```
 
-Three lines of body. The base case is `n = 0`: moving zero disks takes no moves, so the procedure does nothing and returns. Using `n = 0` rather than `n = 1` as the base is not a stylistic choice, it is what makes line 2 legal when `n = 1`.
+Three lines of body. The base case is $n = 0$: moving zero disks takes no moves, so the procedure does nothing and returns. Using $n = 0$ rather than $n = 1$ as the base is not a stylistic choice, it is what makes line 2 legal when $n = 1$.
 
 Note the third argument shifting on each call. On line 2 the destination peg is being used as scratch space; on line 4 the source peg is. Getting those swaps right is the only fiddly part of the code, and the way to get them right is to name the parameters by role, never by peg.
 
@@ -81,14 +81,14 @@ Note the third argument shifting on each call. On line 2 the destination peg is 
 
 By induction on `n`.
 
-- **Base case, `n = 0`.** Nothing to move, and the procedure moves nothing. The claim holds.
-- **Inductive step.** Assume `HANOI(m, ...)` legally moves `m` disks between any two named pegs for all `m < n`. Line 2 moves `n - 1` disks from `src` to `tmp` legally, by the hypothesis, and every one of them is smaller than disk `n`, which sits under them the whole time and constrains nothing. Line 3 is legal because `dst` is now empty. Line 4 moves the `n - 1` disks onto `dst`, again by the hypothesis, and each is smaller than disk `n`, which is now the bottom of `dst`, so no rule is broken. Therefore `HANOI(n, ...)` is correct.
+- **Base case, $n = 0$.** Nothing to move, and the procedure moves nothing. The claim holds.
+- **Inductive step.** Assume `HANOI(m, ...)` legally moves `m` disks between any two named pegs for all $m < n$. Line 2 moves $n - 1$ disks from `src` to `tmp` legally, by the hypothesis, and every one of them is smaller than disk `n`, which sits under them the whole time and constrains nothing. Line 3 is legal because `dst` is now empty. Line 4 moves the $n - 1$ disks onto `dst`, again by the hypothesis, and each is smaller than disk `n`, which is now the bottom of `dst`, so no rule is broken. Therefore `HANOI(n, ...)` is correct.
 
 That proof is four sentences long, and it is short only because we refused to unroll the recursion.
 
 ### How many moves
 
-Let `T(n)` be the number of disk moves for `n` disks. Read it straight off the code:
+Let $T(n)$ be the number of disk moves for `n` disks. Read it straight off the code:
 
 ```
 T(0) = 0
@@ -107,19 +107,19 @@ T(n) = 2 T(n-1) + 1
      = 2^k T(n-k) + (2^(k-1) + ... + 2 + 1)
 ```
 
-Stop at `k = n`, where `T(0) = 0` kills the first term, and what is left is the geometric sum `2^(n-1) + ... + 2 + 1 = 2^n - 1`.
+Stop at $k = n$, where $T(0) = 0$ kills the first term, and what is left is the geometric sum $2^{n-1} + \dots + 2 + 1 = 2^{n} - 1$.
 
-**Recursion tree.** Each call spawns two calls of size `n - 1` and does 1 unit of work itself. The tree is a complete binary tree of height `n`: level 1 has 1 node, level 2 has 2, level `l` has `2^(l-1)`, and every node costs 1. Total:
+**Recursion tree.** Each call spawns two calls of size $n - 1$ and does 1 unit of work itself. The tree is a complete binary tree of height `n`: level 1 has 1 node, level 2 has 2, level $l$ has $2^{l-1}$, and every node costs 1. Total:
 
 ```
 sum_{l=1}^{n} 2^(l-1) = 2^n - 1
 ```
 
-Both give `T(n) = 2^n - 1`, so `T(n) = Theta(2^n)`. If you would rather verify than derive, guess `T(n) = 2^n - 1` and check by induction: `2(2^(n-1) - 1) + 1 = 2^n - 1`. That is the substitution method of 23.7, and on this recurrence it takes one line.
+Both give $T(n) = 2^{n} - 1$, so $T(n) = \Theta(2^{n})$. If you would rather verify than derive, guess $T(n) = 2^{n} - 1$ and check by induction: $2(2^{n-1} - 1) + 1 = 2^{n} - 1$. That is the substitution method of 23.7, and on this recurrence it takes one line.
 
-**And it is optimal.** Not just "our algorithm takes `2^n - 1` moves" but "no algorithm does better". The forced-configuration argument above is the proof: *any* legal solution has to at some point put all `n - 1` smaller disks on `tmp`, and has to later move them all to `dst`, so any solution costs at least `2 M(n-1) + 1` moves where `M` is the true optimum. Same recurrence, same answer. Lower bounds this clean are rare, so enjoy this one.
+**And it is optimal.** Not just "our algorithm takes $2^{n} - 1$ moves" but "no algorithm does better". The forced-configuration argument above is the proof: *any* legal solution has to at some point put all $n - 1$ smaller disks on `tmp`, and has to later move them all to `dst`, so any solution costs at least $2 M(n-1) + 1$ moves where $M$ is the true optimum. Same recurrence, same answer. Lower bounds this clean are rare, so enjoy this one.
 
-The story attached to the puzzle has 64 golden disks and the world ending when the last one lands. At one move per second that is `2^64 - 1` seconds, roughly 5.8 x 10^11 years, comfortably longer than the universe has existed. This is what "exponential" means in practice, and it is worth carrying into file 28: a correct algorithm can be completely useless.
+The story attached to the puzzle has 64 golden disks and the world ending when the last one lands. At one move per second that is $2^{64} - 1$ seconds, roughly 5.8 x 10^11 years, comfortably longer than the universe has existed. This is what "exponential" means in practice, and it is worth carrying into file 28: a correct algorithm can be completely useless.
 
 ---
 
@@ -145,7 +145,7 @@ The subproblem is "the same search on a subarray", and the subarray is strictly 
 T(m) <= T(m/2) + Theta(1)
 ```
 
-which unrolls to `Theta(log m)`. Each step adds 1 and halves the size, so the count is the number of halvings, and `n / 2^x = 1` gives `x = lg n`.
+which unrolls to $\Theta(\log m)$. Each step adds 1 and halves the size, so the count is the number of halvings, and $n / 2^{x} = 1$ gives $x = \lg n$.
 
 Contrast the two shapes now, because much of the first half of this track lives in the gap between them:
 
@@ -156,7 +156,7 @@ T(n) = T(n/2)   + 1   ->  Theta(log n)    halve, count the halvings
 
 ### Fast exponentiation: one call, not two
 
-Computing `a^n` by repeated multiplication takes `n - 1` multiplications. Recursion does much better, because `a^n` is built out of `a^(n/2)`:
+Computing $a^{n}$ by repeated multiplication takes $n - 1$ multiplications. Recursion does much better, because $a^{n}$ is built out of $a^{n/2}$:
 
 ```
 FAST-POWER(a, n)
@@ -166,13 +166,13 @@ FAST-POWER(a, n)
 4  else          return x * x * a
 ```
 
-Line 2 is called **once**, not twice. Writing `FAST-POWER(a, n/2) * FAST-POWER(a, n/2)` computes the same value twice and gives `T(n) = 2T(n/2) + 1 = Theta(n)`, throwing away the entire gain. Store it in a variable. This is the smallest possible instance of the idea behind file 25.
+Line 2 is called **once**, not twice. Writing `FAST-POWER(a, n/2) * FAST-POWER(a, n/2)` computes the same value twice and gives $T(n) = 2T(n/2) + 1 = \Theta(n)$, throwing away the entire gain. Store it in a variable. This is the smallest possible instance of the idea behind file 25.
 
 ```
 T(n) <= T(n/2) + 2  =  O(log n)
 ```
 
-**Pulling back the curtain.** That count is multiplications, under the RAM model assumption that a multiplication costs `O(1)`. For big numbers that assumption is a lie worth noticing once. If `a > 1` then `a^m` has `Theta(m)` bits, and the fastest known multiplication of two `k`-bit numbers costs `O(k log k)`. So squaring `a^(n/2)` costs `Theta(n log n)` bit operations, and the real recurrence is
+**Pulling back the curtain.** That count is multiplications, under the RAM model assumption that a multiplication costs $O(1)$. For big numbers that assumption is a lie worth noticing once. If $a > 1$ then $a^{m}$ has $\Theta(m)$ bits, and the fastest known multiplication of two `k`-bit numbers costs $O(k \log k)$. So squaring $a^{n/2}$ costs $\Theta(n \log n)$ bit operations, and the real recurrence is
 
 ```
 T(n) = T(n/2) + n log n  =  Theta(n log n)
@@ -182,7 +182,7 @@ dominated entirely by the final multiplication. The algorithm is still excellent
 
 ### Maximum subarray sum: the same problem, four ways
 
-Given `A[1..n]`, find the largest value of `sum_{k=i}^{j} A[k]` over all `i <= j`, or 0 if every such sum is negative. Watching this problem improve is the best short tour of the paradigms in this track.
+Given `A[1..n]`, find the largest value of $\sum_{k=i}^{j} A[k]$ over all $i \le j$, or 0 if every such sum is negative. Watching this problem improve is the best short tour of the paradigms in this track.
 
 **Version 1, fill in every sum.** Compute `W[i][j] = sum of A[i..j]` for all pairs and take the max. Adding up the sums naively costs
 
@@ -190,12 +190,12 @@ Given `A[1..n]`, find the largest value of `sum_{k=i}^{j} A[k]` over all `i <= j
 sum_{j=1}^{n} sum_{i=1}^{j} (j - i + 1) = Theta(n^3)
 ```
 
-**Version 2, recurse by peeling off the last element.** Let `maxSum(i, j)` be the answer on `A[i..j]`. Look at `A[n]`. Either the best subarray uses it or it does not:
+**Version 2, recurse by peeling off the last element.** Let `maxSum(i, j)` be the answer on `A[i..j]`. Look at $A[n]$. Either the best subarray uses it or it does not:
 
 1. It does not: the answer is `maxSum(1, n-1)`.
-2. It does: the answer is the best subarray of `A[1..n]` that is *forced to end at* `A[n]`.
+2. It does: the answer is the best subarray of `A[1..n]` that is *forced to end at* $A[n]$.
 
-Case 2 is a different and easier problem, so give it its own name. Let `maxEndAt(i, j)` be the largest sum of a subarray of `A[i..j]` that ends exactly at `A[j]`:
+Case 2 is a different and easier problem, so give it its own name. Let `maxEndAt(i, j)` be the largest sum of a subarray of `A[i..j]` that ends exactly at $A[j]$:
 
 ```
 maxEndAt(i, j)
@@ -203,7 +203,7 @@ maxEndAt(i, j)
 2  return max(A[j], A[j] + maxEndAt(i, j - 1))
 ```
 
-Either you start fresh at `A[j]`, or you extend the best run that ended at `A[j-1]`. That is `T(n) = T(n-1) + 1 = Theta(n)`.
+Either you start fresh at $A[j]$, or you extend the best run that ended at $A[j-1]$. That is $T(n) = T(n-1) + 1 = \Theta(n)$.
 
 Now the part people trip on. You do **not** have to decide which of the two cases holds. Compute both and take the larger:
 
@@ -213,7 +213,7 @@ maxSum(i, j)
 2  return max(maxSum(i, j - 1), maxEndAt(i, j))
 ```
 
-`T(n) = T(n-1) + n`, which unrolls to `sum_{k=1}^{n} k = Theta(n^2)`. Two lines of recursion beat the table.
+$T(n) = T(n-1) + n$, which unrolls to $\sum_{k=1}^{n} k = \Theta(n^2)$. Two lines of recursion beat the table.
 
 **Version 3, cut in the middle instead of at the end.** Peeling one element off is a poor reduction, because it produces a tree of depth `n`. Split the array in half instead. The best subarray lies entirely left of the midpoint, entirely right of it, or **crosses** it. A crossing subarray has to contain both `A[mid]` and `A[mid+1]`, so its best value is the best run ending at `A[mid]` plus the best run starting at `A[mid+1]`, and each of those is one linear scan (`maxStartAt` is `maxEndAt` read right to left):
 
@@ -226,18 +226,18 @@ maxSum(i, j)
 5             maxEndAt(i, mid) + maxStartAt(mid + 1, j))
 ```
 
-`T(n) = 2 T(n/2) + n = Theta(n log n)`. Same information, same work per level, and the only thing that changed is **where we cut**.
+$T(n) = 2 T(n/2) + n = \Theta(n \log n)$. Same information, same work per level, and the only thing that changed is **where we cut**.
 
 Put the two trees side by side, because this comparison is the reason divide and conquer is a named technique:
 
 | Cut | Recurrence | Tree | Total |
 |---|---|---|---|
-| At the end | `T(n) = T(n-1) + n` | depth `n`, level `i` costs `n - i` | `Theta(n^2)` |
-| In the middle | `T(n) = 2T(n/2) + n` | depth `lg n`, every level costs `n` | `Theta(n log n)` |
+| At the end | $T(n) = T(n-1) + n$ | depth `n`, level `i` costs $n - i$ | $\Theta(n^2)$ |
+| In the middle | $T(n) = 2T(n/2) + n$ | depth $\lg n$, every level costs `n` | $\Theta(n \log n)$ |
 
 A long skinny tree traded for a short fat one. **Get the problem size down fast.**
 
-**Version 4, for honesty.** This problem is solvable in `Theta(n)` by a single left-to-right scan that carries `maxEndAt` along as a running value. That is Kadane's algorithm, in the interview track, file 06. Divide and conquer being the interesting answer here is a teaching convenience, not a fact about the problem.
+**Version 4, for honesty.** This problem is solvable in $\Theta(n)$ by a single left-to-right scan that carries `maxEndAt` along as a running value. That is Kadane's algorithm, in the interview track, file 06. Divide and conquer being the interesting answer here is a teaching convenience, not a fact about the problem.
 
 ---
 
@@ -254,12 +254,12 @@ MERGE-SORT(A, p, r)
 5      MERGE(A, p, q, r)
 ```
 
-Let `T(n)` be the worst-case number of operations on an input of size n. Read the code and translate line by line:
+Let $T(n)$ be the worst-case number of operations on an input of size n. Read the code and translate line by line:
 
 - Line 2 is O(1).
-- Line 3 sorts half the array, costing `T(n/2)`.
-- Line 4 sorts the other half, costing `T(n/2)`.
-- Line 5 merges two sorted halves, which is a linear scan, costing `Theta(n)`.
+- Line 3 sorts half the array, costing $T(n/2)$.
+- Line 4 sorts the other half, costing $T(n/2)$.
+- Line 5 merges two sorted halves, which is a linear scan, costing $\Theta(n)$.
 
 So:
 
@@ -268,7 +268,7 @@ T(n) = 2 T(n/2) + Theta(n)      for n > 1
 T(1) = Theta(1)
 ```
 
-That is the recurrence. It defines `T` in terms of itself on smaller inputs, plus a **base case**, which is the thing students forget and which is required for the definition to mean anything.
+That is the recurrence. It defines $T$ in terms of itself on smaller inputs, plus a **base case**, which is the thing students forget and which is required for the definition to mean anything.
 
 ### The general shape
 
@@ -278,15 +278,15 @@ Most divide-and-conquer recurrences look like:
 T(n) = a T(n/b) + f(n)
 ```
 
-read as: **`a` subproblems, each of size `n/b`, plus `f(n)` work to split and combine.**
+read as: **$a$ subproblems, each of size $n/b$, plus $f(n)$ work to split and combine.**
 
 | symbol | meaning | mergesort |
 |---|---|---|
-| `a` | how many recursive calls | 2 |
-| `b` | by what factor the size shrinks | 2 |
-| `f(n)` | non-recursive work per call | `Theta(n)` for the merge |
+| $a$ | how many recursive calls | 2 |
+| $b$ | by what factor the size shrinks | 2 |
+| $f(n)$ | non-recursive work per call | $\Theta(n)$ for the merge |
 
-`a` and `b` are independent. `a` is a count, `b` is a ratio, and they are equal in mergesort only by coincidence. Binary search has `a = 1, b = 2`. Strassen has `a = 7, b = 2`.
+$a$ and $b$ are independent. $a$ is a count, $b$ is a ratio, and they are equal in mergesort only by coincidence. Binary search has $a = 1, b = 2$. Strassen has $a = 7, b = 2$.
 
 The other common shape is **subtract-and-conquer**:
 
@@ -298,11 +298,11 @@ which behaves completely differently and is covered in 23.10.
 
 ### Three conventions that save you pain
 
-**1. Ignore floors and ceilings.** The real mergesort recurrence is `T(ceil(n/2)) + T(floor(n/2)) + Theta(n)`. Writing `2T(n/2)` gives the same asymptotic answer. This is a theorem, not laziness (CLRS proves it), and every course lets you do it. Say "we omit floors and ceilings, which does not affect the asymptotics" once and move on.
+**1. Ignore floors and ceilings.** The real mergesort recurrence is $T(\lceil n/2 \rceil) + T(\lfloor n/2 \rfloor) + \Theta(n)$. Writing $2T(n/2)$ gives the same asymptotic answer. This is a theorem, not laziness (CLRS proves it), and every course lets you do it. Say "we omit floors and ceilings, which does not affect the asymptotics" once and move on.
 
-**2. Ignore the base case when it is constant.** `T(1) = Theta(1)` is assumed unless stated otherwise. It only matters when the recursion bottoms out at something unusual.
+**2. Ignore the base case when it is constant.** $T(1) = \Theta(1)$ is assumed unless stated otherwise. It only matters when the recursion bottoms out at something unusual.
 
-**3. Assume `T(n)` is constant for small n.** Needed so that the boundary conditions do not blow up the algebra.
+**3. Assume $T(n)$ is constant for small n.** Needed so that the boundary conditions do not blow up the algebra.
 
 ---
 
@@ -328,8 +328,8 @@ level lg n: n nodes, each of size 1              cost n
 
 Three questions to answer for any tree:
 
-1. **How many levels?** Sizes go `n, n/2, n/4, ...` and stop at 1. That takes `log_2 n` halvings, so the tree has `lg n + 1` levels, indexed 0 through `lg n`.
-2. **What does each level cost?** Level i has `2^i` nodes each doing `c(n/2^i)` work, so level cost is `c * n`. **Constant across levels**, which is the special thing about mergesort.
+1. **How many levels?** Sizes go $n, n/2, n/4, \dots$ and stop at 1. That takes $\log_2 n$ halvings, so the tree has $\lg n + 1$ levels, indexed 0 through $\lg n$.
+2. **What does each level cost?** Level i has $2^{i}$ nodes each doing $c(n/2^{i})$ work, so level cost is $c \cdot n$. **Constant across levels**, which is the special thing about mergesort.
 3. **Total?** `(number of levels) x (cost per level) = (lg n + 1) * cn = Theta(n lg n)`.
 
 ### The three tree shapes, and this is the whole master theorem
@@ -346,7 +346,7 @@ level 2:  16 * (n/4)   = 4n
 level i:  4^i * n/2^i  = 2^i n          <- doubling each level
 ```
 
-Increasing geometric, so the total is within a constant factor of the **last** level. The last level is the leaves. Number of leaves is `4^(lg n) = n^2`, each costing O(1), so `T(n) = Theta(n^2)`.
+Increasing geometric, so the total is within a constant factor of the **last** level. The last level is the leaves. Number of leaves is $4^{\lg n} = n^2$, each costing O(1), so $T(n) = \Theta(n^2)$.
 
 **Shape B: costs are equal at every level. Everybody contributes.**
 
@@ -362,21 +362,21 @@ level 2:  4 * (n/4)^2  = n^2/4
 level i:  2^i (n/2^i)^2 = n^2 / 2^i     <- halving each level
 ```
 
-Decreasing geometric with ratio 1/2, and `sum_{i>=0} n^2/2^i < 2n^2`. Total is within a constant factor of the **first** level. `T(n) = Theta(n^2)`.
+Decreasing geometric with ratio 1/2, and $\sum_{i \ge 0} n^2/2^{i} < 2n^2$. Total is within a constant factor of the **first** level. $T(n) = \Theta(n^2)$.
 
 > **Those three shapes are the three cases of the master theorem.** If you understand the tree, you never have to memorize the theorem, you can rederive it. Do the tree once for every new recurrence until this is instinct.
 
 ### Counting leaves, in general
 
-For `T(n) = a T(n/b) + f(n)`:
+For $T(n) = a T(n/b) + f(n)$:
 
-- depth of the tree is `log_b n`
-- level i has `a^i` nodes, each of size `n / b^i`
-- number of leaves is `a^(log_b n)`, which equals **`n^(log_b a)`**
+- depth of the tree is $\log_b n$
+- level i has $a^{i}$ nodes, each of size $n / b^{i}$
+- number of leaves is $a^{\log_b n}$, which equals **$n^{\log_b a}$**
 
-That identity `a^(log_b n) = n^(log_b a)` is the "weird one" from the logarithm toolkit in file 21, and this is where it earns its keep. `n^(log_b a)` is called the **watershed function**, and comparing `f(n)` against it is exactly what the master theorem does.
+That identity $a^{\log_b n} = n^{\log_b a}$ is the "weird one" from the logarithm toolkit in file 21, and this is where it earns its keep. $n^{\log_b a}$ is called the **watershed function**, and comparing $f(n)$ against it is exactly what the master theorem does.
 
-Sanity checks: mergesort has `n^(log_2 2) = n^1 = n` leaves, correct, one per element. Binary search has `n^(log_2 1) = n^0 = 1` leaf, correct, it follows a single path.
+Sanity checks: mergesort has $n^{\log_2 2} = n^1 = n$ leaves, correct, one per element. Binary search has $n^{\log_2 1} = n^0 = 1$ leaf, correct, it follows a single path.
 
 ---
 
@@ -384,17 +384,17 @@ Sanity checks: mergesort has `n^(log_2 2) = n^1 = n` leaves, correct, one per el
 
 The tree argument, packaged. Use it to write the answer down fast once you have understood the tree.
 
-> **Master theorem.** Let `a >= 1` and `b > 1` be constants, `f(n)` a non-negative function, and
+> **Master theorem.** Let $a \ge 1$ and $b > 1$ be constants, $f(n)$ a non-negative function, and
 > ```
 > T(n) = a T(n/b) + f(n)
 > ```
-> Let `W(n) = n^(log_b a)` be the watershed. Then:
+> Let $W(n) = n^{\log_b a}$ be the watershed. Then:
 >
-> **Case 1 (leaves win).** If `f(n) = O(n^(log_b a - eps))` for some constant `eps > 0`, then `T(n) = Theta(n^(log_b a))`.
+> **Case 1 (leaves win).** If $f(n) = O(n^{\log_b a - \varepsilon})$ for some constant $\varepsilon > 0$, then $T(n) = \Theta(n^{\log_b a})$.
 >
-> **Case 2 (tie).** If `f(n) = Theta(n^(log_b a))`, then `T(n) = Theta(n^(log_b a) * log n)`.
+> **Case 2 (tie).** If $f(n) = \Theta(n^{\log_b a})$, then $T(n) = \Theta(n^{\log_b a} \cdot \log n)$.
 >
-> **Case 3 (root wins).** If `f(n) = Omega(n^(log_b a + eps))` for some constant `eps > 0`, **and** the regularity condition `a f(n/b) <= c f(n)` holds for some `c < 1` and all sufficiently large n, then `T(n) = Theta(f(n))`.
+> **Case 3 (root wins).** If $f(n) = \Omega(n^{\log_b a + \varepsilon})$ for some constant $\varepsilon > 0$, **and** the regularity condition $a f(n/b) \le c f(n)$ holds for some $c < 1$ and all sufficiently large n, then $T(n) = \Theta(f(n))$.
 
 ### How to use it, mechanically
 
@@ -409,27 +409,27 @@ The tree argument, packaged. Use it to write the answer down fast once you have 
 
 ### Worked examples
 
-| Recurrence | a | b | `log_b a` | W(n) | f(n) | Case | Answer |
+| Recurrence | a | b | $\log_b a$ | W(n) | f(n) | Case | Answer |
 |---|---|---|---|---|---|---|---|
-| `T(n)=2T(n/2)+n` | 2 | 2 | 1 | `n` | `n` | 2 | `Theta(n log n)` |
-| `T(n)=2T(n/2)+1` | 2 | 2 | 1 | `n` | `1` | 1 | `Theta(n)` |
-| `T(n)=2T(n/2)+n^2` | 2 | 2 | 1 | `n` | `n^2` | 3 | `Theta(n^2)` |
-| `T(n)=T(n/2)+1` | 1 | 2 | 0 | `1` | `1` | 2 | `Theta(log n)` |
-| `T(n)=T(n/2)+n` | 1 | 2 | 0 | `1` | `n` | 3 | `Theta(n)` |
-| `T(n)=4T(n/2)+n` | 4 | 2 | 2 | `n^2` | `n` | 1 | `Theta(n^2)` |
-| `T(n)=4T(n/2)+n^2` | 4 | 2 | 2 | `n^2` | `n^2` | 2 | `Theta(n^2 log n)` |
-| `T(n)=4T(n/2)+n^3` | 4 | 2 | 2 | `n^2` | `n^3` | 3 | `Theta(n^3)` |
-| `T(n)=3T(n/2)+n` | 3 | 2 | `lg 3 ~ 1.585` | `n^1.585` | `n` | 1 | `Theta(n^lg3)` |
-| `T(n)=7T(n/2)+n^2` | 7 | 2 | `lg 7 ~ 2.807` | `n^2.807` | `n^2` | 1 | `Theta(n^lg7)` |
-| `T(n)=8T(n/2)+n^2` | 8 | 2 | 3 | `n^3` | `n^2` | 1 | `Theta(n^3)` |
-| `T(n)=9T(n/3)+n` | 9 | 3 | 2 | `n^2` | `n` | 1 | `Theta(n^2)` |
-| `T(n)=2T(n/4)+sqrt(n)` | 2 | 4 | 0.5 | `sqrt(n)` | `sqrt(n)` | 2 | `Theta(sqrt(n) log n)` |
+| $T(n)=2T(n/2)+n$ | 2 | 2 | 1 | `n` | `n` | 2 | $\Theta(n \log n)$ |
+| $T(n)=2T(n/2)+1$ | 2 | 2 | 1 | `n` | $1$ | 1 | $\Theta(n)$ |
+| $T(n)=2T(n/2)+n^2$ | 2 | 2 | 1 | `n` | $n^2$ | 3 | $\Theta(n^2)$ |
+| $T(n)=T(n/2)+1$ | 1 | 2 | 0 | $1$ | $1$ | 2 | $\Theta(\log n)$ |
+| $T(n)=T(n/2)+n$ | 1 | 2 | 0 | $1$ | `n` | 3 | $\Theta(n)$ |
+| $T(n)=4T(n/2)+n$ | 4 | 2 | 2 | $n^2$ | `n` | 1 | $\Theta(n^2)$ |
+| $T(n)=4T(n/2)+n^2$ | 4 | 2 | 2 | $n^2$ | $n^2$ | 2 | $\Theta(n^2 \log n)$ |
+| $T(n)=4T(n/2)+n^3$ | 4 | 2 | 2 | $n^2$ | $n^3$ | 3 | $\Theta(n^3)$ |
+| $T(n)=3T(n/2)+n$ | 3 | 2 | `lg 3 ~ 1.585` | $n^{1.585}$ | `n` | 1 | $\Theta(n^{\lg}3)$ |
+| $T(n)=7T(n/2)+n^2$ | 7 | 2 | `lg 7 ~ 2.807` | $n^{2.807}$ | $n^2$ | 1 | $\Theta(n^{\lg}7)$ |
+| $T(n)=8T(n/2)+n^2$ | 8 | 2 | 3 | $n^3$ | $n^2$ | 1 | $\Theta(n^3)$ |
+| $T(n)=9T(n/3)+n$ | 9 | 3 | 2 | $n^2$ | `n` | 1 | $\Theta(n^2)$ |
+| $T(n)=2T(n/4)+\sqrt{n}$ | 2 | 4 | 0.5 | $\sqrt{n}$ | $\sqrt{n}$ | 2 | $\Theta(\sqrt{n} \log n)$ |
 
-Rows 3, 5, and 7 are worth committing to memory as landmarks: binary search is `Theta(log n)`, mergesort is `Theta(n log n)`, naive matrix multiply is `Theta(n^3)`, Strassen is `Theta(n^lg 7)`.
+Rows 3, 5, and 7 are worth committing to memory as landmarks: binary search is $\Theta(\log n)$, mergesort is $\Theta(n \log n)$, naive matrix multiply is $\Theta(n^3)$, Strassen is $\Theta(n^{\lg 7})$.
 
 ### The word "polynomially" is the whole trap
 
-Cases 1 and 3 require the gap to be a **polynomial factor**, `n^eps` for some fixed `eps > 0`. A gap of only `log n` is not enough, and this is where the master theorem fails.
+Cases 1 and 3 require the gap to be a **polynomial factor**, $n^{\varepsilon}$ for some fixed $\varepsilon > 0$. A gap of only $\log n$ is not enough, and this is where the master theorem fails.
 
 **The famous failing example:**
 
@@ -437,7 +437,7 @@ Cases 1 and 3 require the gap to be a **polynomial factor**, `n^eps` for some fi
 T(n) = 2 T(n/2) + n log n
 ```
 
-Here `a = 2, b = 2`, watershed `W(n) = n`. Is `f(n) = n log n` bigger than `n`? Yes. Is it *polynomially* bigger, meaning is `n log n = Omega(n^(1+eps))` for some fixed `eps > 0`? **No**, because `log n` grows slower than `n^eps` for every `eps > 0`. So the gap is real but sub-polynomial, and the master theorem in this form **does not apply**. Say so, then solve it with a recursion tree:
+Here $a = 2, b = 2$, watershed $W(n) = n$. Is $f(n) = n \log n$ bigger than `n`? Yes. Is it *polynomially* bigger, meaning is $n \log n = \Omega(n^{1+\varepsilon})$ for some fixed $\varepsilon > 0$? **No**, because $\log n$ grows slower than $n^{\varepsilon}$ for every $\varepsilon > 0$. So the gap is real but sub-polynomial, and the master theorem in this form **does not apply**. Say so, then solve it with a recursion tree:
 
 ```
 level i: 2^i nodes, each costing (n/2^i) lg(n/2^i) = (n/2^i)(lg n - i)
@@ -445,27 +445,27 @@ level cost: n(lg n - i)
 total: sum_{i=0}^{lg n} n(lg n - i) = n * sum_{j=0}^{lg n} j = n * Theta(lg^2 n) = Theta(n lg^2 n)
 ```
 
-So `T(n) = Theta(n log^2 n)`. Writing "master theorem gives `Theta(n log n)`" here is wrong and is a common trap.
+So $T(n) = \Theta(n \log^2 n)$. Writing "master theorem gives $\Theta(n \log n)$" here is wrong and is a common trap.
 
 **The extended case 2**, which some courses give you and which handles exactly this family:
 
-> If `f(n) = Theta(n^(log_b a) * log^k n)` for some `k >= 0`, then `T(n) = Theta(n^(log_b a) * log^(k+1) n)`.
+> If $f(n) = \Theta(n^{\log_b a} \cdot \log^{k n})$ for some $k \ge 0$, then $T(n) = \Theta(n^{\log_b a} \cdot \log^{k+1} n)$.
 
-With `k = 1` that gives `Theta(n log^2 n)`, matching the tree. Use it if your course states it; derive it with a tree if not.
+With $k = 1$ that gives $\Theta(n \log^2 n)$, matching the tree. Use it if your course states it; derive it with a tree if not.
 
 ### The regularity condition in case 3
 
-`a f(n/b) <= c f(n)` for some `c < 1` says the work is genuinely shrinking as you descend, so the root really does dominate. It holds for every polynomial `f`, so in practice you check it, note that it holds, and move on. It fails for pathological `f` like `n^2 (2 + sin n)`, which is why the condition is there at all. Mention it in one clause so a reader sees you know it exists.
+$a f(n/b) \le c f(n)$ for some $c < 1$ says the work is genuinely shrinking as you descend, so the root really does dominate. It holds for every polynomial $f$, so in practice you check it, note that it holds, and move on. It fails for pathological $f$ like `n^2 (2 + sin n)`, which is why the condition is there at all. Mention it in one clause so a reader sees you know it exists.
 
 ### When the master theorem does not apply at all
 
-- `a` or `b` not constant (`T(n) = n T(n/2) + n`)
-- `b <= 1` (the subproblem is not smaller)
-- `f(n)` not positive
+- $a$ or $b$ not constant ($T(n) = n T(n/2) + n$)
+- $b \le 1$ (the subproblem is not smaller)
+- $f(n)$ not positive
 - Case 3's regularity fails
-- The gap between `f` and `W` is sub-polynomial (the `n log n` case above)
-- Unequal subproblem sizes (`T(n) = T(n/3) + T(2n/3) + n`)
-- Subtract-and-conquer (`T(n) = 2T(n-1) + 1`)
+- The gap between $f$ and $W$ is sub-polynomial (the $n \log n$ case above)
+- Unequal subproblem sizes ($T(n) = T(n/3) + T(2n/3) + n$)
+- Subtract-and-conquer ($T(n) = 2T(n-1) + 1$)
 
 For all of these: recursion tree, or substitution.
 
@@ -475,13 +475,13 @@ For all of these: recursion tree, or substitution.
 
 The most powerful method and the only one that is a genuine proof from first principles. Guess the answer, then prove it by induction.
 
-**Warning that costs points:** you must prove the **exact** inductive statement, not an asymptotic one. Carrying `O()` inside an induction is the single most common error in this class, because it lets you "prove" false things. Prove `T(n) <= c n log n` with an explicit `c`, not `T(n) = O(n log n)`.
+**Warning that costs points:** you must prove the **exact** inductive statement, not an asymptotic one. Carrying `O()` inside an induction is the single most common error in this class, because it lets you "prove" false things. Prove $T(n) \le c n \log n$ with an explicit $c$, not $T(n) = O(n \log n)$.
 
 ### Worked: `T(n) = 2T(n/2) + n`
 
-**Guess:** `T(n) = O(n lg n)`. Concretely, claim `T(n) <= c n lg n` for some constant `c > 0` and all `n >= n0`.
+**Guess:** $T(n) = O(n \lg n)$. Concretely, claim $T(n) \le c n \lg n$ for some constant $c > 0$ and all $n \ge n_0$.
 
-**Induction step.** Assume the claim for all smaller sizes, in particular for `n/2`:
+**Induction step.** Assume the claim for all smaller sizes, in particular for $n/2$:
 
 ```
 T(n) =  2 T(n/2) + n
@@ -492,17 +492,17 @@ T(n) =  2 T(n/2) + n
      <= c n lg n                               [provided -cn + n <= 0, i.e. c >= 1]
 ```
 
-So the step goes through for any `c >= 1`.
+So the step goes through for any $c \ge 1$.
 
-**Base case.** We need some `n0` where the claim holds directly. At `n = 1`, `c * 1 * lg 1 = 0`, but `T(1) > 0`, so `n = 1` fails. This is normal and the fix is standard: **start the base case higher.** Take `n0 = 2`. Then `T(2) = 2T(1) + 2`, and we need `T(2) <= c * 2 * lg 2 = 2c`, which holds by choosing `c` large enough (specifically `c >= T(2)/2`). Since the recursion for `n >= 4` only ever bottoms out at `n = 2` or `n = 3`, and we can pick `c` big enough to cover both, the base is fine.
+**Base case.** We need some $n_0$ where the claim holds directly. At $n = 1$, $c \cdot 1 \cdot \lg 1 = 0$, but $T(1) > 0$, so $n = 1$ fails. This is normal and the fix is standard: **start the base case higher.** Take $n_0 = 2$. Then $T(2) = 2T(1) + 2$, and we need $T(2) \le c \cdot 2 \cdot \lg 2 = 2c$, which holds by choosing $c$ large enough (specifically $c \ge T(2)/2$). Since the recursion for $n \ge 4$ only ever bottoms out at $n = 2$ or $n = 3$, and we can pick $c$ big enough to cover both, the base is fine.
 
-Choose `c = max(1, T(2)/2, T(3)/(3 lg 3))`. Both requirements are satisfied. Therefore `T(n) = O(n lg n)`. QED
+Choose $c = \max(1, T(2)/2, T(3)/(3 \lg 3))$. Both requirements are satisfied. Therefore $T(n) = O(n \lg n)$. QED
 
-**Note the two moves that make substitution work in practice:** you may start the base case at any convenient `n0`, and you may pick `c` as large as you like at the end. Use both freely.
+**Note the two moves that make substitution work in practice:** you may start the base case at any convenient $n_0$, and you may pick $c$ as large as you like at the end. Use both freely.
 
 ### The classic failure: not subtracting enough
 
-Try to prove `T(n) = 2T(n/2) + n` is `O(n)`, which is false, and watch where it breaks:
+Try to prove $T(n) = 2T(n/2) + n$ is $O(n)$, which is false, and watch where it breaks:
 
 ```
 T(n) <= 2 * c(n/2) + n = cn + n
@@ -516,23 +516,23 @@ Now a subtler failure. Suppose you "prove" it anyway by writing `cn + n = O(n)`.
 
 Sometimes a correct guess fails to go through, and the fix is to prove something **stronger**, which paradoxically makes the induction easier because you get more to work with.
 
-Take `T(n) = 2T(n/2) + 1`, guess `T(n) = O(n)`, so claim `T(n) <= cn`:
+Take $T(n) = 2T(n/2) + 1$, guess $T(n) = O(n)$, so claim `T(n) <= cn`:
 
 ```
 T(n) <= 2c(n/2) + 1 = cn + 1
 ```
 
-Off by one, and it fails. Strengthen the claim to `T(n) <= cn - d` for constants `c, d > 0`:
+Off by one, and it fails. Strengthen the claim to `T(n) <= cn - d` for constants $c, d > 0$:
 
 ```
 T(n) <= 2(c(n/2) - d) + 1 = cn - 2d + 1 <= cn - d      [provided d >= 1]
 ```
 
-Works with `d = 1`. And `T(n) <= cn - 1` implies `T(n) = O(n)`, which is what we wanted. **Subtracting a lower-order term from the hypothesis is the standard rescue.** Adding one never helps.
+Works with $d = 1$. And `T(n) <= cn - 1` implies $T(n) = O(n)$, which is what we wanted. **Subtracting a lower-order term from the hypothesis is the standard rescue.** Adding one never helps.
 
 ### Substitution for a lower bound
 
-Same machinery, inequality reversed. To show `T(n) = Omega(n lg n)`, claim `T(n) >= c n lg n` and derive:
+Same machinery, inequality reversed. To show $T(n) = \Omega(n \lg n)$, claim $T(n) \ge c n \lg n$ and derive:
 
 ```
 T(n) =  2T(n/2) + n
@@ -541,7 +541,7 @@ T(n) =  2T(n/2) + n
      >= c n lg n                     [provided c <= 1]
 ```
 
-Note that the constraint flipped: the upper bound needed `c >= 1`, the lower bound needs `c <= 1`. Take `c = 1` for both and you have proved `Theta(n lg n)`.
+Note that the constraint flipped: the upper bound needed $c \ge 1$, the lower bound needs $c \le 1$. Take $c = 1$ for both and you have proved $\Theta(n \lg n)$.
 
 ---
 
@@ -549,7 +549,7 @@ Note that the constraint flipped: the upper bound needed `c >= 1`, the lower bou
 
 Unroll the recurrence a few times, spot the pattern, sum it. Less rigorous than substitution but excellent for *finding* the guess that substitution then verifies.
 
-`T(n) = T(n/2) + 1`:
+$T(n) = T(n/2) + 1$:
 
 ```
 T(n) = T(n/2) + 1
@@ -558,7 +558,7 @@ T(n) = T(n/2) + 1
      = T(n/2^k) + k
 ```
 
-Stop when `n/2^k = 1`, that is `k = lg n`:
+Stop when $n/2^{k} = 1$, that is $k = \lg n$:
 
 ```
 T(n) = T(1) + lg n = Theta(log n)
@@ -566,7 +566,7 @@ T(n) = T(1) + lg n = Theta(log n)
 
 Binary search, confirmed.
 
-`T(n) = 2T(n/2) + n`:
+$T(n) = 2T(n/2) + n$:
 
 ```
 T(n) = 2T(n/2) + n
@@ -575,7 +575,7 @@ T(n) = 2T(n/2) + n
      = 2^k T(n/2^k) + kn
 ```
 
-At `k = lg n`: `T(n) = n T(1) + n lg n = Theta(n lg n)`. Confirmed again.
+At $k = \lg n$: $T(n) = n T(1) + n \lg n = \Theta(n \lg n)$. Confirmed again.
 
 **Use iteration to find the answer and substitution to prove it.** Iteration's "spot the pattern" step is not a proof, and a strict reader will say so.
 
@@ -585,69 +585,69 @@ At `k = lg n`: `T(n) = n T(1) + n lg n = Theta(n lg n)`. Confirmed again.
 
 For recurrences where the argument shrinks in a strange way.
 
-**`T(n) = 2 T(sqrt(n)) + lg n`.**
+**$T(n) = 2 T(\sqrt{n}) + \lg n$.**
 
-Substitute `m = lg n`, so `n = 2^m` and `sqrt(n) = 2^(m/2)`. Define `S(m) = T(2^m)`:
+Substitute $m = \lg n$, so $n = 2^{m}$ and $\sqrt{n} = 2^{m/2}$. Define $S(m) = T(2^{m})$:
 
 ```
 T(2^m) = 2 T(2^(m/2)) + m
 S(m)   = 2 S(m/2) + m
 ```
 
-That is mergesort's recurrence, so `S(m) = Theta(m lg m)`. Substitute back `m = lg n`:
+That is mergesort's recurrence, so $S(m) = \Theta(m \lg m)$. Substitute back $m = \lg n$:
 
 ```
 T(n) = Theta(lg n * lg lg n)
 ```
 
-**`T(n) = T(n/2) + Theta(1)` where n is a *number*, not an array size.** Careful here: if the input is the integer n written in binary, the input *size* is `lg n` bits, so a `Theta(log n)` running time is `Theta(size)`, which is **linear**, not logarithmic, in the input size. This distinction is invisible until file 28 and then decides everything.
+**$T(n) = T(n/2) + \Theta(1)$ where n is a *number*, not an array size.** Careful here: if the input is the integer n written in binary, the input *size* is $\lg n$ bits, so a $\Theta(\log n)$ running time is `Theta(size)`, which is **linear**, not logarithmic, in the input size. This distinction is invisible until file 28 and then decides everything.
 
 ---
 
 ## 23.10 Subtract-and-conquer recurrences
 
-`T(n) = a T(n - b) + f(n)` behaves nothing like the divide case. There is a separate rule.
+$T(n) = a T(n - b) + f(n)$ behaves nothing like the divide case. There is a separate rule.
 
-> If `T(n) = a T(n - b) + f(n)` with `a >= 1`, `b > 0`, and `f(n) = O(n^k)`:
+> If $T(n) = a T(n - b) + f(n)$ with $a \ge 1$, $b > 0$, and $f(n) = O(n^{k})$:
 >
-> - `a < 1`: `T(n) = O(n^k)`
-> - `a = 1`: `T(n) = O(n^(k+1))`
-> - `a > 1`: `T(n) = O(n^k * a^(n/b))`, which is **exponential**
+> - $a < 1$: $T(n) = O(n^{k})$
+> - $a = 1$: $T(n) = O(n^{k+1})$
+> - $a > 1$: $T(n) = O(n^{k} \cdot a^{n/b})$, which is **exponential**
 
-The intuition is that the recursion depth is now `n/b`, which is linear rather than logarithmic, so a branching factor above 1 compounds catastrophically.
+The intuition is that the recursion depth is now $n/b$, which is linear rather than logarithmic, so a branching factor above 1 compounds catastrophically.
 
 | Recurrence | Answer | Where it shows up |
 |---|---|---|
-| `T(n) = T(n-1) + 1` | `Theta(n)` | linear scan by recursion |
-| `T(n) = T(n-1) + n` | `Theta(n^2)` | naive selection sort, insertion sort worst case |
-| `T(n) = 2T(n-1) + 1` | `Theta(2^n)` | towers of Hanoi, subset enumeration |
-| `T(n) = 2T(n-1) + n` | `Theta(2^n)` | naive subset-sum |
-| `T(n) = T(n-1) + T(n-2) + 1` | `Theta(phi^n)`, `phi ~ 1.618` | naive Fibonacci |
-| `T(n) = n T(n-1) + 1` | `Theta(n!)` | permutation enumeration |
+| $T(n) = T(n-1) + 1$ | $\Theta(n)$ | linear scan by recursion |
+| $T(n) = T(n-1) + n$ | $\Theta(n^2)$ | naive selection sort, insertion sort worst case |
+| $T(n) = 2T(n-1) + 1$ | $\Theta(2^{n})$ | towers of Hanoi, subset enumeration |
+| $T(n) = 2T(n-1) + n$ | $\Theta(2^{n})$ | naive subset-sum |
+| $T(n) = T(n-1) + T(n-2) + 1$ | $\Theta(\varphi^{n})$, `phi ~ 1.618` | naive Fibonacci |
+| $T(n) = n T(n-1) + 1$ | $\Theta(n!)$ | permutation enumeration |
 
-**The lesson to carry into file 25:** `T(n) = 2T(n-1) + O(1)` being exponential while `T(n) = 2T(n/2) + O(n)` is `n log n` is the entire reason dynamic programming exists. When a recursive solution subtracts instead of divides and branches more than once, the subproblems *overlap*, and memoizing them collapses the exponential into a polynomial.
+**The lesson to carry into file 25:** $T(n) = 2T(n-1) + O(1)$ being exponential while $T(n) = 2T(n/2) + O(n)$ is $n \log n$ is the entire reason dynamic programming exists. When a recursive solution subtracts instead of divides and branches more than once, the subproblems *overlap*, and memoizing them collapses the exponential into a polynomial.
 
 ---
 
 ## 23.11 Unequal splits
 
-`T(n) = T(n/3) + T(2n/3) + n`.
+$T(n) = T(n/3) + T(2n/3) + n$.
 
 Master theorem does not apply. Recursion tree:
 
 - Every level costs `n`, because the subproblem sizes at each level always sum to `n`.
-- The tree is **unbalanced**: the shortest root-to-leaf path shrinks by 1/3 each time, giving depth `log_3 n`; the longest shrinks by 2/3 each time, giving depth `log_{3/2} n`.
-- So the total is between `n log_3 n` and `n log_{3/2} n`. Both are `Theta(n log n)`.
+- The tree is **unbalanced**: the shortest root-to-leaf path shrinks by 1/3 each time, giving depth $\log_3 n$; the longest shrinks by 2/3 each time, giving depth $\log_{3/2} n$.
+- So the total is between $n \log_3 n$ and $n \log_{3/2} n$. Both are $\Theta(n \log n)$.
 
-`T(n) = Theta(n log n)`.
+$T(n) = \Theta(n \log n)$.
 
-**The lemma behind all of this, which is two lines.** Take `T(n) = T(an) + T(bn) + n` with `a, b < 1`, and let `L_i` be the total cost of level `i` in the recursion tree. If level `i` holds subproblems of sizes `p_1, ..., p_m`, then `L_i = p_1 + ... + p_m` because the combine work at a subproblem of size `p` is `p`. Level `i+1` holds their children, of sizes `a p_1, b p_1, ..., a p_m, b p_m`, so
+**The lemma behind all of this, which is two lines.** Take `T(n) = T(an) + T(bn) + n` with $a, b < 1$, and let $L_i$ be the total cost of level `i` in the recursion tree. If level `i` holds subproblems of sizes $p_1, \dots , p_m$, then $L_i = p_1 + \dots + p_m$ because the combine work at a subproblem of size $p$ is $p$. Level $i+1$ holds their children, of sizes $a p_1, b p_1, \dots , a p_m, b p_m$, so
 
 ```
 L_{i+1} = sum_j (a p_j + b p_j) = (a + b) sum_j p_j = (a + b) L_i
 ```
 
-The level sums are a geometric series with ratio exactly `a + b`, which settles every such recurrence at a glance:
+The level sums are a geometric series with ratio exactly $a + b$, which settles every such recurrence at a glance:
 
 ```
 a + b < 1   ->  decreasing, root dominates    ->  T(n) = Theta(n)
@@ -655,9 +655,9 @@ a + b = 1   ->  every level costs n           ->  T(n) = Theta(n log n)
 a + b > 1   ->  increasing, leaves dominate   ->  superlinear, count the leaves
 ```
 
-This is why median-of-medians works with groups of 5 (`1/5 + 7/10 = 9/10 < 1`, linear) and fails with groups of 3 (`1/3 + 2/3 = 1`, `n log n`). It also covers `T(n) = T(n/7) + T(n/11) + n`, and with `sqrt(n)` as the combine cost instead of `n` the same argument runs with the fractions raised to the matching power.
+This is why median-of-medians works with groups of 5 ($1/5 + 7/10 = 9/10 < 1$, linear) and fails with groups of 3 ($1/3 + 2/3 = 1$, $n \log n$). It also covers $T(n) = T(n/7) + T(n/11) + n$, and with $\sqrt{n}$ as the combine cost instead of `n` the same argument runs with the fractions raised to the matching power.
 
-**The general and genuinely useful fact:** if a recurrence splits into pieces whose sizes sum to n (or less), and the split fractions are **constants** bounded away from 0 and 1, the answer is `Theta(n log n)` with linear combine work. Even a 99/1 split is `Theta(n log n)`. It is only when the split is not a constant fraction, like `T(n) = T(n-1) + T(1) + n`, that you fall to `Theta(n^2)`. This is exactly why quicksort's average case is fine and its worst case is not.
+**The general and genuinely useful fact:** if a recurrence splits into pieces whose sizes sum to n (or less), and the split fractions are **constants** bounded away from 0 and 1, the answer is $\Theta(n \log n)$ with linear combine work. Even a 99/1 split is $\Theta(n \log n)$. It is only when the split is not a constant fraction, like $T(n) = T(n-1) + T(1) + n$, that you fall to $\Theta(n^2)$. This is exactly why quicksort's average case is fine and its worst case is not.
 
 ---
 
@@ -665,57 +665,57 @@ This is why median-of-medians works with groups of 5 (`1/5 + 7/10 = 9/10 < 1`, l
 
 Cover the answers. Do these on paper.
 
-**1. `T(n) = 3T(n/3) + n`**
+**1. $T(n) = 3T(n/3) + n$**
 
-`a=3, b=3, log_3 3 = 1, W = n, f = n`. Case 2. **`Theta(n log n)`.**
+$a=3, b=3, \log_3 3 = 1, W = n, f = n$. Case 2. **$\Theta(n \log n)$.**
 
-**2. `T(n) = T(2n/3) + 1`**
+**2. $T(n) = T(2n/3) + 1$**
 
-`a=1, b=3/2, log_{3/2} 1 = 0, W = 1, f = 1`. Case 2. **`Theta(log n)`.**
+$a=1, b=3/2, \log_{3/2} 1 = 0, W = 1, f = 1$. Case 2. **$\Theta(\log n)$.**
 
-**3. `T(n) = 3T(n/4) + n lg n`**
+**3. $T(n) = 3T(n/4) + n \lg n$**
 
-`log_4 3 ~ 0.793`, `W = n^0.793`. Is `n lg n` polynomially larger? Yes, `n lg n = Omega(n^(0.793 + 0.2))` comfortably. Case 3. Regularity: `3 (n/4) lg(n/4) <= (3/4) n lg n`, so `c = 3/4 < 1`, holds. **`Theta(n lg n)`.**
+`log_4 3 ~ 0.793`, $W = n^{0.793}$. Is $n \lg n$ polynomially larger? Yes, $n \lg n = \Omega(n^{0.793 + 0.2})$ comfortably. Case 3. Regularity: $3 (n/4) \lg(n/4) \le (3/4) n \lg n$, so $c = 3/4 < 1$, holds. **$\Theta(n \lg n)$.**
 
-**4. `T(n) = 2T(n/2) + n / lg n`**
+**4. $T(n) = 2T(n/2) + n / \lg n$**
 
-`W = n`. Is `f = n/lg n` polynomially *smaller* than `n`? It is smaller, but only by a `lg n` factor, which is sub-polynomial. **Master theorem does not apply.** Tree: level i costs `2^i * (n/2^i) / lg(n/2^i) = n / (lg n - i)`. Total `sum_{i=0}^{lg n - 1} n/(lg n - i) = n * sum_{j=1}^{lg n} 1/j = n * H_{lg n} = Theta(n lg lg n)`.
+$W = n$. Is $f = n/\lg n$ polynomially *smaller* than `n`? It is smaller, but only by a $\lg n$ factor, which is sub-polynomial. **Master theorem does not apply.** Tree: level i costs $2^{i} \cdot (n/2^{i}) / \lg(n/2^{i}) = n / (\lg n - i)$. Total $\sum_{i=0}^{\lg n - 1} n/(\lg n - i) = n \cdot \sum_{j=1}^{\lg n} 1/j = n \cdot H_{\lg n} = \Theta(n \lg \lg n)$.
 
-**5. `T(n) = T(n-1) + 1/n`**
+**5. $T(n) = T(n-1) + 1/n$**
 
-Not a divide recurrence. Iterate: `T(n) = sum_{i=1}^{n} 1/i = H_n = Theta(log n)`.
+Not a divide recurrence. Iterate: $T(n) = \sum_{i=1}^{n} 1/i = H_n = \Theta(\log n)$.
 
-**6. `T(n) = 4T(n/2) + n^2 lg n`**
+**6. $T(n) = 4T(n/2) + n^2 \lg n$**
 
-`W = n^2`. `f = n^2 lg n` is larger but only sub-polynomially. Extended case 2 with `k=1`: **`Theta(n^2 lg^2 n)`.**
+$W = n^2$. $f = n^2 \lg n$ is larger but only sub-polynomially. Extended case 2 with $k=1$: **$\Theta(n^2 \lg^2 n)$.**
 
-**7. `T(n) = sqrt(n) T(sqrt(n)) + n`**
+**7. $T(n) = \sqrt{n} T(\sqrt{n}) + n$**
 
-Not standard form since `a` depends on n. Tree: at every level, the total work is `n` (the subproblem sizes always multiply out to n). Depth: sizes go `n, n^(1/2), n^(1/4), ...` and reach 2 after `lg lg n` levels. **`Theta(n lg lg n)`.**
+Not standard form since $a$ depends on n. Tree: at every level, the total work is `n` (the subproblem sizes always multiply out to n). Depth: sizes go $n, n^{1/2}, n^{1/4}, \dots$ and reach 2 after $\lg \lg n$ levels. **$\Theta(n \lg \lg n)$.**
 
-**8. `T(n) = T(n/2) + T(n/4) + T(n/8) + n`**
+**8. $T(n) = T(n/2) + T(n/4) + T(n/8) + n$**
 
-Fractions sum to `1/2 + 1/4 + 1/8 = 7/8 < 1`, so level costs form a decreasing geometric series with ratio 7/8. The root dominates. **`Theta(n)`.** Generalize: **if the fractions sum to less than 1 with linear combine work, the answer is linear; if exactly 1, it is `n log n`; if more than 1, it is superlinear.**
+Fractions sum to $1/2 + 1/4 + 1/8 = 7/8 < 1$, so level costs form a decreasing geometric series with ratio 7/8. The root dominates. **$\Theta(n)$.** Generalize: **if the fractions sum to less than 1 with linear combine work, the answer is linear; if exactly 1, it is $n \log n$; if more than 1, it is superlinear.**
 
-**9. `T(n) = 2T(n/2) + n^2`, prove by substitution.**
+**9. $T(n) = 2T(n/2) + n^2$, prove by substitution.**
 
-Claim `T(n) <= cn^2`. Step: `T(n) <= 2c(n/2)^2 + n^2 = cn^2/2 + n^2 = cn^2 (1/2 + 1/c)`. This is `<= cn^2` provided `1/2 + 1/c <= 1`, that is `c >= 2`. Base: choose c large enough to cover `T(2)`. **`O(n^2)`**, and the matching lower bound is immediate from `T(n) >= n^2`. So `Theta(n^2)`.
+Claim `T(n) <= cn^2`. Step: `T(n) <= 2c(n/2)^2 + n^2 = cn^2/2 + n^2 = cn^2 (1/2 + 1/c)`. This is `<= cn^2` provided $1/2 + 1/c \le 1$, that is $c \ge 2$. Base: choose c large enough to cover $T(2)$. **$O(n^2)$**, and the matching lower bound is immediate from $T(n) \ge n^2$. So $\Theta(n^2)$.
 
-**10. `T(n) = T(n/2) + T(n/4) + 1`.**
+**10. $T(n) = T(n/2) + T(n/4) + 1$.**
 
-Not master. Guess `T(n) = O(n^alpha)` and find alpha by substituting `n^alpha`: we need `(1/2)^alpha + (1/4)^alpha = 1`. Let `x = (1/2)^alpha`, then `x + x^2 = 1`, so `x = (sqrt(5)-1)/2 ~ 0.618`. Then `alpha = -lg(0.618) ~ 0.694`. **`Theta(n^0.694)`.** This "solve for the exponent that makes the fractions sum to 1" trick is the poor man's Akra-Bazzi and is worth knowing.
+Not master. Guess $T(n) = O(n^{\alpha})$ and find alpha by substituting $n^{\alpha}$: we need $(1/2)^{\alpha} + (1/4)^{\alpha} = 1$. Let $x = (1/2)^{\alpha}$, then $x + x^2 = 1$, so `x = (sqrt(5)-1)/2 ~ 0.618`. Then `alpha = -lg(0.618) ~ 0.694`. **$\Theta(n^{0.694})$.** This "solve for the exponent that makes the fractions sum to 1" trick is the poor man's Akra-Bazzi and is worth knowing.
 
 **11. Hanoi with a twist: the pegs are in a row, and a disk may only move between adjacent pegs.**
 
-So `src` and `dst` are never directly connected; every move goes through `tmp`. To move `n` disks from `src` to `dst`: move `n-1` to `dst`, move disk n to `tmp`, move the `n-1` back to `src`, move disk n to `dst`, move the `n-1` to `dst` one last time. That is `T(n) = 3T(n-1) + 2`, so `T(n) = 3^n - 1` and **`Theta(3^n)`**. The point of the exercise is that the recurrence changes because the *reduction* changed, not because the analysis did.
+So `src` and `dst` are never directly connected; every move goes through `tmp`. To move `n` disks from `src` to `dst`: move $n-1$ to `dst`, move disk n to `tmp`, move the $n-1$ back to `src`, move disk n to `dst`, move the $n-1$ to `dst` one last time. That is $T(n) = 3T(n-1) + 2$, so $T(n) = 3^{n} - 1$ and **$\Theta(3^{n})$**. The point of the exercise is that the recurrence changes because the *reduction* changed, not because the analysis did.
 
-**12. Why is `T(n) = 2T(n/2) + 1` not `Theta(n log n)`?**
+**12. Why is $T(n) = 2T(n/2) + 1$ not $\Theta(n \log n)$?**
 
-Because `f(n) = 1`, not `n`. `W = n^(log_2 2) = n` dominates, case 1, so **`Theta(n)`**. Concretely: the tree has `n` leaves, each costing 1, and the internal levels form an increasing geometric series dominated by the leaf level. Every level costing the same is what produces the extra `log n`, and that only happens when `f(n)` matches `W`.
+Because $f(n) = 1$, not `n`. $W = n^{\log_2 2} = n$ dominates, case 1, so **$\Theta(n)$**. Concretely: the tree has `n` leaves, each costing 1, and the internal levels form an increasing geometric series dominated by the leaf level. Every level costing the same is what produces the extra $\log n$, and that only happens when $f(n)$ matches $W$.
 
 **13. `FIB(n)` returns `FIB(n-1) + FIB(n-2)`. Give the number of calls, and say why memoizing changes it.**
 
-`T(n) = T(n-1) + T(n-2) + 1`, which grows like `phi^n` with `phi = (1+sqrt 5)/2`, so **`Theta(phi^n)`**. The two subtractive calls overlap almost entirely: there are only `n` distinct subproblems but the tree recomputes them exponentially often. Storing each result the first time it is computed collapses the count to `Theta(n)`. That single observation is all of file 25.
+$T(n) = T(n-1) + T(n-2) + 1$, which grows like $\varphi^{n}$ with $\varphi = (1+\sqrt{5})/2$, so **$\Theta(\varphi^{n})$**. The two subtractive calls overlap almost entirely: there are only `n` distinct subproblems but the tree recomputes them exponentially often. Storing each result the first time it is computed collapses the count to $\Theta(n)$. That single observation is all of file 25.
 
 ---
 
@@ -727,13 +727,13 @@ If your course covers it, it handles unequal splits in full generality. For
 T(n) = sum_{i=1}^{k} a_i T(n / b_i) + f(n)
 ```
 
-find the unique `p` satisfying `sum_i a_i / b_i^p = 1`, and then
+find the unique $p$ satisfying $\sum_i a_i / b_i^{p} = 1$, and then
 
 ```
 T(n) = Theta( n^p * (1 + integral from 1 to n of f(u)/u^(p+1) du) )
 ```
 
-The master theorem is the special case `k = 1`, where `p = log_b a`. Problem 10 above is the `k = 2` case done by hand. Most courses only mention Akra-Bazzi; know that it exists and that the exponent `p` is defined by "the fractions raised to p sum to 1".
+The master theorem is the special case $k = 1$, where $p = \log_b a$. Problem 10 above is the $k = 2$ case done by hand. Most courses only mention Akra-Bazzi; know that it exists and that the exponent $p$ is defined by "the fractions raised to p sum to 1".
 
 ---
 
@@ -758,8 +758,8 @@ When a recurrence appears, run this in order:
 
 And two habits worth keeping:
 
-- **State which case you are in and why.** "Case 1, since `f(n) = n = O(n^(2 - 0.5))`" earns the point that "Case 1" alone does not.
-- **Sanity check against a known algorithm.** If you derive `Theta(n)` for mergesort, you made an arithmetic error. Keep the landmark table from 23.6 in your head as a set of tripwires.
+- **State which case you are in and why.** "Case 1, since $f(n) = n = O(n^{2 - 0.5})$" earns the point that "Case 1" alone does not.
+- **Sanity check against a known algorithm.** If you derive $\Theta(n)$ for mergesort, you made an arithmetic error. Keep the landmark table from 23.6 in your head as a set of tripwires.
 
 ---
 

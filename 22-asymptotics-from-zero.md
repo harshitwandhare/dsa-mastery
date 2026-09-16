@@ -40,7 +40,7 @@ Two justifications for dropping constants specifically:
 
 The honest caveat, which good courses state and bad ones do not: **constants sometimes decide the winner in practice.** Strassen's matrix multiply is asymptotically better than the naive method and is slower until the matrices are large. Insertion sort beats mergesort below roughly n = 30, which is why real sort libraries switch to it at small sizes. Asymptotics is the first question, not the only question.
 
-The same caveat pointed the other way: **`O(1)` says nothing about the size of the constant.** `10^85` is `O(1)`, and `10^85` is roughly the number of atoms in the observable universe. When someone reports a constant-time or linear-time result, the asymptotics is a claim about shape, not about whether the thing runs. Read the constant when the constant is available.
+The same caveat pointed the other way: **$O(1)$ says nothing about the size of the constant.** $10^{85}$ is $O(1)$, and $10^{85}$ is roughly the number of atoms in the observable universe. When someone reports a constant-time or linear-time result, the asymptotics is a claim about shape, not about whether the thing runs. Read the constant when the constant is available.
 
 ---
 
@@ -48,15 +48,15 @@ The same caveat pointed the other way: **`O(1)` says nothing about the size of t
 
 The cleanest mental model: the five asymptotic notations are exactly the five ways you can compare two numbers.
 
-Let `a` and `b` be ordinary numbers, and `f` and `g` be functions from positive integers to non-negative reals.
+Let $a$ and $b$ be ordinary numbers, and $f$ and $g$ be functions from positive integers to non-negative reals.
 
 | Comparing numbers | Comparing growth | In words |
 |---|---|---|
-| `a <= b` | `f = O(g)` | f grows **no faster than** g |
-| `a >= b` | `f = Omega(g)` | f grows **no slower than** g |
-| `a == b` | `f = Theta(g)` | f grows **at the same rate as** g |
-| `a < b` | `f = o(g)` | f grows **strictly slower than** g |
-| `a > b` | `f = omega(g)` | f grows **strictly faster than** g |
+| $a \le b$ | $f = O(g)$ | f grows **no faster than** g |
+| $a \ge b$ | $f = \Omega(g)$ | f grows **no slower than** g |
+| $a == b$ | $f = \Theta(g)$ | f grows **at the same rate as** g |
+| $a < b$ | $f = o(g)$ | f grows **strictly slower than** g |
+| $a > b$ | $f = \omega(g)$ | f grows **strictly faster than** g |
 
 Read them out loud that way until it is automatic:
 
@@ -67,12 +67,12 @@ Read them out loud that way until it is automatic:
 
 ### The equals sign is a lie
 
-We write `f = O(g)` but this is not equality. `O(g)` is a **set of functions**, and the correct statement is `f` is in `O(g)`. The `=` is historical abuse of notation that everyone including CLRS uses.
+We write $f = O(g)$ but this is not equality. $O(g)$ is a **set of functions**, and the correct statement is $f$ is in $O(g)$. The `=` is historical abuse of notation that everyone including CLRS uses.
 
 Two consequences you will be tested on:
 
-- **It does not commute.** `n = O(n^2)` is true. `O(n^2) = n` is meaningless. Never write it reversed.
-- **You cannot chain it like equality.** From `f = O(h)` and `g = O(h)` you may not conclude `f = g`. Both `n` and `n^2` are `O(n^3)` and they are not equal to each other.
+- **It does not commute.** $n = O(n^2)$ is true. $O(n^2) = n$ is meaningless. Never write it reversed.
+- **You cannot chain it like equality.** From $f = O(h)$ and $g = O(h)$ you may not conclude $f = g$. Both `n` and $n^2$ are $O(n^3)$ and they are not equal to each other.
 
 Read `=` as **"is"**. `n is O(n^2)`. That single habit prevents most of the errors here.
 
@@ -82,50 +82,50 @@ Read `=` as **"is"**. `n is O(n^2)`. That single habit prevents most of the erro
 
 ### Big-O
 
-> `f(n) = O(g(n))` if there exist positive constants `c` and `n0` such that
-> `0 <= f(n) <= c * g(n)` for all `n >= n0`.
+> $f(n) = O(g(n))$ if there exist positive constants $c$ and $n_0$ such that
+> $0 \le f(n) \le c \cdot g(n)$ for all $n \ge n_0$.
 
 Two constants, and each one is a specific license you are being granted.
 
-**`c` is your license to ignore constant factors.** Without it, `3n^2 = O(n^2)` would be false, because `3n^2` is not `<= n^2`. With it, you pick `c = 3` and you are done.
+**$c$ is your license to ignore constant factors.** Without it, $3n^2 = O(n^2)$ would be false, because $3n^2$ is not $\le n^2$. With it, you pick $c = 3$ and you are done.
 
-**`n0` is your license to ignore small inputs.** Without it you would have to make the inequality hold at n = 1, n = 2, and every other tiny case where lower-order terms can dominate. With it you say "I only care about `n >= 100`" and everything below that is somebody else's problem.
+**$n_0$ is your license to ignore small inputs.** Without it you would have to make the inequality hold at n = 1, n = 2, and every other tiny case where lower-order terms can dominate. With it you say "I only care about $n \ge 100$" and everything below that is somebody else's problem.
 
 Together: **past some point, and up to some scaling factor, g is a ceiling for f.**
 
-Draw it. Plot `f(n)`. Plot `c * g(n)` for your chosen `c`. Find the x-coordinate past which the second curve is always above the first. That x-coordinate is `n0`. If such a `c` exists at all, you have a Big-O.
+Draw it. Plot $f(n)$. Plot $c \cdot g(n)$ for your chosen $c$. Find the x-coordinate past which the second curve is always above the first. That x-coordinate is $n_0$. If such a $c$ exists at all, you have a Big-O.
 
 ### Big-Omega
 
-> `f(n) = Omega(g(n))` if there exist positive constants `c` and `n0` such that
-> `0 <= c * g(n) <= f(n)` for all `n >= n0`.
+> $f(n) = \Omega(g(n))$ if there exist positive constants $c$ and $n_0$ such that
+> $0 \le c \cdot g(n) \le f(n)$ for all $n \ge n_0$.
 
 The mirror image. Past some point, and up to some scaling factor, g is a **floor** for f.
 
 ### Theta
 
-> `f(n) = Theta(g(n))` if there exist positive constants `c1`, `c2`, and `n0` such that
-> `0 <= c1 * g(n) <= f(n) <= c2 * g(n)` for all `n >= n0`.
+> $f(n) = \Theta(g(n))$ if there exist positive constants $c_1$, $c_2$, and $n_0$ such that
+> $0 \le c_1 \cdot g(n) \le f(n) \le c_2 \cdot g(n)$ for all $n \ge n_0$.
 
 f is sandwiched between two scaled copies of g. Equivalently, and this is the version to use in proofs:
 
-> `f = Theta(g)` **iff** `f = O(g)` **and** `f = Omega(g)`.
+> $f = \Theta(g)$ **iff** $f = O(g)$ **and** $f = \Omega(g)$.
 
 This is the strongest of the three claims, so it earns the most credit and takes the most work.
 
 ### little-o and little-omega
 
-> `f(n) = o(g(n))` if for **every** positive constant `c` there exists `n0` such that
-> `0 <= f(n) < c * g(n)` for all `n >= n0`.
+> $f(n) = o(g(n))$ if for **every** positive constant $c$ there exists $n_0$ such that
+> $0 \le f(n) < c \cdot g(n)$ for all $n \ge n_0$.
 
-Read the quantifier change carefully, because it is the entire difference. Big-O says *there exists some* `c` that works. little-o says *every* `c` works, including `c = 0.0000001`. That is only possible if `f` becomes negligible relative to `g`, so:
+Read the quantifier change carefully, because it is the entire difference. Big-O says *there exists some* $c$ that works. little-o says *every* $c$ works, including $c = 0.0000001$. That is only possible if $f$ becomes negligible relative to $g$, so:
 
 ```
 f = o(g)  means  lim (f/g) = 0
 f = omega(g)  means  lim (f/g) = infinity
 ```
 
-`n = o(n^2)` is true. `3n^2 = o(n^2)` is false, because `c = 1` fails. But `3n^2 = O(n^2)` is true. **Big-O permits equality of growth rates; little-o forbids it.**
+$n = o(n^2)$ is true. $3n^2 = o(n^2)$ is false, because $c = 1$ fails. But $3n^2 = O(n^2)$ is true. **Big-O permits equality of growth rates; little-o forbids it.**
 
 ### The relationships, summarized
 
@@ -148,53 +148,53 @@ This is the mechanical skill everything else rests on, so drill it.
 
 ### Example 1: prove `3n^2 + 500n + 9000 = O(n^2)`
 
-We must exhibit specific `c` and `n0`.
+We must exhibit specific $c$ and $n_0$.
 
-For all `n >= 1` we have `n <= n^2` and `1 <= n^2`. Therefore:
+For all $n \ge 1$ we have $n \le n^2$ and $1 \le n^2$. Therefore:
 
 ```
 3n^2 + 500n + 9000  <=  3n^2 + 500n^2 + 9000n^2  =  9503 n^2
 ```
 
-Take `c = 9503` and `n0 = 1`. The definition is satisfied. QED
+Take $c = 9503$ and $n_0 = 1$. The definition is satisfied. QED
 
-The constant is absurd and **nobody cares**. Big-O asks you to find *a* `c`, not the *best* `c`. This is why these proofs feel like cheating. They are supposed to.
+The constant is absurd and **nobody cares**. Big-O asks you to find *a* $c$, not the *best* $c$. This is why these proofs feel like cheating. They are supposed to.
 
 The technique generalizes: **to prove a polynomial is O of its leading term, replace every lower power by the leading power and add the coefficients.**
 
 ### Example 2: prove the same function is `Omega(n^2)`
 
-For all `n >= 0`, since `500n >= 0` and `9000 >= 0`:
+For all $n \ge 0$, since $500n \ge 0$ and $9000 \ge 0$:
 
 ```
 3n^2 + 500n + 9000  >=  3n^2
 ```
 
-Take `c = 3`, `n0 = 0`. QED
+Take $c = 3$, $n_0 = 0$. QED
 
 Lower bounds on polynomials are usually easier: **throw away the non-negative lower-order terms.**
 
 ### Example 3: therefore `Theta(n^2)`
 
-Both bounds hold, so by the definition of Theta, `3n^2 + 500n + 9000 = Theta(n^2)`. With `c1 = 3`, `c2 = 9503`, `n0 = 1`. QED
+Both bounds hold, so by the definition of Theta, $3n^2 + 500n + 9000 = \Theta(n^2)$. With $c_1 = 3$, $c_2 = 9503$, $n_0 = 1$. QED
 
 ### Example 4: prove `n^2 != O(n)`
 
 To disprove an existential you must argue for **all** candidate constants. Proof by contradiction.
 
-Suppose `n^2 = O(n)`. Then there exist `c > 0` and `n0` with `n^2 <= c*n` for all `n >= n0`. Dividing both sides by `n` (positive, so the inequality direction is preserved) gives `n <= c` for all `n >= n0`. But `c` is a fixed constant, and taking `n = max(n0, c+1)` gives `n > c`, a contradiction. Therefore no such `c` exists. QED
+Suppose $n^2 = O(n)$. Then there exist $c > 0$ and $n_0$ with $n^2 \le c \cdot n$ for all $n \ge n_0$. Dividing both sides by `n` (positive, so the inequality direction is preserved) gives $n \le c$ for all $n \ge n_0$. But $c$ is a fixed constant, and taking $n = \max(n_0, c+1)$ gives $n > c$, a contradiction. Therefore no such $c$ exists. QED
 
 **Study that shape.** Every "prove this is *not* O of that" proof is: assume the constant exists, derive that a variable is bounded by a constant, take the variable bigger than the constant, contradiction.
 
 ### Example 5: a trap worth doing once
 
-Prove or disprove: `2^(n+1) = O(2^n)`.
+Prove or disprove: $2^{n+1} = O(2^{n})$.
 
-**True.** `2^(n+1) = 2 * 2^n`, so `c = 2` and `n0 = 0` work. A constant in the *exponent* becomes a constant *factor*, and constant factors are free.
+**True.** $2^{n+1} = 2 \cdot 2^{n}$, so $c = 2$ and $n_0 = 0$ work. A constant in the *exponent* becomes a constant *factor*, and constant factors are free.
 
-Now: `2^(2n) = O(2^n)`?
+Now: $2^{2n} = O(2^{n})$?
 
-**False.** `2^(2n) = (2^n)^2`, so the ratio is `2^n`, which grows without bound. By the same contradiction shape as Example 4, no constant `c` can dominate `2^n`. **A multiplier in the exponent is not a constant factor.** This distinction shows up in file 28 when you compare `2^n` to `2^(n/2)`.
+**False.** $2^{2n} = (2^{n})^2$, so the ratio is $2^{n}$, which grows without bound. By the same contradiction shape as Example 4, no constant $c$ can dominate $2^{n}$. **A multiplier in the exponent is not a constant factor.** This distinction shows up in file 28 when you compare $2^{n}$ to $2^{n/2}$.
 
 ---
 
@@ -212,39 +212,39 @@ and read the answer off this table.
 
 | L | Conclusion | Intuition |
 |---|---|---|
-| `0` | `f = o(g)`, hence `f = O(g)` but **not** `Omega(g)` | f is dwarfed by g |
-| `0 < L < infinity` | `f = Theta(g)` | same growth, differ by the constant factor L |
-| `infinity` | `f = omega(g)`, hence `f = Omega(g)` but **not** `O(g)` | f dwarfs g |
-| does not exist, but `f/g` stays bounded | still `f = O(g)` | O only needs a ceiling, not convergence |
+| $0$ | $f = o(g)$, hence $f = O(g)$ but **not** $\Omega(g)$ | f is dwarfed by g |
+| $0 < L < \infty$ | $f = \Theta(g)$ | same growth, differ by the constant factor L |
+| $\infty$ | $f = \omega(g)$, hence $f = \Omega(g)$ but **not** $O(g)$ | f dwarfs g |
+| does not exist, but $f/g$ stays bounded | still $f = O(g)$ | O only needs a ceiling, not convergence |
 
 That last row matters more than it looks, and it is where the definition and the shortcut come apart.
 
-Take `f(n) = n(2 + sin n)` and `g(n) = n`. The ratio oscillates between 1 and 3 forever, so `lim f/g` does not exist. Yet `f = O(g)` holds perfectly well with `c = 3`, and `f = Omega(g)` holds with `c = 1`, so in fact `f = Theta(g)`. **Boundedness is the real requirement. The limit is a convenient sufficient condition, not the definition.** If a limit fails to exist, fall back to the definition rather than concluding anything.
+Take `f(n) = n(2 + sin n)` and $g(n) = n$. The ratio oscillates between 1 and 3 forever, so $\lim f/g$ does not exist. Yet $f = O(g)$ holds perfectly well with $c = 3$, and $f = \Omega(g)$ holds with $c = 1$, so in fact $f = \Theta(g)$. **Boundedness is the real requirement. The limit is a convenient sufficient condition, not the definition.** If a limit fails to exist, fall back to the definition rather than concluding anything.
 
 ### The trap: a finite limit only buys you one direction
 
-Suppose all you are told about two functions is that `f(n)/g(n)` approaches a **finite** limit `L`, with no promise that `L` is nonzero. What follows?
+Suppose all you are told about two functions is that $f(n)/g(n)$ approaches a **finite** limit $L$, with no promise that $L$ is nonzero. What follows?
 
-**You get `f = O(g)`, and that is all.** Finiteness alone puts you in row one or row two of the table, and both of those rows give the upper bound. Concretely: if `L` is finite then past some `n0` the ratio stays below `L + 1`, so `f(n) <= (L+1) g(n)`, which is the definition with `c = L + 1`.
+**You get $f = O(g)$, and that is all.** Finiteness alone puts you in row one or row two of the table, and both of those rows give the upper bound. Concretely: if $L$ is finite then past some $n_0$ the ratio stays below $L + 1$, so $f(n) \le (L+1) g(n)$, which is the definition with $c = L + 1$.
 
-**You do not get the reverse.** Nothing excluded `L = 0`, and `L = 0` is exactly the row where `g = O(f)` dies. Take `f(n) = n` and `g(n) = n^2`. The limit is 0, which is certainly finite, so the hypothesis holds. `f = O(g)` since `n <= n^2`. But `g = O(f)` would mean `n^2 <= c n`, which Example 4 disproved. So the reverse direction fails, and with it any claim of Theta.
+**You do not get the reverse.** Nothing excluded $L = 0$, and $L = 0$ is exactly the row where $g = O(f)$ dies. Take $f(n) = n$ and $g(n) = n^2$. The limit is 0, which is certainly finite, so the hypothesis holds. $f = O(g)$ since $n \le n^2$. But $g = O(f)$ would mean $n^2 \le c n$, which Example 4 disproved. So the reverse direction fails, and with it any claim of Theta.
 
 The whole thing in one sentence:
 
 > **A finite limit gives you O in one direction. You only get Theta when the limit is finite AND nonzero.**
 
-This is worth drilling because the two hypotheses look almost identical and are not. "The limit is at most some constant" hands you finiteness while quietly withholding nonzero-ness, so it gives `f = O(g)` alone. "The limit is exactly some positive constant" hands you both, so it gives `f = Theta(g)`. Read which one you were given before answering.
+This is worth drilling because the two hypotheses look almost identical and are not. "The limit is at most some constant" hands you finiteness while quietly withholding nonzero-ness, so it gives $f = O(g)$ alone. "The limit is exactly some positive constant" hands you both, so it gives $f = \Theta(g)$. Read which one you were given before answering.
 
 ### L'Hopital, and when you need it
 
-For ratios like `(log n) / n` where both go to infinity, differentiate top and bottom with respect to n treated as a real variable:
+For ratios like $(\log n) / n$ where both go to infinity, differentiate top and bottom with respect to n treated as a real variable:
 
 ```
 lim (ln n)/n  =  lim (1/n)/1  =  lim 1/n  =  0        so log n = o(n)
 lim n/(2^n)   =  lim 1/(2^n ln 2)         =  0        so n = o(2^n)
 ```
 
-Repeat as needed. `n^k / 2^n` needs k applications and lands at 0 every time, which proves **every polynomial is little-o of every exponential.**
+Repeat as needed. $n^{k} / 2^{n}$ needs k applications and lands at 0 every time, which proves **every polynomial is little-o of every exponential.**
 
 ---
 
@@ -261,41 +261,41 @@ Names, since questions get phrased with them:
 
 | Growth | Name | Feels like |
 |---|---|---|
-| `O(1)` | constant | hash lookup |
-| `O(log n)` | logarithmic | binary search |
-| `O(n)` | linear | one scan |
-| `O(n log n)` | linearithmic | comparison sorting, the good sorts |
-| `O(n^2)` | quadratic | all pairs |
-| `O(n^3)` | cubic | naive matrix multiply |
-| `O(n^k)`, k constant | polynomial | "tractable", the P in P vs NP |
-| `O(2^n)` | exponential | all subsets |
-| `O(n!)` | factorial | all permutations |
+| $O(1)$ | constant | hash lookup |
+| $O(\log n)$ | logarithmic | binary search |
+| $O(n)$ | linear | one scan |
+| $O(n \log n)$ | linearithmic | comparison sorting, the good sorts |
+| $O(n^2)$ | quadratic | all pairs |
+| $O(n^3)$ | cubic | naive matrix multiply |
+| $O(n^{k})$, k constant | polynomial | "tractable", the P in P vs NP |
+| $O(2^{n})$ | exponential | all subsets |
+| $O(n!)$ | factorial | all permutations |
 
 Facts worth internalizing, because they get asked constantly:
 
-- **Log base is irrelevant.** `log_2 n` and `log_10 n` differ by a constant factor, so they are Theta of each other. Hence we write `O(log n)` with no base at all.
-- **Any positive power of n beats any power of log n.** Even `n^0.0001` eventually overtakes `(log n)^100`. Logs are astonishingly slow.
-- **Any exponential beats any polynomial.** Even `1.0001^n` eventually overtakes `n^1000`.
-- **`n log n` is strictly between `n` and `n^2`.** Not "basically linear" and not "basically quadratic". This is why `Theta(n log n)` comparison sorting is a genuinely meaningful result.
-- **`log(n!) = Theta(n log n)`.** Used in the sorting lower bound in file 24.
-- **`lg* n` is slower than everything.** The iterated logarithm, defined in 21.6, is `o(log log log n)` and never exceeds 5 on any input that fits in this universe. It shows up in exactly one place worth remembering, the analysis of union-find.
-- **The bottom of the table runs out of universe fast.** At a hundred petaflops, with about 3 x 10^7 seconds in a year, and one supercomputer per atom in the observable universe, you still cannot finish `n!` steps for `n = 1000`, or `2^n` for `n = 400`. The gap between polynomial and exponential is not a matter of waiting or of buying hardware, and file 28 is built on that fact.
-- **`2^n` and `n!` are not the same.** `n!` is much worse. `n! / 2^n` goes to infinity.
+- **Log base is irrelevant.** $\log_2 n$ and $\log_10 n$ differ by a constant factor, so they are Theta of each other. Hence we write $O(\log n)$ with no base at all.
+- **Any positive power of n beats any power of log n.** Even $n^{0.0001}$ eventually overtakes $(\log n)^{100}$. Logs are astonishingly slow.
+- **Any exponential beats any polynomial.** Even $1.0001^{n}$ eventually overtakes $n^{1000}$.
+- **$n \log n$ is strictly between `n` and $n^2$.** Not "basically linear" and not "basically quadratic". This is why $\Theta(n \log n)$ comparison sorting is a genuinely meaningful result.
+- **$\log(n!) = \Theta(n \log n)$.** Used in the sorting lower bound in file 24.
+- **$\lg^{*} n$ is slower than everything.** The iterated logarithm, defined in 21.6, is $o(\log \log \log n)$ and never exceeds 5 on any input that fits in this universe. It shows up in exactly one place worth remembering, the analysis of union-find.
+- **The bottom of the table runs out of universe fast.** At a hundred petaflops, with about 3 x 10^7 seconds in a year, and one supercomputer per atom in the observable universe, you still cannot finish $n!$ steps for $n = 1000$, or $2^{n}$ for $n = 400$. The gap between polynomial and exponential is not a matter of waiting or of buying hardware, and file 28 is built on that fact.
+- **$2^{n}$ and $n!$ are not the same.** $n!$ is much worse. $n! / 2^{n}$ goes to infinity.
 
 ### Comparing two expressions fast
 
-When you are asked "is `f = O(g)`, `Omega(g)`, or `Theta(g)`?", the fastest reliable move is to **take logs of both** when they are products, powers, or exponentials.
+When you are asked "is $f = O(g)$, $\Omega(g)$, or $\Theta(g)$?", the fastest reliable move is to **take logs of both** when they are products, powers, or exponentials.
 
-Example: compare `n^(log n)` and `2^n`.
+Example: compare $n^{\log n}$ and $2^{n}$.
 
 ```
 log(n^(log n)) = (log n)(log n) = (log n)^2
 log(2^n)       = n
 ```
 
-Since `(log n)^2 = o(n)`, the first log is smaller, so `n^(log n) = o(2^n)`.
+Since $(\log n)^2 = o(n)$, the first log is smaller, so $n^{\log n} = o(2^{n})$.
 
-This works because `log` is strictly increasing, so it preserves ordering. It converts multiplication into addition and exponentiation into multiplication, which turns hard comparisons into easy ones. Be careful: `log` preserves the *ordering* but not the *ratio*, so `log f = o(log g)` gives you `f = o(g)`, but `log f = Theta(log g)` does **not** give you `f = Theta(g)`. Counterexample: `f = n`, `g = n^2` have logs `log n` and `2 log n`, which are Theta of each other, while `f` and `g` are not.
+This works because $\log$ is strictly increasing, so it preserves ordering. It converts multiplication into addition and exponentiation into multiplication, which turns hard comparisons into easy ones. Be careful: $\log$ preserves the *ordering* but not the *ratio*, so $\log f = o(\log g)$ gives you $f = o(g)$, but $\log f = \Theta(\log g)$ does **not** give you $f = \Theta(g)$. Counterexample: $f = n$, $g = n^2$ have logs $\log n$ and $2 \log n$, which are Theta of each other, while $f$ and $g$ are not.
 
 ---
 
@@ -314,7 +314,7 @@ if x > y:
 
 A fixed number of primitive operations, independent of n. O(1).
 
-Careful with what "primitive" means. `arr[i]` is O(1). But `arr.insert(0, x)` in Python is O(n), and `s1 + s2` for strings of length n is O(n). In pseudocode, assume only the RAM-model primitives are O(1) and say so if a step is more.
+Careful with what "primitive" means. `arr[i]` is O(1). But `arr.insert(0, x)` in Python is O(n), and $s_1 + s_2$ for strings of length n is O(n). In pseudocode, assume only the RAM-model primitives are O(1) and say so if a step is more.
 
 ### Rule 2: sequential blocks add, so the biggest wins
 
@@ -324,7 +324,7 @@ BLOCK-B     # O(n^2)
 # total: O(n + n^2) = O(n^2)
 ```
 
-Addition inside asymptotics collapses to the max. `O(f + g) = O(max(f, g))`.
+Addition inside asymptotics collapses to the max. $O(f + g) = O(\max(f, g))$.
 
 ### Rule 3: nested loops multiply
 
@@ -345,7 +345,7 @@ for i = 1 to n
         constant work
 ```
 
-The body runs `1 + 2 + 3 + ... + n = n(n+1)/2` times. That is still `Theta(n^2)`, but you have to *sum* it rather than pattern-match, and the next example shows why that matters:
+The body runs $1 + 2 + 3 + \dots + n = n(n+1)/2$ times. That is still $\Theta(n^2)$, but you have to *sum* it rather than pattern-match, and the next example shows why that matters:
 
 ```
 for i = 1 to n
@@ -353,7 +353,7 @@ for i = 1 to n
         constant work
 ```
 
-Total is `sum_{i=1}^{n} n/i = n * sum_{i=1}^{n} 1/i = n * H_n = Theta(n log n)`. Two nested loops, but **not** quadratic. The harmonic sum did the work.
+Total is $\sum_{i=1}^{n} n/i = n \cdot \sum_{i=1}^{n} 1/i = n \cdot H_n = \Theta(n \log n)$. Two nested loops, but **not** quadratic. The harmonic sum did the work.
 
 ### Rule 5: multiplicative shrinking gives logs
 
@@ -364,7 +364,7 @@ while i > 1
     constant work
 ```
 
-The values are `n, n/2, n/4, ...` down to 1. The number of halvings is `log_2 n`, so this is `Theta(log n)`.
+The values are $n, n/2, n/4, \dots$ down to 1. The number of halvings is $\log_2 n$, so this is $\Theta(\log n)$.
 
 **The general principle: anything that repeatedly divides the problem size by a constant factor greater than 1 gives you a log.** And symmetrically, anything that repeatedly *multiplies* by a constant factor gives you a log:
 
@@ -374,7 +374,7 @@ while i < n
     i = i * 2
 ```
 
-Also `Theta(log n)`. Same series read backwards.
+Also $\Theta(\log n)$. Same series read backwards.
 
 Contrast with subtraction:
 
@@ -384,7 +384,7 @@ while i > 0
     i = i - 1
 ```
 
-That is `Theta(n)`. **Divide gives log, subtract gives linear.** Getting this backwards is a classic mistake.
+That is $\Theta(n)$. **Divide gives log, subtract gives linear.** Getting this backwards is a classic mistake.
 
 ### Rule 6: a doubly-nested log is a real thing
 
@@ -395,7 +395,7 @@ for i = 1 to n
         j = j * 2
 ```
 
-Outer is n, inner is log n, total `Theta(n log n)`. This is one of the few natural ways to get `n log n` from loops rather than from a recurrence.
+Outer is n, inner is log n, total $\Theta(n \log n)$. This is one of the few natural ways to get $n \log n$ from loops rather than from a recurrence.
 
 ### Worked walkthrough
 
@@ -410,13 +410,13 @@ MYSTERY(A, n)
 7  return total
 ```
 
-Line 4 to 6: `j` takes values `1, 2, 4, ...` up to `i`, so the inner loop runs `floor(lg i) + 1` times. Total work:
+Line 4 to 6: `j` takes values $1, 2, 4, \dots$ up to `i`, so the inner loop runs $\lfloor \lg i \rfloor + 1$ times. Total work:
 
 ```
 sum_{i=1}^{n} (lg i + 1)  =  n + sum_{i=1}^{n} lg i  =  n + lg(n!)  =  n + Theta(n lg n)  =  Theta(n lg n)
 ```
 
-Using `lg(n!) = Theta(n lg n)` from the toolkit. Answer: `Theta(n lg n)`.
+Using $\lg(n!) = \Theta(n \lg n)$ from the toolkit. Answer: $\Theta(n \lg n)$.
 
 ---
 
@@ -430,21 +430,21 @@ for i = 1 to n
         <unknown code>
 ```
 
-Two nested loops, each running `1` to `n`, with a body you know nothing about. What can you conclude about the running time?
+Two nested loops, each running $1$ to `n`, with a body you know nothing about. What can you conclude about the running time?
 
 The instinct is "nothing, since the body is unknown". That instinct is wrong, and seeing why is worth more than the conclusion itself.
 
-**You can conclude `Omega(n^2)`.**
+**You can conclude $\Omega(n^2)$.**
 
-Ask which *direction* of bound is available. `Omega` is a **floor**. The loop scaffolding alone, ignoring the mystery body entirely, must execute its increment-and-test `n^2` times. The unknown body can only *add* work, since work is non-negative. So `n^2` is a guaranteed lower bound, and `Omega(n^2)` holds no matter what is inside.
+Ask which *direction* of bound is available. $\Omega$ is a **floor**. The loop scaffolding alone, ignoring the mystery body entirely, must execute its increment-and-test $n^2$ times. The unknown body can only *add* work, since work is non-negative. So $n^2$ is a guaranteed lower bound, and $\Omega(n^2)$ holds no matter what is inside.
 
-Now notice the flip side, which is the actual lesson. Could you conclude `O(n^2)`? **No.** If the hidden body were itself an `O(n^3)` subroutine, the total is `n^5`. Could you conclude `Theta(n^2)`? Also no, since Theta requires the O.
+Now notice the flip side, which is the actual lesson. Could you conclude $O(n^2)$? **No.** If the hidden body were itself an $O(n^3)$ subroutine, the total is $n^5$. Could you conclude $\Theta(n^2)$? Also no, since Theta requires the O.
 
 > **Loop structure alone gives you lower bounds for free. It never gives you upper bounds.**
 
 This catches people out because "nested loops means n^2" gets memorized as a Theta statement, and almost nobody notices it is only half true.
 
-The one caveat a careful reader might raise: if the unknown code contains a `break` or a `return` that escapes the loops early, the `n^2` iterations do not all happen. The usual convention treats an unspecified body as straight-line code, which keeps the conclusion. If you want to be airtight, say so explicitly: assuming the body does not exit the loops early, the running time is `Omega(n^2)`, because the loop control alone executes `n^2` times regardless of what the body does.
+The one caveat a careful reader might raise: if the unknown code contains a `break` or a `return` that escapes the loops early, the $n^2$ iterations do not all happen. The usual convention treats an unspecified body as straight-line code, which keeps the conclusion. If you want to be airtight, say so explicitly: assuming the body does not exit the loops early, the running time is $\Omega(n^2)$, because the loop control alone executes $n^2$ times regardless of what the body does.
 
 ---
 
@@ -465,17 +465,17 @@ Each of those is a function of n, and each can be bounded with any of the five n
 
 So all of these are coherent, meaningful sentences:
 
-- "Quicksort's worst case is `Theta(n^2)`."
-- "Quicksort's best case is `Theta(n log n)`."
-- "Quicksort's average case is `Theta(n log n)`."
-- "Quicksort's worst case is `O(n^3)`." (True. Loose, but true.)
-- "Quicksort is `Omega(n log n)` in every case." (True, since it must at least look at everything and sorting has that lower bound.)
+- "Quicksort's worst case is $\Theta(n^2)$."
+- "Quicksort's best case is $\Theta(n \log n)$."
+- "Quicksort's average case is $\Theta(n \log n)$."
+- "Quicksort's worst case is $O(n^3)$." (True. Loose, but true.)
+- "Quicksort is $\Omega(n \log n)$ in every case." (True, since it must at least look at everything and sorting has that lower bound.)
 
 And this is the sentence that means nothing: **"Quicksort is O(n log n)"** without saying which case. Say the case. Always.
 
 A useful convention: when someone says "the running time of algorithm X is O(f)" with no qualifier, they usually mean the worst case, because worst case is the default guarantee. But in a course, write the qualifier down.
 
-**Average case needs a stated distribution.** "Average case" is meaningless until you say average *over what*. Quicksort's `Theta(n log n)` average assumes all `n!` input orderings are equally likely. If your inputs are usually nearly sorted, that assumption is false and the average is worse. Randomized quicksort fixes this by moving the randomness from the input to the algorithm, which is a genuinely different guarantee: **expected** `Theta(n log n)` on *every* input, rather than average `Theta(n log n)` over a hoped-for input distribution.
+**Average case needs a stated distribution.** "Average case" is meaningless until you say average *over what*. Quicksort's $\Theta(n \log n)$ average assumes all $n!$ input orderings are equally likely. If your inputs are usually nearly sorted, that assumption is false and the average is worse. Randomized quicksort fixes this by moving the randomness from the input to the algorithm, which is a genuinely different guarantee: **expected** $\Theta(n \log n)$ on *every* input, rather than average $\Theta(n \log n)$ over a hoped-for input distribution.
 
 ---
 
@@ -483,9 +483,9 @@ A useful convention: when someone says "the running time of algorithm X is O(f)"
 
 A related idea that gets confused with average case. **Amortized** cost is the average cost per operation over a worst-case *sequence* of operations. No probability is involved.
 
-The canonical example is a dynamic array that doubles when full. A single `append` is usually O(1), but the one that triggers a resize copies everything and costs `Theta(n)`. Is `append` O(n)?
+The canonical example is a dynamic array that doubles when full. A single `append` is usually O(1), but the one that triggers a resize copies everything and costs $\Theta(n)$. Is `append` O(n)?
 
-Sum over n appends. Resizes happen at sizes 1, 2, 4, 8, ..., n, and the copy costs are `1 + 2 + 4 + ... + n < 2n`. That is a geometric series, dominated by its last term. All other appends cost O(1) each, so O(n) total. Grand total `O(n)` for n appends, hence **O(1) amortized per append**.
+Sum over n appends. Resizes happen at sizes 1, 2, 4, 8, ..., n, and the copy costs are $1 + 2 + 4 + \dots + n < 2n$. That is a geometric series, dominated by its last term. All other appends cost O(1) each, so O(n) total. Grand total $O(n)$ for n appends, hence **O(1) amortized per append**.
 
 Three standard methods for proving amortized bounds, in increasing power:
 
@@ -499,17 +499,17 @@ Say "amortized O(1), worst case O(n) for a single operation" and you have given 
 
 ## 22.11 Common mistakes, each with the fix
 
-**Treating O as tight.** `n = O(n^2)` is completely true and completely useless. When asked for "the complexity", give the tightest bound you can defend, ideally Theta. Writing O when you could prove Theta is not wrong, but it reads as not having finished.
+**Treating O as tight.** $n = O(n^2)$ is completely true and completely useless. When asked for "the complexity", give the tightest bound you can defend, ideally Theta. Writing O when you could prove Theta is not wrong, but it reads as not having finished.
 
 **Confusing O with worst case.** Covered in 22.9. They are orthogonal axes.
 
-**Leaving constants or lower terms in.** `O(2n)` and `O(n^2 + n)` are not wrong, but reduce them. `O(n)` and `O(n^2)`.
+**Leaving constants or lower terms in.** $O(2n)$ and $O(n^2 + n)$ are not wrong, but reduce them. $O(n)$ and $O(n^2)$.
 
-**Writing `O(g) = f`.** Never. Read `=` as "is".
+**Writing $O(g) = f$.** Never. Read `=` as "is".
 
-**Flipping the direction of a claim.** From "runs in `O(n^2)`" you cannot conclude it ever actually takes `n^2` time. From "runs in `Omega(n^2)`" you cannot conclude it ever finishes within `n^2`. Upper and lower bounds are separate claims and neither implies the other.
+**Flipping the direction of a claim.** From "runs in $O(n^2)$" you cannot conclude it ever actually takes $n^2$ time. From "runs in $\Omega(n^2)$" you cannot conclude it ever finishes within $n^2$. Upper and lower bounds are separate claims and neither implies the other.
 
-**Assuming `f = O(g)` or `g = O(f)` must hold.** Asymptotic comparison is a **partial** order, not a total one. Some pairs are incomparable. Classic example:
+**Assuming $f = O(g)$ or $g = O(f)$ must hold.** Asymptotic comparison is a **partial** order, not a total one. Some pairs are incomparable. Classic example:
 
 ```
 f(n) = n            if n is even,  n^2 if n is odd
@@ -518,9 +518,9 @@ g(n) = n^2          if n is even,  n   if n is odd
 
 Neither dominates the other, in either direction, past any point. Real algorithms rarely look like this, but constructed examples do.
 
-**Ignoring the input-size definition.** "Size of the input" means the number of *bits* to write it down. For an array of n numbers we usually say the size is n and treat each number as O(1) bits, which is fine and standard. But for a problem whose input is a single number N, the input size is `log N`, not `N`. An algorithm that loops N times on input N is **exponential** in the input size. This distinction is invisible for most of the course and then becomes the entire point in file 28, where it is the difference between "polynomial" and "pseudo-polynomial".
+**Ignoring the input-size definition.** "Size of the input" means the number of *bits* to write it down. For an array of n numbers we usually say the size is n and treat each number as O(1) bits, which is fine and standard. But for a problem whose input is a single number N, the input size is $\log N$, not $N$. An algorithm that loops N times on input N is **exponential** in the input size. This distinction is invisible for most of the course and then becomes the entire point in file 28, where it is the difference between "polynomial" and "pseudo-polynomial".
 
-**Dropping a term that is not actually lower-order.** `O(n + m)` for a graph with n vertices and m edges cannot be simplified to `O(n)` or `O(m)`. With two independent parameters, keep both. Writing `O(n)` for BFS is a real and common error; BFS is `O(n + m)`.
+**Dropping a term that is not actually lower-order.** $O(n + m)$ for a graph with n vertices and m edges cannot be simplified to $O(n)$ or $O(m)$. With two independent parameters, keep both. Writing $O(n)$ for BFS is a real and common error; BFS is $O(n + m)$.
 
 ---
 
@@ -528,41 +528,41 @@ Neither dominates the other, in either direction, past any point. Real algorithm
 
 Do these on paper before reading the answers. The whole file is worth less than actually attempting these.
 
-1. Is `2^(n+1) = O(2^n)`?
-2. Is `2^(2n) = O(2^n)`?
-3. If `f = O(g)` and `g = O(h)`, is `f = O(h)`?
-4. Is `n log n = Omega(n)`? Is it `Theta(n)`?
+1. Is $2^{n+1} = O(2^{n})$?
+2. Is $2^{2n} = O(2^{n})$?
+3. If $f = O(g)$ and $g = O(h)$, is $f = O(h)$?
+4. Is $n \log n = \Omega(n)$? Is it $\Theta(n)$?
 5. A loop runs `i = 1 to n`, and inside it a second loop runs `j = 1 to 1000`. Complexity?
-6. Prove or disprove: `log(n!) = Theta(n log n)`.
-7. Order these by growth: `n^2`, `2^n`, `n log n`, `n!`, `n^(1/2)`, `(log n)^3`, `n^(log log n)`.
-8. Is `f + g = Theta(max(f, g))` for non-negative f, g?
-9. Give functions f and g with `f = O(g)` but `lim f/g` not existing.
-10. `T(n) = 3n^2 + 7n log n + 12`. Give the tightest Theta, with constants and n0.
+6. Prove or disprove: $\log(n!) = \Theta(n \log n)$.
+7. Order these by growth: $n^2$, $2^{n}$, $n \log n$, $n!$, $n^{1/2}$, $(\log n)^3$, $n^{\log \log n}$.
+8. Is $f + g = \Theta(\max(f, g))$ for non-negative f, g?
+9. Give functions f and g with $f = O(g)$ but $\lim f/g$ not existing.
+10. $T(n) = 3n^2 + 7n \log n + 12$. Give the tightest Theta, with constants and n0.
 
 ### Answers
 
 Do not read this until you have written your own attempt on paper.
 
-1. **Yes.** `2^(n+1) = 2 * 2^n`, so `c = 2` works. A constant added in the exponent is a constant factor.
+1. **Yes.** $2^{n+1} = 2 \cdot 2^{n}$, so $c = 2$ works. A constant added in the exponent is a constant factor.
 
-2. **No.** `2^(2n) = (2^n)^2`, so the ratio is `2^n`, unbounded. A constant multiplying the exponent is not a constant factor.
+2. **No.** $2^{2n} = (2^{n})^2$, so the ratio is $2^{n}$, unbounded. A constant multiplying the exponent is not a constant factor.
 
-3. **Yes**, O is transitive. From `f <= c1 g` for `n >= n1` and `g <= c2 h` for `n >= n2`, we get `f <= c1 c2 h` for `n >= max(n1, n2)`. Take `c = c1 c2`.
+3. **Yes**, O is transitive. From $f \le c_1 g$ for $n \ge n_1$ and $g \le c_2 h$ for $n \ge n_2$, we get $f \le c_1 c_2 h$ for $n \ge \max(n_1, n_2)$. Take $c = c_1 c_2$.
 
-4. `Omega(n)`: **yes**, since `n log n >= n` for `n >= 2`, so `c = 1`, `n0 = 2`. `Theta(n)`: **no**, since `lim (n log n)/n = lim log n = infinity`, so it is in fact `omega(n)`. A valid but loose lower bound.
+4. $\Omega(n)$: **yes**, since $n \log n \ge n$ for $n \ge 2$, so $c = 1$, $n_0 = 2$. $\Theta(n)$: **no**, since $\lim (n \log n)/n = \lim \log n = \infty$, so it is in fact $\omega(n)$. A valid but loose lower bound.
 
 5. **Theta(n).** The 1000 is a constant, not a function of n, so it folds into the constant factor.
 
-6. **True.** Upper: `log(n!) = sum_{i=1}^{n} log i <= sum log n = n log n`. Lower: keep only the top half of the terms, `sum_{i=n/2}^{n} log i >= (n/2) log(n/2) = (n/2)(log n - 1) >= (n/4) log n` for `n >= 4`. So `c1 = 1/4`, `c2 = 1`, `n0 = 4`. That "keep the top half" trick is worth stealing; it appears again in file 24.
+6. **True.** Upper: $\log(n!) = \sum_{i=1}^{n} \log i \le \sum \log n = n \log n$. Lower: keep only the top half of the terms, $\sum_{i=n/2}^{n} \log i \ge (n/2) \log(n/2) = (n/2)(\log n - 1) \ge (n/4) \log n$ for $n \ge 4$. So $c_1 = 1/4$, $c_2 = 1$, $n_0 = 4$. That "keep the top half" trick is worth stealing; it appears again in file 24.
 
-7. `(log n)^3  <  n^(1/2)  <  n log n  <  n^2  <  n^(log log n)  <  2^n  <  n!`
-   The only subtle one is `n^(log log n)`. Take logs: `(log log n)(log n)`, which beats `log(n^2) = 2 log n` but loses to `log(2^n) = n`. So it sits strictly between every fixed polynomial and every exponential. It is called *quasi-polynomial*.
+7. $(\log n)^3 < n^{1/2} < n \log n < n^2 < n^{\log \log n} < 2^{n} < n!$
+   The only subtle one is $n^{\log \log n}$. Take logs: $(\log \log n)(\log n)$, which beats $\log(n^2) = 2 \log n$ but loses to $\log(2^{n}) = n$. So it sits strictly between every fixed polynomial and every exponential. It is called *quasi-polynomial*.
 
-8. **Yes.** Upper: `f + g <= 2 max(f,g)`, so `c2 = 2`. Lower: `f + g >= max(f,g)`, so `c1 = 1`. This is the formal statement of "sequential blocks collapse to the max".
+8. **Yes.** Upper: $f + g \le 2 \max(f,g)$, so $c_2 = 2$. Lower: $f + g \ge \max(f,g)$, so $c_1 = 1$. This is the formal statement of "sequential blocks collapse to the max".
 
-9. `f(n) = n(2 + sin n)`, `g(n) = n`. The ratio oscillates in `[1,3]`, never converging, but is bounded, so `f = Theta(g)` and in particular `f = O(g)`.
+9. `f(n) = n(2 + sin n)`, $g(n) = n$. The ratio oscillates in $[1,3]$, never converging, but is bounded, so $f = \Theta(g)$ and in particular $f = O(g)$.
 
-10. **Theta(n^2).** Upper: for `n >= 2`, `log n <= n` so `7 n log n <= 7n^2`, and `12 <= 12n^2`, giving `T(n) <= 22 n^2`, so `c2 = 22`. Lower: `T(n) >= 3n^2`, so `c1 = 3`. With `n0 = 2`.
+10. **Theta(n^2).** Upper: for $n \ge 2$, $\log n \le n$ so $7 n \log n \le 7n^2$, and $12 \le 12n^2$, giving $T(n) \le 22 n^2$, so $c_2 = 22$. Lower: $T(n) \ge 3n^2$, so $c_1 = 3$. With $n_0 = 2$.
 
 
 ---
