@@ -286,10 +286,11 @@ Notice the proportions. Six lines of algorithm, four paragraphs of proof. **That
 |---|---|---|
 | [22 — Asymptotics from Zero](22-asymptotics-from-zero.md) | O, Omega, Theta, o, omega, limits, loop counting, summations | reading a bound and knowing exactly what it does and does not claim |
 | [23 — Recursion and Recurrences](23-recurrences.md) | reduction, the recursion template, Tower of Hanoi, substitution, recursion trees, master theorem, changing variables | writing a recursive algorithm, proving it correct, and turning it into a closed-form running time |
-| [24 — Divide and Conquer](24-divide-and-conquer.md) | mergesort, quickselect, Karatsuba, Strassen, closest pair, sorting lower bound, pattern matching | designing a split-and-combine algorithm and proving it |
-| [25 — Dynamic Programming](25-dynamic-programming.md) | the recipe, optimal substructure, the standard problem zoo | going from recursive definition to table to correctness proof |
+| [24 — Divide and Conquer](24-divide-and-conquer.md) | mergesort, quickselect, median of medians, probability from zero, randomized quicksort, Karatsuba, Strassen, closest pair, sorting lower bound, pattern matching | designing a split-and-combine algorithm, proving it, and analysing one that flips coins |
+| [25 — Dynamic Programming](25-dynamic-programming.md) | the recipe, optimal substructure, the standard problem zoo, optimal BSTs, DP on trees and DAGs | going from recursive definition to table to correctness proof |
 | [26 — Greedy](26-greedy.md) | exchange arguments, greedy stays ahead, scheduling, Huffman, MST | proving that never reconsidering is safe |
-| [27 — Graphs and Network Flow](27-graphs-and-network-flow.md) | BFS/DFS, topological sort, SCC, MST, shortest paths, Ford-Fulkerson, max-flow min-cut, matching | modelling a problem as a graph or a flow and citing the right theorem |
-| [28 — NP-Completeness](28-np-completeness.md) | P, NP, reductions, Cook-Levin, the standard hard problems, how to write a hardness proof | proving a problem hard instead of failing to solve it |
+| [27 — Graphs and Network Flow](27-graphs-and-network-flow.md) | one traversal with four bags, BFS/DFS, topological sort, SCC, MST, tense edges and all four shortest-path algorithms, Ford-Fulkerson, max-flow min-cut, matching | modelling a problem as a graph or a flow and citing the right theorem |
+| [28 — NP-Completeness](28-np-completeness.md) | P, NP, CircuitSAT, reductions, Cook-Levin, the standard hard problems, how to write a hardness proof | proving a problem hard instead of failing to solve it |
+| [29 — Problem Sets, Worked](29-problem-sets.md) | the six recurring problem shapes, each worked end to end, plus the rubric | answering the question that was actually asked, in the form that scores |
 
 Start with [22 — Asymptotics from Zero](22-asymptotics-from-zero.md). It assumes you have never seen a Big-O in your life.

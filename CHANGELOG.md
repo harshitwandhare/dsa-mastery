@@ -18,6 +18,55 @@ reader can do, not only what changed in the code.
 
 ### Added
 
+- Probability, from the definition of a sample space up. File 24 gains a
+  section building exactly the tools a randomized analysis needs: events and
+  the union bound, permutations and combinations, expectation, linearity
+  (with the point that it needs no independence), indicator variables and the
+  four-step counting recipe, conditional expectation, Markov's inequality,
+  what "with high probability" means, and the table separating worst case
+  from average case from a randomized algorithm's expected case. Nothing in
+  it is assumed.
+- Randomized quicksort, analysed properly rather than sketched: the
+  `2/(j-i+1)` comparison probability derived from the first pivot to land in
+  a block, the double sum evaluated against the harmonic series, the
+  expected-shrinkage alternative, and the Markov-plus-union-bound upgrade
+  from "expected `n log n`" to "`n log n` with high probability".
+- A ninth course-track lesson, [29 — Problem Sets, Worked](29-problem-sets.md).
+  Six recurring question shapes, each worked end to end: reading a running
+  time off code whose parameter grows as well as shrinks, asymptotics of an
+  expression, ordering 28 functions by growth with a line-by-line
+  justification, writing a recurrence from a counting problem, bounding six
+  recurrences by explicit level sums, and four divide-and-conquer design
+  problems (frequent items with equality tests only, the outline of a set of
+  boxes, counting inversions, and selection across two sorted arrays). Ends
+  with the rubric: the seven things that cost marks and the fix for each.
+- Optimal binary search trees, with the cost identity that makes the
+  recursion work and the two examples showing that neither the most frequent
+  key nor a balanced tree has to win.
+- Boruvka's algorithm, the third MST algorithm and the one that
+  parallelizes, including why simultaneous edge additions need distinct
+  weights.
+- Johnson's algorithm, previously named in a table and never taught: why
+  adding a constant to every edge fails, the vertex-price reweighting, and
+  the observation that Bellman-Ford's stopping condition is exactly the
+  non-negativity the reweighting needs.
+- One traversal algorithm with four bags. BFS, DFS, Prim and Dijkstra are
+  the same loop over a bag of candidate edges, and swapping the bag for a
+  stack, a queue, or one of two different priority queues produces all four.
+- Tense edges as the shared primitive for shortest paths, with the
+  three-claim correctness proof that covers every algorithm in the section
+  before any of them is named.
+- The all-pairs ladder that leads to Floyd-Warshall: why the natural
+  recurrence is circular, the `dist(u,v,k)` fix, the middle-cut version that
+  is repeated squaring in disguise, and where the last `log V` goes.
+- CircuitSAT, the sealed box with the switches, as the root of the reduction
+  chain, with the CircuitSAT-to-SAT and CircuitSAT-to-3SAT reductions written
+  out, plus an approximability table and the polynomial-time near-misses
+  (2SAT, 2-colouring, edge cover, Eulerian tour) that sit one word away from
+  the hard problems.
+- The level-sum lemma behind unequal splits, proved in two lines, plus the
+  observation that insertion sort and mergesort are the same algorithm with
+  the cut in a different place.
 - Recursion is now taught before recurrences instead of assumed. File 23 opens
   with reduction and the recursion template, derives Tower of Hanoi from the
   rules alone (including why the algorithm is optimal, not merely correct),

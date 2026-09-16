@@ -241,6 +241,30 @@ MST-KRUSKAL(G, w)
 
 **Time.** Sorting `O(E log E)`. Union-find with union by rank and path compression gives `O(E alpha(V))` for the operations, where alpha is the inverse Ackermann function and is at most 4 for any input in the universe. **Total `O(E log E) = O(E log V)`**, since `E < V^2` makes `log E < 2 log V`.
 
+### Boruvka
+
+The oldest MST algorithm (1926), the easiest to prove correct, and the one that parallelizes. It adds many safe edges at once instead of one at a time.
+
+```
+BORUVKA(G, w)
+1  F = (V, {})                                  # forest of n isolated vertices
+2  while F has more than one component
+3      label the components of F                # one pass of DFS/BFS, O(V + E)
+4      for each component C:  S[C] = NIL
+5      for each edge (u,v) in E
+6          if label(u) != label(v)
+7              if w(u,v) < w(S[label(u)]):  S[label(u)] = (u,v)
+8              if w(u,v) < w(S[label(v)]):  S[label(v)] = (u,v)
+9      add every edge in S to F
+10 return F
+```
+
+*Correctness.* For each component `C`, the edge `S[C]` is the minimum-weight edge crossing the cut `(C, V - C)`, which respects `F`. So every edge added is safe by the cut property, and they are all added simultaneously without interfering.
+
+*Time.* Each pass is `O(V + E) = O(E)`: one labelling pass and one scan of the edges. **Every pass at least halves the number of components**, because each surviving component absorbs at least one other (each one contributes an edge leading out of itself). So there are `O(log V)` passes and the total is **`O(E log V)`**, with no sorting and no priority queue.
+
+*The catch, and the standard exam remark.* Simultaneous additions can create a cycle when weights tie: two components can each pick the same-weight edge to the other and add it twice, or a cycle can close around three. **Assume distinct edge weights**, or break ties by a fixed rule such as edge index, and say so. Distinct weights also make the MST unique, which is worth stating in the same breath.
+
 ### Prim
 
 Grow a single tree from an arbitrary root, always adding the cheapest edge leaving it. Uses a min-priority queue.

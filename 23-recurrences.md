@@ -641,6 +641,22 @@ Master theorem does not apply. Recursion tree:
 
 `T(n) = Theta(n log n)`.
 
+**The lemma behind all of this, which is two lines.** Take `T(n) = T(an) + T(bn) + n` with `a, b < 1`, and let `L_i` be the total cost of level `i` in the recursion tree. If level `i` holds subproblems of sizes `p_1, ..., p_m`, then `L_i = p_1 + ... + p_m` because the combine work at a subproblem of size `p` is `p`. Level `i+1` holds their children, of sizes `a p_1, b p_1, ..., a p_m, b p_m`, so
+
+```
+L_{i+1} = sum_j (a p_j + b p_j) = (a + b) sum_j p_j = (a + b) L_i
+```
+
+The level sums are a geometric series with ratio exactly `a + b`, which settles every such recurrence at a glance:
+
+```
+a + b < 1   ->  decreasing, root dominates    ->  T(n) = Theta(n)
+a + b = 1   ->  every level costs n           ->  T(n) = Theta(n log n)
+a + b > 1   ->  increasing, leaves dominate   ->  superlinear, count the leaves
+```
+
+This is why median-of-medians works with groups of 5 (`1/5 + 7/10 = 9/10 < 1`, linear) and fails with groups of 3 (`1/3 + 2/3 = 1`, `n log n`). It also covers `T(n) = T(n/7) + T(n/11) + n`, and with `sqrt(n)` as the combine cost instead of `n` the same argument runs with the fractions raised to the matching power.
+
 **The general and genuinely useful fact:** if a recurrence splits into pieces whose sizes sum to n (or less), and the split fractions are **constants** bounded away from 0 and 1, the answer is `Theta(n log n)` with linear combine work. Even a 99/1 split is `Theta(n log n)`. It is only when the split is not a constant fraction, like `T(n) = T(n-1) + T(1) + n`, that you fall to `Theta(n^2)`. This is exactly why quicksort's average case is fine and its worst case is not.
 
 ---
