@@ -218,6 +218,40 @@ This "loop by interval length" is the standard order for every interval DP, and 
 
 Also note: the number of parenthesizations is the Catalan number, roughly `4^n / n^1.5`, so brute force is hopeless and this `n^3` is a spectacular win.
 
+### Optimal binary search trees
+
+> **Problem.** Given sorted keys `A[1..n]` and an access-frequency array `F[1..n]`, build the binary search tree minimizing total access cost `sum_i F[i] * depth(i, T)`, where the root has depth 1.
+
+A BST on sorted keys is determined by which key is at the root: everything before it goes left, everything after goes right. So the tree is a choice of root, then two independent subproblems, which is the same shape as matrix chain multiplication.
+
+**The cost identity that makes the recursion work.** Let `A[r]` be the root. Every key other than the root sits one level deeper in `T` than it does in its own subtree, so
+
+```
+cost(T, F[1..n]) = sum_i F[i]  +  cost(left(T), F[1..r-1])  +  cost(right(T), F[r+1..n])
+```
+
+Read that carefully, because it is the whole trick: **pushing a subtree down one level costs the total frequency of that subtree, once.** The `sum_i F[i]` term is the price of the single extra level paid by every key, and the root's own contribution `F[r] * 1` is included in it.
+
+Now guess the root and take the best:
+
+```
+S(i,j)   = F[i] + F[i+1] + ... + F[j]                   precompute in O(n^2)
+OPT(i,j) = 0                                             if j < i
+OPT(i,j) = S(i,j) + min over i <= r <= j of
+                    ( OPT(i, r-1) + OPT(r+1, j) )        otherwise
+```
+
+Answer: `OPT(1,n)`.
+
+**Table and order.** `O(n^2)` subproblems, `O(n)` choices of `r` per entry, so `O(n^2)` space and **`O(n^3)` time**. `OPT(i,j)` depends on entries with a larger first index or a smaller second index, so fill with the first index decreasing and the second increasing, or equivalently by increasing interval length `j - i`.
+
+**Two traps worth stating in an answer.**
+
+- **The most frequent key does not have to be the root.** With `A = [2,5,7,8,14]` and `F = [1,11,1,10,9]`, putting the key of frequency 11 at the root costs 63, while a tree that does not costs 56. Greedy on frequency is wrong, which is precisely why this is a DP.
+- **The optimal tree need not be full or balanced.** With `F = [100,2,4,10,4]` every tree that does not put the first key at the root costs more than 200, against 152 for the lopsided one that does.
+
+**Do not confuse this with Huffman coding** (26.5). Here the keys are ordered, every node holds a key, and the cost counts depth from the root. There the symbols are unordered, they live only at leaves, and the greedy algorithm is optimal. Same-looking picture, different problem, and the two get swapped under exam pressure.
+
 ### Weighted interval scheduling
 
 > n jobs, job i has start `s[i]`, finish `f[i]`, weight `v[i]`. Choose non-overlapping jobs maximizing total weight.
@@ -264,6 +298,8 @@ S[i][t] = S[i-1][t]  OR  S[i-1][t - a[i]]
 
 ### DP on trees
 
+DP needs an order in which every subproblem comes after the things it depends on. On arrays that order is "left to right". On a rooted tree it is **post-order**: visit all children before the parent, computable in `O(n)` by one traversal. Every tree DP in the course is "run the recurrence in post-order".
+
 `OPT[v]` = best answer for the subtree rooted at `v`, often with a second index for "is `v` itself used".
 
 > **Maximum weight independent set on a tree.** Pick a set of vertices with no two adjacent, maximizing total weight.
@@ -274,7 +310,9 @@ OUT[v] = sum over children c of max(IN[c], OUT[c])
 answer = max(IN[root], OUT[root])
 ```
 
-`Theta(n)`, since each vertex is processed once. Note that this problem is **NP-hard on general graphs** and easy on trees. That contrast (hard in general, polynomial on a restricted structure) recurs constantly and is worth flagging in answers.
+`Theta(n)`, and the reason is worth saying precisely because it is the standard follow-up question: the table has `n x 2` entries, and `IN[v]`/`OUT[v]` are each updated once per child of `v`. Every vertex has exactly one parent, so summed over the whole tree the inner loop runs once per edge, and a tree has `n - 1` edges. Total `O(n)`.
+
+The same recurrence with `w[v]` replaced by 1 counts the largest independent set by cardinality, and the weighted version is the one written above. Note that this problem is **NP-hard on general graphs** and easy on trees. That contrast (hard in general, polynomial on a restricted structure) recurs constantly and is worth flagging in answers.
 
 ### DP on a DAG
 

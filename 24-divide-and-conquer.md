@@ -2,6 +2,8 @@
 
 The first real design paradigm. Assumes [23 — Recursion and Recurrences](23-recurrences.md), because every analysis in this file is a recurrence you now know how to solve.
 
+Randomization enters here too, in 24.6 and 24.7: randomized quicksort is the first algorithm in the track whose running time is a random variable, so 24.6 builds the probability needed to analyse it from the definition of a sample space upward. Nothing in it is assumed.
+
 ---
 
 ## 24.1 The pattern
@@ -40,9 +42,33 @@ The step almost always reduces to proving **one lemma about the combine**. Isola
 
 ---
 
-## 24.2 Mergesort
+## 24.2 Mergesort, and why insertion sort is the same algorithm
 
-The reference example.
+The reference example. Before the code, one observation that makes the whole paradigm feel inevitable.
+
+**`MERGE` is the useful half.** Merging two sorted runs into one takes a single linear pass with two pointers, and it is the only primitive either algorithm needs. Given it, insertion sort is two lines:
+
+```
+INSERTION-SORT(A[1..n])            RECURSIVE-INSERTION-SORT(A[1..n])
+1  for j = 2 to n                  1  if n > 1
+2      MERGE(A[1..j], j-1)         2      RECURSIVE-INSERTION-SORT(A[1..n-1])
+                                   3      MERGE(A[1..n], n-1)
+```
+
+Both versions call `MERGE` on the same subarrays in the same order, and the right-hand one is plainly recursive: sort everything but the last element, then merge the last element in. Its cost is
+
+```
+T(n) = T(n-1) + n = Theta(n^2)
+```
+
+Now compare with mergesort below, whose only difference is **where the array is cut**: at position `n-1` rather than `n/2`.
+
+```
+insertion sort:  T(n) = T(n-1)   + n  = Theta(n^2)        cut at the end
+mergesort:       T(n) = 2 T(n/2) + n  = Theta(n log n)    cut in the middle
+```
+
+**Insertion sort and mergesort are the same algorithm with different cuts.** This is the third time that comparison has appeared (23.3 for maximum subarray, 23.11 for the general lemma, here for sorting), and the repetition is the point: divide and conquer is not a new idea, it is the old idea with the split moved to the middle.
 
 ```
 MERGE-SORT(A, p, r)
@@ -157,13 +183,7 @@ This happens on **already-sorted input** with the last-element pivot, which is e
 
 **Randomized quicksort.** Replace line 1 of `PARTITION` with "exchange `A[r]` with `A[random(p, r)]`" first. The expected running time is then `Theta(n log n)` on **every** input, because the randomness lives in the algorithm rather than in an assumption about the data. That is a strictly stronger guarantee than "average case over random inputs", and saying so precisely is worth the extra clause.
 
-*Sketch of the expected-time proof.* Let `z_1 < z_2 < ... < z_n` be the sorted elements and let `X_ij` indicate whether `z_i` and `z_j` are ever compared. They are compared iff the first pivot chosen from the range `{z_i, ..., z_j}` is `z_i` or `z_j`, which has probability `2/(j - i + 1)`. Total expected comparisons:
-
-```
-sum_{i<j} 2/(j-i+1)  =  sum_{i=1}^{n} sum_{k=1}^{n-i} 2/(k+1)  <  sum_{i=1}^{n} 2 H_n  =  O(n log n)
-```
-
-That harmonic sum appearing again is not a coincidence; it is the signature of "random splits".
+The proof is the centrepiece of 24.7, and 24.6 builds the probability it needs first. If probability is not something you have solid, read those two before going further in this file, because the same tools reappear in selection and in anything else with a coin flip in it.
 
 ---
 
@@ -228,7 +248,296 @@ In practice the constant factor is bad enough that randomized quickselect is wha
 
 ---
 
-## 24.6 The sorting lower bound
+## 24.6 Probability, from zero
+
+Everything from here to the end of this file needs probability, and the analysis of randomized quicksort needs a specific handful of tools rather than a course. This section builds exactly those tools and nothing else. If you have seen a probability course, skim it for the notation and stop at 24.7.
+
+### Sample space, event, probability
+
+A **sample space** `S` is the set of possible outcomes of an experiment. Rolling one die: `S = {1,2,3,4,5,6}`. An **event** is any subset of `S`; "the roll is even" is the event `{2,4,6}`.
+
+A probability assigns each outcome a number in `[0,1]` so that all of them add to 1, and the probability of an event is the sum over its outcomes. When every outcome is equally likely, which is the only case we need, this collapses to counting:
+
+```
+Pr[event] = (number of outcomes in the event) / (total number of outcomes)
+```
+
+So `Pr[roll is even] = 3/6 = 1/2`. Three facts fall straight out of the definition and get used without comment:
+
+```
+Pr[not A]    = 1 - Pr[A]
+Pr[A or B]   = Pr[A] + Pr[B] - Pr[A and B]
+Pr[A or B]  <= Pr[A] + Pr[B]                    always, no assumptions
+```
+
+That last line is the **union bound**, and it is worth more than it looks. It extends to any number of events:
+
+```
+Pr[A_1 or A_2 or ... or A_k] <= Pr[A_1] + ... + Pr[A_k]
+```
+
+It needs no independence and no structure. It is how you say "none of these bad things happens" when you can only bound the bad things one at a time, and it is used exactly that way at the end of 24.7.
+
+### Counting, since uniform probability is counting
+
+Two facts, and the reason each is true.
+
+**Permutations.** The number of orderings of `n` distinct items is `n!`. Choose the first slot `n` ways, the second `n-1` ways, and so on.
+
+**Combinations.** The number of ways to choose an unordered `k`-subset from `n` items is
+
+```
+C(n,k) = n! / (k! (n-k)!)         also written as "n choose k"
+```
+
+*Why.* Choosing an ordered sequence of `k` distinct items can be done in `n(n-1)...(n-k+1) = n!/(n-k)!` ways. Each unordered subset is counted once per ordering of its `k` elements, which is `k!` times. Divide.
+
+The case we use constantly is `k = 2`:
+
+```
+C(n,2) = n(n-1)/2 = Theta(n^2)      the number of unordered pairs from n items
+```
+
+That is the same `n(n-1)/2` as the arithmetic series in 21.6, which is not a coincidence: both count pairs. It is the number of comparisons a brute-force all-pairs algorithm makes, the number of inversions in a fully reversed array, and the number of pairs `(i,j)` with `i < j` that 24.7 sums over.
+
+Two more worth recognizing, though we barely use them:
+
+```
+number of subsets of an n-set         = 2^n         each element in or out
+sum_{k=0}^{n} C(n,k)                  = 2^n         same statement, counted by size
+```
+
+### Random variables and expectation
+
+A **random variable** is a number that depends on the outcome. Not an event, a number. `X` = the value rolled, or `X` = the number of comparisons quicksort makes on this input with these random choices.
+
+The **expectation** (or expected value, or mean) of `X` is the weighted average of its values:
+
+```
+E[X] = sum over values x of  x * Pr[X = x]
+```
+
+For one die, `E[X] = (1+2+...+6)/6 = 3.5`. Note that 3.5 is not a possible outcome. Expectation is an average, not a prediction, and "expected running time" means the average over the algorithm's own coin flips, not a guarantee about any single run.
+
+### Linearity of expectation, which is the whole trick
+
+```
+E[X + Y] = E[X] + E[Y]
+E[cX]    = c E[X]
+```
+
+and by induction, for any number of variables:
+
+```
+E[X_1 + X_2 + ... + X_k] = E[X_1] + E[X_2] + ... + E[X_k]
+```
+
+**This holds whether or not the variables are independent.** That sentence is the single most useful fact in randomized analysis, and it is why the analysis in 24.7 is three lines instead of three pages. The variables there are wildly dependent on each other, and it does not matter at all.
+
+Contrast with the product rule, which does need independence:
+
+```
+E[XY] = E[X] E[Y]        only when X and Y are independent
+```
+
+So: if you find yourself needing `E[XY]`, stop and check independence. If you only need `E[X + Y]`, do not check anything.
+
+### Indicator random variables
+
+An **indicator** is a random variable that is 1 when some event happens and 0 when it does not:
+
+```
+X_A = 1 if event A happens, 0 otherwise
+```
+
+Its expectation is trivially the probability of the event:
+
+```
+E[X_A] = 1 * Pr[A] + 0 * Pr[not A] = Pr[A]
+```
+
+Together with linearity, this gives **the standard method for counting things in expectation**, and it is worth writing as a recipe because almost every randomized analysis in this course is an instance of it:
+
+1. Write the quantity you care about as a **sum of indicators**, one per thing that might be counted.
+2. Take expectations, and push the `E` inside the sum by linearity.
+3. Each term is now just the probability of one simple event. Compute those separately.
+4. Add them up.
+
+Step 2 is where the dependence problem disappears. The events can overlap, imply each other, or contradict each other, and the sum of their probabilities is still the expected count.
+
+**Tiny worked example.** Throw `n` letters into `n` addressed envelopes uniformly at random. How many land in the right envelope, in expectation? Let `X_i = 1` if letter `i` is correct. `Pr[X_i = 1] = 1/n`. So
+
+```
+E[X] = E[sum_i X_i] = sum_i E[X_i] = n * (1/n) = 1
+```
+
+One, regardless of `n`. Computing the actual distribution here is genuinely hard; the expectation took one line. That gap is the reason indicators are the tool of choice.
+
+### Conditional probability and conditional expectation
+
+`Pr[A | B]`, read "the probability of A given B", is the probability of A once you know B happened:
+
+```
+Pr[A | B] = Pr[A and B] / Pr[B]
+```
+
+`A` and `B` are **independent** when knowing one tells you nothing about the other, `Pr[A | B] = Pr[A]`, equivalently `Pr[A and B] = Pr[A] Pr[B]`.
+
+`E[X | B]` is the expectation of `X` computed in the smaller world where `B` happened. The one fact we need is the **law of total expectation**: averaging the conditional expectations over the conditions gives the unconditional one.
+
+```
+E[X] = E[ E[X | Y] ]
+```
+
+In 24.7 it appears as "given the subproblem had size `m`, the next one has expected size at most `(7/8)m`", which chains down the levels of the recursion tree.
+
+### Markov's inequality
+
+Expectation says where a random variable sits on average. Sometimes you need "it is *probably* not much bigger than average", and the cheapest such statement is **Markov's inequality**. For a random variable `X` that is never negative, and any `c > 0`:
+
+```
+Pr[X >= c] <= E[X] / c
+```
+
+*Why.* `E[X]` is an average of non-negative values. If the event `X >= c` had probability `p`, those outcomes alone contribute at least `cp` to the average, so `E[X] >= cp`, so `p <= E[X]/c`.
+
+It is weak, deliberately: it assumes nothing but non-negativity. Its usual role is exactly the one in 24.7, where the expectation has already been driven down to something microscopic like `1/n^11`, and Markov converts that into "the bad event essentially never happens".
+
+### "With high probability"
+
+A statement holds **with high probability** (w.h.p.) if its failure probability is at most `1/n^c` for a constant `c` you get to choose, where `n` is the input size. This is stronger and more useful than a statement about expectation:
+
+- *Expected `O(n log n)`* allows rare catastrophic runs, as long as they average out.
+- *`O(n log n)` w.h.p.* says the catastrophic runs are so rare that over your entire career you will not see one.
+
+The standard way to prove a w.h.p. statement is the pair you just met: bound the expectation of some quantity, use **Markov** to make one bad event's probability tiny, then use the **union bound** over all `n` places the bad event could occur. Since `n * (1/n^11) = 1/n^10`, a per-item bound with room to spare survives the union bound comfortably. That is the entire structure of the last part of 24.7.
+
+### Worst case, average case, expected case
+
+Four different things, routinely confused. Let `T(x)` be the running time on input `x`.
+
+| Name | Definition | Randomness comes from |
+|---|---|---|
+| Worst case | `max over inputs x of size n of T(x)` | nothing, it is a maximum |
+| Best case | `min over inputs x of size n of T(x)` | nothing |
+| Average case | `sum over x of T(x) Pr[x]` | an assumed distribution **on inputs** |
+| Expected case, randomized | `max over x of E[T(x)]` | the algorithm's **own coin flips** |
+
+The last two rows are the ones that matter. **Average case is a claim about your users**: it assumes you know the distribution of inputs, and it is worthless if you are wrong, or if an adversary picks the input. **A randomized algorithm's expected time assumes nothing about the input**: it is still a worst case over inputs, with the average taken only over randomness the algorithm generated itself and therefore controls.
+
+That distinction is the entire justification for randomizing quicksort, and it is worth a sentence in any answer about it: *we do not hope the input is random, we make our own randomness.*
+
+---
+
+## 24.7 Randomized quicksort, analysed properly
+
+Quicksort in 24.4 is `Theta(n^2)` in the worst case, and the worst case is triggered by an already-sorted array under the "first element" pivot rule, which is exactly the input real programs get handed most often. Median-of-medians fixes it deterministically (24.5) but costs a large constant. The practical fix is one line.
+
+> **Randomized quicksort.** Choose the pivot uniformly at random from the current subarray. Everything else is unchanged.
+
+**Claim.** The expected number of comparisons is `Theta(n log n)` on *every* input.
+
+### Setting up the indicators
+
+Quicksort's running time is dominated by comparisons, so count those. Let `z_1 < z_2 < ... < z_n` be the array elements **in sorted order** (the algorithm does not know this order; we are only using it to name things). Write `Z_ij = {z_i, z_i+1, ..., z_j}` for the block of elements between them inclusive.
+
+Three observations, and they carry the whole proof:
+
+1. **Two elements are compared only if one of them is the pivot.** Partition compares the pivot with everything else and nothing else with anything.
+2. **Once an element has been a pivot, it is never compared again**, because it is removed from both recursive subproblems. So any pair is compared **at most once**, which is what makes an indicator per pair the right object.
+3. **A pair `z_i, z_j` is decided the first time a pivot lands inside `Z_ij`.** Before that moment every element of `Z_ij` is in the same subproblem, because any pivot outside `Z_ij` is either smaller than all of `Z_ij` or larger than all of it, and so sends the whole block to one side intact.
+
+Now look at that first moment when a pivot falls in `Z_ij`:
+
+- If the pivot is `z_i` or `z_j`, the two are compared.
+- If the pivot is any of the `j - i - 1` elements strictly between, then `z_i` and `z_j` are split into different subproblems and are never compared.
+
+At that moment every element of `Z_ij` is equally likely to be the chosen pivot, because pivots are uniform and no element of the block has been touched yet. `Z_ij` has `j - i + 1` elements, two of which are good for us:
+
+```
+Pr[z_i and z_j are compared] = 2 / (j - i + 1)
+```
+
+**This is the step to understand.** Adjacent elements in sorted order (`j = i+1`) are compared with probability 1, which is right: nothing can separate them. Far-apart elements (`j - i` large) are almost certainly split first.
+
+### Adding it up
+
+Let `X_ij` be the indicator for "`z_i` and `z_j` are compared", and `X = sum_i sum_{j>i} X_ij` the total number of comparisons. Linearity does not care that these indicators are heavily dependent:
+
+```
+E[X] = E[ sum_{i=1}^{n-1} sum_{j=i+1}^{n} X_ij ]
+     = sum_{i=1}^{n-1} sum_{j=i+1}^{n} E[X_ij]            linearity
+     = sum_{i=1}^{n-1} sum_{j=i+1}^{n} 2/(j - i + 1)      indicator = probability
+```
+
+Substitute `k = j - i`, so the inner sum runs `k = 1 .. n-i` and the term is `2/(k+1)`:
+
+```
+     = sum_{i=1}^{n-1} sum_{k=1}^{n-i} 2/(k + 1)
+    <= sum_{i=1}^{n-1} sum_{k=1}^{n} 2/k                  enlarge the inner sum
+     = 2 H_n sum_{i=1}^{n-1} 1
+    <= 2 n H_n
+     = Theta(n log n)                                     since H_n = Theta(log n)
+```
+
+The harmonic sum from 21.6, arriving exactly where such sums always arrive. And the lower bound is `Omega(n log n)` from the sorting lower bound in 24.8, so the expectation is `Theta(n log n)`.
+
+**What was proved, stated carefully.** For *every* input array, the expected number of comparisons is `Theta(n log n)`, the average being over the algorithm's random pivots. There is no assumption about the input at all. An adversary who knows your code but not your coin flips cannot construct a bad case.
+
+### The other route: expected shrinkage
+
+Worth knowing because it generalizes to problems where the pairwise trick is unavailable.
+
+Call a pivot **good** if its rank lands in the middle half, between `m/4` and `3m/4` of a subproblem of size `m`. Exactly half the possible pivots are good, so `Pr[good] = 1/2`. A good pivot leaves a subproblem of size at most `3m/4`; a bad pivot leaves at most `m`. Conditioning on which:
+
+```
+E[X_i | X_{i-1}] <= (1/2)(3/4) X_{i-1} + (1/2)(1) X_{i-1} = (7/8) X_{i-1}
+```
+
+Chaining down the levels with the law of total expectation, and `X_0 = n`:
+
+```
+E[X_i] <= (7/8)^i n
+```
+
+Subproblem sizes decay geometrically in expectation, so the depth is `O(log n)` and each level costs `O(n)`, giving `O(n log n)` again.
+
+### From expectation to "with high probability"
+
+The expected-shrinkage form upgrades to a much stronger statement, and the upgrade is the standard Markov-plus-union-bound pattern from 24.6.
+
+Fix one element `z`, and let `X_i` be the size of the subproblem containing `z` at depth `i`. Set `m = 12 log_{8/7} n`. Then
+
+```
+E[X_m] <= (7/8)^m n = (1/n^12) n = 1/n^11
+```
+
+Element `z` appears in a subproblem deeper than `m` only if `X_m >= 1`. Markov, with `c = 1`:
+
+```
+Pr[z is in a subproblem deeper than m] <= Pr[X_m >= 1] <= E[X_m]/1 <= 1/n^11
+```
+
+That holds for each of the `n` elements separately. Union bound over all of them:
+
+```
+Pr[any element goes deeper than m] <= n * (1/n^11) = 1/n^10
+```
+
+So with probability at least `1 - 1/n^10` the recursion depth is `O(log n)`, each level does `O(n)` work, and **randomized quicksort runs in `O(n log n)` with high probability**, not merely in expectation. The `12` in the definition of `m` is arbitrary slack: raise it and the exponent in the failure probability rises with it.
+
+### What to write in an answer
+
+The graded version of this is short, and these are the sentences that carry it:
+
+- Count comparisons, since they dominate.
+- Name the sorted order `z_1 < ... < z_n` and define the indicator `X_ij` for "`z_i` compared to `z_j`".
+- Argue the pair is decided at the first pivot inside `Z_ij`, and that pivot is uniform over `j-i+1` elements, two of which cause a comparison.
+- Apply linearity, **saying out loud that it needs no independence**, and evaluate the double sum against the harmonic series.
+- Finish with `2 n H_n = Theta(n log n)`, and say the bound holds for every input because the randomness is the algorithm's own.
+
+---
+## 24.8 The sorting lower bound
 
 Now the other side of the world: proving that no algorithm can do better. This is the first `Omega` result in the course and the template for every lower bound after it.
 
@@ -262,7 +571,7 @@ Applied to searching a sorted array with 3-way comparisons: n possible answers, 
 
 ---
 
-## 24.7 Karatsuba: multiplying big integers
+## 24.9 Karatsuba: multiplying big integers
 
 Two n-digit numbers. Grade-school multiplication is `Theta(n^2)`.
 
@@ -307,7 +616,7 @@ The lesson, and it is the deepest lesson of the paradigm: **reducing `a` by one 
 
 ---
 
-## 24.8 Strassen: matrix multiplication
+## 24.10 Strassen: matrix multiplication
 
 Multiplying two `n x n` matrices. The definition gives `Theta(n^3)`:
 
@@ -377,7 +686,7 @@ T(n) = 7 T(n/2) + Theta(n^2)
 
 ---
 
-## 24.9 Closest pair of points
+## 24.11 Closest pair of points
 
 > **Problem.** Given n points in the plane, find the pair with the smallest Euclidean distance.
 
@@ -407,7 +716,7 @@ Same trick as counting inversions: **have the recursion return extra structure s
 
 ---
 
-## 24.10 Pattern matching
+## 24.12 Pattern matching
 
 The course description lists pattern matching, and it is a nice contrast because the best algorithms here are *not* divide and conquer; they are clever preprocessing.
 
@@ -466,7 +775,7 @@ Worth stating explicitly: the inner `while` looks like it makes the algorithm qu
 
 ---
 
-## 24.11 The paradigm's failure mode, and the bridge to file 25
+## 24.13 The paradigm's failure mode, and the bridge to file 25
 
 Divide and conquer requires the subproblems to be **independent**. When they overlap, the same subproblem gets solved many times and the recursion explodes.
 
@@ -493,7 +802,7 @@ The diagnostic:
 
 ---
 
-## 24.12 Practice
+## 24.14 Practice
 
 1. `T(n) = 2T(n/2) + Theta(1)` describes an algorithm that recurses on both halves and does constant combine work. What is it, and what is the running time?
 2. You are given a sorted array that has been rotated an unknown number of positions. Find the minimum in `O(log n)`. Prove it correct.

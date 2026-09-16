@@ -28,7 +28,45 @@ A graph `G = (V, E)`. Write `n = |V|` and `m = |E|`, or `V` and `E` used as numb
 
 ---
 
-## 27.2 Breadth-first search
+## 27.2 One traversal algorithm, four data structures
+
+Before BFS and DFS separately, the thing they are two instances of. It saves memorizing four algorithms that are one algorithm.
+
+Keep a **bag**: any container you can put things into and take things out of, with no promise about which one comes out.
+
+```
+TRAVERSE(s)
+1  put (NIL, s) in the bag
+2  while the bag is not empty
+3      take (p, v) from the bag
+4      if v is unmarked
+5          mark v;  parent(v) = p
+6          for each edge (v, w)
+7              put (v, w) in the bag
+```
+
+> **Lemma.** On a connected graph, `TRAVERSE(s)` marks every vertex exactly once, and the pairs `(parent(v), v)` with `parent(v) != NIL` form a spanning tree.
+
+*Proof.* At most once is immediate from line 4. For at least once, induct on the number of edges in the shortest path from `s` to `v`. `s` itself is marked first. If the shortest path is `(s, ..., u, v)`, then `u` is marked by the induction hypothesis, and at the moment it is marked line 7 puts `(u,v)` in the bag, so `v` is marked no later than when that pair comes out. The parent edges form a connected subgraph with one edge per marked vertex except `s`, so `n - 1` edges and no cycle: a spanning tree. QED
+
+**Time.** Each vertex is marked once. Each edge is inserted at most twice, once from each endpoint, so the loop body runs `O(E)` times. Every step is `O(1)` except the bag operations, so with `T` the cost of one insert-or-remove the total is **`O(E * T)`**. If the graph may be disconnected, wrap it in a loop over all vertices (`TRAVERSE-ALL`) for `O(V + E * T)`, which produces a spanning **forest**.
+
+**Now choose the bag.** This is the entire table:
+
+| Bag | Order | What you get | Cost per op | Total |
+|---|---|---|---|---|
+| Stack | last in, first out | DFS, DFS forest | `O(1)` | `O(V + E)` |
+| Queue | first in, first out | BFS, shortest-path tree in edges | `O(1)` | `O(V + E)` |
+| Min-priority queue on edge weight | cheapest crossing edge | **Prim's MST** | `O(log V)` | `O(E log V)` |
+| Min-priority queue on `dist(v)` | nearest tentative vertex | **Dijkstra** | `O(log V)` | `O(E log V)` |
+
+The last two rows are the payoff: **Prim and Dijkstra are the same traversal with different keys**, which is why their pseudocode looks identical and their proofs do not. Prim's key is the weight of the single edge reaching `v`; Dijkstra's key is the whole accumulated distance from `s`. One sentence of difference, completely different theorems.
+
+Picture all four the same way: a set `S` of marked vertices with a tree on it, a set `V - S` of everything else, and one edge crossing from `S` to `V - S` chosen per round by whatever rule the bag implements.
+
+---
+
+## 27.3 Breadth-first search
 
 Explore in waves. Uses a queue.
 
@@ -56,7 +94,7 @@ BFS(G, s)
 
 ---
 
-## 27.3 Depth-first search and its structure
+## 27.4 Depth-first search and its structure
 
 Explore as deep as possible, backtrack. Uses recursion (an implicit stack).
 
@@ -102,7 +140,7 @@ This is the standard cycle test and it is `O(V + E)`. In **undirected** graphs, 
 
 ---
 
-## 27.4 Topological sort
+## 27.5 Topological sort
 
 > **Definition.** A topological order of a DAG is a linear order of the vertices such that every edge goes forwards.
 
@@ -122,7 +160,7 @@ TOPOLOGICAL-SORT(G)
 
 ---
 
-## 27.5 Strongly connected components
+## 27.6 Strongly connected components
 
 > **Definition.** A strongly connected component (SCC) is a maximal set of vertices where every pair is mutually reachable.
 
@@ -146,7 +184,7 @@ STRONGLY-CONNECTED-COMPONENTS(G)
 
 ---
 
-## 27.6 Shortest paths
+## 27.7 Shortest paths
 
 Four algorithms. Choosing correctly is most of the work.
 
@@ -159,16 +197,38 @@ Four algorithms. Choosing correctly is most of the work.
 | Floyd-Warshall | all pairs, negative allowed | `O(V^3)` | DP over intermediate vertices |
 | Johnson | all pairs, sparse, negative allowed | `O(V^2 log V + VE)` | reweight, then n Dijkstras |
 
-### Relaxation, the shared primitive
+### Tense edges and relaxation, the shared primitive
+
+Every vertex carries two values: `v.d`, the length of the best `s`-to-`v` path found so far (`INF` if none), and `v.parent`, its predecessor on that path. Initially `s.d = 0` and everything else is `INF`.
+
+> **An edge `u -> v` is tense if `u.d + w(u,v) < v.d`.**
+
+A tense edge is a proof that `v.d` is wrong: the route to `u` followed by the edge is strictly better than what `v` currently believes. **Relaxing** the edge fixes that one contradiction.
 
 ```
 RELAX(u, v, w)
-1  if v.d > u.d + w(u,v)
+1  if v.d > u.d + w(u,v)              # i.e. the edge is tense
 2      v.d = u.d + w(u,v)
 3      v.parent = u
 ```
 
-Every shortest-path algorithm is "relax edges in some order until nothing changes"; they differ only in the order and in how many times.
+So the generic algorithm is a single sentence: **while some edge is tense, relax it.** Every shortest-path algorithm in this section is that loop with a rule for which tense edge to pick next, and the correctness argument below applies to all of them at once, before any rule is chosen.
+
+**Three claims, and they are the whole correctness proof.**
+
+1. *`v.d` is always either `INF` or the length of some actual `s`-to-`v` path, so `v.d >= delta(s,v)`.* Induct on the number of relaxations. True at the start. A relaxation sets `v.d = u.d + w(u,v)`, and `u.d` was the length of a real path by the hypothesis, so `v.d` is the length of that path plus one edge.
+2. *The loop terminates.* There are finitely many paths, `v.d` only ever decreases, and it only ever takes values that are lengths of paths.
+3. *When no edge is tense, every `v.d` is correct.* Suppose not, and among the wrong vertices pick the `v` closest to `s` in the true shortest-path tree, measured in edges. Let `s, ..., u, v` be its true shortest path. Then `u.d` is correct, so `delta(s,v) = u.d + w(u,v) < v.d`, which says `u -> v` is tense. Contradiction.
+
+Claim 3 is the useful one: **"no tense edges" is the stopping condition and the certificate of correctness at once.** It comes back verbatim in Bellman-Ford's negative-cycle test and again in Johnson's reweighting.
+
+The same content in CLRS vocabulary, since exams use both:
+
+- **Upper bound property:** `v.d >= delta(s,v)` always, and once equal it never changes again. (Claim 1.)
+- **Convergence property:** if `s ->...-> u -> v` is a shortest path and `u.d = delta(s,u)` when `(u,v)` is relaxed, then afterwards `v.d = delta(s,v)`.
+- **Path relaxation property:** if the edges of a shortest path to `v` are relaxed in order, with anything in between, then `v.d = delta(s,v)`. This one proves Bellman-Ford immediately.
+
+**Choosing which tense edge to relax** is again the bag from 27.2, and the choice is the entire difference between the algorithms: a min-priority queue on `v.d` gives Dijkstra, a FIFO queue gives Bellman-Ford, and a stack gives an algorithm that is correct but can take exponential time, which is worth knowing as the reason the choice matters at all.
 
 Two invariants worth naming in proofs:
 
@@ -216,6 +276,34 @@ BELLMAN-FORD(G, w, s)
 
 It is a DP in disguise: `d[i][v]` = shortest distance to v using at most i edges. The second index is exactly the trick from file 25 that breaks the cyclic dependency.
 
+### All pairs: four algorithms, in order of cleverness
+
+The problem: compute `dist(u,v)` for **every** pair, not just from one source.
+
+**Rung 0, just run a single-source algorithm n times.** Bellman-Ford from each vertex is `O(V * VE) = O(V^2 E)`, which is `O(V^4)` on a dense graph. Dijkstra from each vertex is `O(V (E + V log V)) = O(V^3)` with Fibonacci heaps, but it cannot handle negative weights. So the target is `O(V^3)` *with* negative weights allowed.
+
+**Rung 1, make it a DP by bounding the number of edges.** The natural recurrence, "a shortest `u`-to-`v` path ends with some edge `x -> v`", is circular on a graph with cycles: `dist(u,v)` would depend on `dist(u,x)` which can depend back on `dist(u,v)`. **The fix is the standard one for any DP whose dependencies loop: add a parameter that must strictly decrease.** Let `dist(u,v,k)` be the shortest `u`-to-`v` path using at most `k` edges.
+
+```
+dist(u,v,0) = 0 if u == v, else INF
+dist(u,v,k) = min( dist(u,v,k-1),  min over edges x->v of ( dist(u,x,k-1) + w(x,v) ) )
+```
+
+With no negative cycles, a shortest path has at most `V - 1` edges, so `dist(u,v,V-1)` is the answer. The table has `V^2 * V` entries and each edge is examined once per `(u,k)` pair, giving **`O(V^2 E)`**, which is `O(V^4)` when dense. Drop the third index and this code *is* Bellman-Ford run from every source, which is a useful thing to notice: the DP and the classical algorithm are the same computation.
+
+**Rung 2, cut in the middle instead of at the last edge.** The exact move from 23.3, and it buys the same kind of improvement. A shortest path of at most `k` edges splits into two halves of at most `k/2` edges each, meeting at some vertex `x`:
+
+```
+dist(u,v,1) = w(u,v)          with w(u,u) = 0 and w(u,v) = INF for non-edges
+dist(u,v,k) = min over x of ( dist(u,x,k/2) + dist(x,v,k/2) )
+```
+
+Now `k` only needs the values `1, 2, 4, ..., 2^ceil(lg V)`, so there are `O(log V)` rounds of an `O(V^3)` triple loop: **`O(V^3 log V)`**. The structure is exactly repeated squaring, the same idea as fast exponentiation in 23.3, applied to a matrix product where `+` plays the role of multiply and `min` the role of add.
+
+**Rung 3, pick a smarter third parameter.** That is Floyd-Warshall, below, and it removes the last `log V`.
+
+**Rung 4, reweight so Dijkstra applies.** That is Johnson's algorithm, after it.
+
 ### Floyd-Warshall
 
 All-pairs, and one of the cleanest DPs in the course.
@@ -240,6 +328,45 @@ The 2D version above is correct because `d[k][i][k] = d[k-1][i][k]` (a shortest 
 
 `Theta(V^3)` time, `Theta(V^2)` space. Detects negative cycles by checking for a negative diagonal entry.
 
+### Johnson: reweight, then run Dijkstra everywhere
+
+Dijkstra is the fast single-source algorithm but it breaks on negative weights. Johnson's algorithm removes the negative weights without changing which paths are shortest, then runs Dijkstra from every vertex.
+
+**The naive fix fails.** Adding the same constant to every edge does not preserve shortest paths: a path with more edges absorbs more of the constant, so a long-but-cheap path can lose to a short-but-expensive one. Any correct scheme must add different amounts to different edges.
+
+**The trick: give each vertex a price.** Pick any function `p : V -> R` and define
+
+```
+w'(u -> v) = p(u) + w(u -> v) - p(v)
+```
+
+Sum that along a whole path from `u` to `v`. Every intermediate vertex `x` contributes `+p(x)` once and `-p(x)` once, and they cancel, leaving
+
+```
+w'(path from u to v) = p(u) + w(path) - p(v)
+```
+
+**Every** `u`-to-`v` path changes by the same amount `p(u) - p(v)`, which depends only on the endpoints. So the ordering of paths between a fixed pair is untouched: shortest stays shortest, for any choice of `p` whatsoever. (Cycles are unchanged outright, since `u = v` makes the correction zero, which is why this cannot hide a negative cycle.)
+
+**Choosing p so the new weights are non-negative.** Add a new vertex `s` with a zero-weight edge to every vertex, run Bellman-Ford once from `s`, and set `p(v) = dist(s,v)`. The new vertex guarantees every `p(v)` is finite, and it adds no shortest paths because nothing points back into `s`. Bellman-Ford halted, so no edge is tense, which says exactly
+
+```
+dist(s,u) + w(u -> v) >= dist(s,v)      i.e.   w'(u -> v) = p(u) + w(u,v) - p(v) >= 0
+```
+
+The non-negativity we need is literally the stopping condition of Bellman-Ford. That is the one line of the algorithm worth remembering.
+
+```
+JOHNSON(G, w)
+1  add s with 0-weight edges to every vertex
+2  p = BELLMAN-FORD(G + s, s)            # or report a negative cycle and stop
+3  w'(u,v) = p(u) + w(u,v) - p(v)        # now all non-negative
+4  for each u:  run DIJKSTRA(G, w', u)
+5  dist(u,v) = dist'(u,v) - p(u) + p(v)  # undo the shift
+```
+
+**Time.** One Bellman-Ford at `O(VE)`, then `V` Dijkstras at `O(E + V log V)` each: **`O(VE + V^2 log V)`**. On a sparse graph that beats Floyd-Warshall's `O(V^3)`; on a dense graph it does not, and Floyd-Warshall is also ten lines shorter. That trade-off is the expected answer to "which all-pairs algorithm would you use".
+
 ### Choosing between them
 
 ```
@@ -255,7 +382,7 @@ Say the running time in terms of both V and E, and say which structure you assum
 
 ---
 
-## 27.7 Network flow: the model
+## 27.8 Network flow: the model
 
 > **Definition.** A **flow network** is a directed graph `G = (V,E)` with a non-negative **capacity** `c(u,v)` on each edge, a **source** s, and a **sink** t. A **flow** is a function `f(u,v)` satisfying:
 >
@@ -281,7 +408,7 @@ An **augmenting path** is any s-to-t path in `G_f`. Pushing flow equal to the mi
 
 ---
 
-## 27.8 Ford-Fulkerson and max-flow min-cut
+## 27.9 Ford-Fulkerson and max-flow min-cut
 
 ```
 FORD-FULKERSON(G, s, t)
@@ -333,7 +460,7 @@ Obvious from the algorithm (every bottleneck is an integer if you start at 0 wit
 
 ---
 
-## 27.9 Modelling with flow
+## 27.10 Modelling with flow
 
 This is what actually gets tested. The algorithm is a black box you cite; the skill is building the network.
 
@@ -391,7 +518,7 @@ Step 7 is where the substance is. "Max flow equals max matching" is not a proof;
 
 ---
 
-## 27.10 Practice
+## 27.11 Practice
 
 1. Give an `O(V+E)` algorithm to test whether an undirected graph is bipartite. Prove it.
 2. Prove that a graph with `n` vertices and more than `n-1` edges has a cycle.
@@ -418,7 +545,7 @@ Do not read this until you have written your own attempt on paper.
 
 6. Source s to each student with capacity 1; student to each acceptable project with capacity 1; each project to sink t with capacity k. All students can be assigned iff the max flow equals n. Forward direction: a valid assignment gives a flow of value n by pushing one unit along each student's chosen path, respecting the project capacities since at most k students choose each. Backward: an integral max flow of value n saturates every s-to-student edge, and each student sends its unit along exactly one project edge, giving a valid assignment; the project-to-t capacity ensures no project exceeds k.
 
-7. The equivalence proof is in 27.8. To extract the cut: in the residual graph of the final flow, let `S` be the set of vertices reachable from s by a BFS or DFS, and `T = V - S`. Every edge from S to T is saturated and every edge from T to S carries zero flow, so `c(S,T) = |f|`, and since every cut has capacity at least `|f|`, this cut is minimum.
+7. The equivalence proof is in 27.9. To extract the cut: in the residual graph of the final flow, let `S` be the set of vertices reachable from s by a BFS or DFS, and `T = V - S`. Every edge from S to T is saturated and every edge from T to S carries zero flow, so `c(S,T) = |f|`, and since every cut has capacity at least `|f|`, this cut is minimum.
 
 8. Source to each employee with capacity `h[i]`; employee to each task they can do with capacity infinity (or `min(h[i], r[j])`); task j to sink with capacity `r[j]`. All tasks are coverable iff the max flow equals `sum_j r[j]`, that is iff every task-to-sink edge is saturated. This is a transportation problem, and the integrality theorem gives whole-hour assignments when all `h` and `r` are integers.
 

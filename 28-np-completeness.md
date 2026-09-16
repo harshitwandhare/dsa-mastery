@@ -58,9 +58,21 @@ Students routinely write "I reduce my problem to 3-SAT, therefore my problem is 
 
 ---
 
-## 28.3 Cook-Levin, and the shape of the field
+## 28.3 CircuitSAT, Cook-Levin, and the shape of the field
 
-> **Cook-Levin theorem.** SAT is NP-complete.
+### The box with the switches
+
+Start concrete. You are handed a box with `n` binary switches on the outside and a light bulb on top. Inside is a boolean circuit: a pile of AND, OR and NOT gates wired from the `n` switches to the one bulb. **Is there a setting of the switches that lights the bulb?**
+
+If the box is sealed, you are stuck with trying all `2^n` settings, and you cannot do better: for any single setting there is a small circuit that lights up for that setting and no other, so an adversary can hide the needle anywhere in the haystack.
+
+Now open the box. You can see every gate and every wire. **Can you do better than `2^n`?** Nobody knows. That question, asked precisely, is this:
+
+> **CircuitSAT.** Given a boolean circuit (a DAG with a source per input wire, one output vertex, and AND/OR/NOT gates in between), does some input make it output 1?
+
+It is worth meeting the field through this problem rather than through SAT, because the "sealed box" story is what NP-hardness feels like from the inside, and because CircuitSAT is the natural root of the reduction tree: circuits are how computation is actually built, so "every computation becomes a circuit" is the bridge from *any* problem in NP to a concrete combinatorial one.
+
+> **Cook-Levin theorem.** CircuitSAT is NP-complete. (Equivalently, and as it is usually stated, SAT is NP-complete.)
 
 **Why it matters.** It is the bootstrap. Before it, "NP-complete" was a definition with no known members; after it, everything else follows by reduction from SAT.
 
@@ -68,7 +80,52 @@ Students routinely write "I reduce my problem to 3-SAT, therefore my problem is 
 
 You will rarely be asked to write this out. You will be asked what it says and why it is the foundation.
 
-**3-SAT is NP-complete too**, by a reduction from SAT that rewrites long clauses using new variables:
+### CircuitSAT to SAT, the reduction to be able to write
+
+Given a circuit, produce a boolean formula that is satisfiable exactly when the circuit is.
+
+The obvious attempt fails instructively: start at the output gate and recursively write out the formula for each input subtree. That is correct and **exponential**, because a wire feeding two gates gets its subformula copied twice, and the copying compounds.
+
+The fix is the one that shows up in every "make this polynomial" argument: **name the intermediate results instead of re-deriving them.**
+
+1. Introduce a variable per wire: `x_1..x_n` for the circuit inputs, `y_1..y_m` for the gate outputs, `z` for the final output.
+2. For each gate, write one clause asserting its output matches its inputs: `(y_1 = x_1 AND x_4)`, `(y_2 = NOT x_4)`, and so on.
+3. AND all of those together, and AND on `z` itself.
+
+```
+(y1 = x1 AND x4) AND (y2 = NOT x4) AND (y3 = x3 AND y2) AND ... AND (z = y4 AND y7 AND y6) AND z
+```
+
+The formula says "every gate computes correctly **and** the output is 1".
+
+*Both directions.* A satisfying input to the circuit extends to a satisfying assignment of the formula: propagate it through and read off every wire. Conversely a satisfying assignment of the formula, restricted to the `x` variables and ignoring the `y`s and `z`, satisfies the circuit, because the clauses forced every `y` to be the true gate value.
+
+*Polynomial.* One clause per gate, written in a single pass over the gates in topological order. **Linear time.**
+
+### CircuitSAT to 3SAT
+
+A **CNF** formula is an AND of clauses, each an OR of literals (a variable or its negation). **3CNF** has exactly three literals per clause, and **3SAT** asks whether a 3CNF formula is satisfiable. The same wire-variable construction reaches it, in two more mechanical steps.
+
+First assume every gate has fan-in at most 2, which costs only a constant-factor blowup (a 5-input AND becomes a small tree of 2-input ANDs). Then rewrite each gate clause into CNF using the identities:
+
+```
+a = b AND c    <->   (NOT a OR b) AND (NOT a OR c) AND (a OR NOT b OR NOT c)
+a = b OR c     <->   (a OR NOT b) AND (a OR NOT c) AND (NOT a OR b OR c)
+a = NOT b      <->   (a OR b) AND (NOT a OR NOT b)
+```
+
+Finally pad the short clauses to exactly three literals with fresh dummy variables, in a way that cannot change satisfiability because the dummy appears in both polarities:
+
+```
+(a OR b)   ->   (a OR b OR x) AND (a OR b OR NOT x)
+(a)        ->   (a OR x OR y) AND (a OR x OR NOT y) AND (a OR NOT x OR y) AND (a OR NOT x OR NOT y)
+```
+
+Each step multiplies the size by a constant and runs in polynomial time, and satisfiability is preserved at every step. **3SAT is NP-hard**, and it is in NP because a satisfying assignment can be checked by plugging it in, so it is NP-complete.
+
+**Why bother reducing all the way to 3SAT** when SAT is already NP-complete: the rigid shape of 3CNF, exactly three literals per clause, is what makes gadget constructions possible. Every reduction in 28.4 starts from that rigidity.
+
+**The alternative route**, worth knowing since CLRS takes it: reduce SAT to 3-SAT directly by splitting long clauses with new variables:
 
 ```
 (x1 OR x2 OR x3 OR x4 OR x5)
@@ -136,6 +193,21 @@ The classic reduction map, and knowing the arrows is worth the memorization:
 **INDEPENDENT SET and CLIQUE.** `S` is independent in G **iff** `S` is a clique in the **complement** graph. Map `(G,k)` to `(complement of G, k)`.
 
 Those three together mean CLIQUE, INDEPENDENT SET, and VERTEX COVER are all the same problem wearing different clothes, and you can move between them in one sentence each. That is often the fastest route through a problem.
+
+### The polynomial-time near-misses
+
+For every problem above there is a neighbour one word away that is easy, and knowing the pairs stops you from proving the wrong thing hard.
+
+| Hard | Easy neighbour | Why the easy one is easy |
+|---|---|---|
+| **3SAT** | **2SAT** | implication graph plus SCCs (file 27), linear time |
+| **3-COLOURING** | **2-COLOURING** | bipartiteness, one BFS |
+| **VERTEX COVER** (cover edges with vertices) | **EDGE COVER** (cover vertices with edges) | reduces to maximum matching, polynomial |
+| **HAMILTONIAN CYCLE** (visit every *vertex* once) | **EULERIAN TOUR** (traverse every *edge* once) | exists iff connected and every degree is even; found in linear time |
+| **LONGEST PATH** in a graph | **LONGEST PATH in a DAG** | topological order plus DP, `O(V + E)` |
+| **SUBSET SUM** with large targets | **SUBSET SUM** with target polynomial in n | the `O(nT)` DP is genuinely polynomial then |
+
+The Hamiltonian/Eulerian pair is the sharpest of these: swapping "vertex" for "edge" in the problem statement moves it from NP-complete to solvable by a degree check. Nothing about the surface form of a problem predicts which side it lands on, which is exactly why reductions are the only reliable tool.
 
 ---
 
@@ -235,6 +307,20 @@ Second, **restricting the input structure can restore tractability**. Many NP-ha
 > *Proof.* The chosen edges form a matching, since once an edge is picked both its endpoints are covered and no later edge can share one. Any vertex cover must include at least one endpoint of each matched edge, so `|OPT| >= (number of matched edges) = |C|/2`, giving `|C| <= 2|OPT|`. QED
 
 That proof is three lines and is worth having memorized. Other landmarks: greedy set cover is a `ln n` approximation and that is optimal unless P = NP; metric TSP has a 2-approximation from an MST and a 3/2-approximation from Christofides; general TSP has **no** constant-factor approximation unless P = NP (proved by a reduction from Hamiltonian cycle that makes non-tour edges enormous).
+
+**The approximability table**, because "how well can it be approximated" is a separate question per problem and the answers are wildly different:
+
+| Problem | Best approximation ratio | Note |
+|---|---|---|
+| **MAX-3SAT** | `7/8` | random assignment already achieves 7/8 in expectation; better is NP-hard |
+| **VERTEX COVER** | `2` | the matching argument above; below `1.36` is NP-hard |
+| **METRIC TSP** | `3/2` | Christofides; `2` from an MST alone |
+| **TSP, general** | none constant | unless P = NP |
+| **EUCLIDEAN TSP** | `1 + eps` for any eps | a PTAS exists in the plane |
+| **SET COVER** | `Theta(log n)` | and `ln n` is optimal unless P = NP |
+| **INDEPENDENT SET** | none within `n^(1-eps)` | essentially inapproximable |
+
+Note that INDEPENDENT SET and VERTEX COVER are complements of each other (28.4) and yet one has a 2-approximation and the other has none worth having. **Approximability is not preserved by the reductions that preserve NP-completeness**, which is a point worth making whenever a question tries to slide from one to the other.
 
 **2. Exact exponential algorithms with better constants.** `O(2^n * n^2)` DP over subsets for TSP (Held-Karp) beats `O(n!)` brute force enormously and is exact. Branch and bound with good pruning solves large real instances.
 
@@ -359,7 +445,7 @@ Do not read this until you have written your own attempt on paper.
 
 ---
 
-## 28.13 You have finished the course track
+## 28.13 Where to go from here
 
 What you should now be able to do on a blank page, with nothing open:
 
@@ -372,4 +458,4 @@ What you should now be able to do on a blank page, with nothing open:
 
 If any of those is shaky, the fix is not rereading. Go to the practice set at the end of the relevant file, cover the answers, and write full solutions in ink. That is the only activity that transfers to a blank page under time pressure.
 
-Back to [21 — The Course Track: Orientation](21-course-track-orientation.md) for the weekly study loop, or across to [08 — Interview Craft](08-interview-craft.md) if you want the other track.
+Next: [29 — Problem Sets, Worked](29-problem-sets.md), which is that activity, organized by the six question shapes that keep coming back. Then back to [21 — The Course Track: Orientation](21-course-track-orientation.md) for the weekly study loop, or across to [08 — Interview Craft](08-interview-craft.md) if you want the other track.
