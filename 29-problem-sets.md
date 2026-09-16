@@ -349,7 +349,9 @@ T(2) = 4                       two independent choices of 1-unit plate
 
 > Same plates, but now green plates may not be adjacent to each other. Write a recurrence.
 
-*Answer.* Condition on the bottom plate again, but the green case now has to record what sits directly above. Let `T(n)` count stacks of thickness `n` and `G(n)` count those whose **bottom plate is green**. Then `T(n) = 2T(n-1) + G(n)` where `G(n) = 2 T(n-4) * ...` gets awkward. The clean fix is the standard one from 25.5's LIS: **add a parameter recording the constraint.** Let `T(n, 0)` be the number of stacks of thickness `n` whose bottom plate is not green, `T(n, 1)` those whose bottom plate is green:
+*Answer.* Condition on the bottom plate again. The trouble is the green case: after placing a green plate you may not place another one directly on top, so "the rest of the stack" is no longer an unconstrained instance of the same problem, and a single-variable recurrence cannot express it.
+
+The fix is the standard one from LIS in 25.5: **add a parameter recording the constraint.** Let `T(n, 0)` be the number of stacks of thickness `n` whose bottom plate is not green, `T(n, 1)` those whose bottom plate is green:
 
 ```
 T(n, 0) = 2 ( T(n-1, 0) + T(n-1, 1) )
@@ -414,7 +416,28 @@ Every level costs the same. The depth is `log_3 n`.
 
 **`T(n) = Theta(n^2 log n)`.**
 
-### E4. `T(n) = T(n/4) + T(n/6) + n`
+### E4. `T(n) = 5 T(n/3) + n^2`
+
+```
+L_i = 5^i * (n / 3^i)^2 = n^2 * (5/9)^i
+```
+
+Ratio `5/9 < 1`, so the level sums die off geometrically and the root carries the whole cost. The root alone costs `n^2`, which is also the lower bound, since level 0 is part of the total.
+
+**`T(n) = Theta(n^2)`.**
+
+**E1 to E4 are the complete set of cases** for the shape `a T(n/b) + n^c`, and it is worth seeing them side by side once, because which one you are in is decided entirely by the ratio `a / b^c`:
+
+| Recurrence | `a / b^c` | Level sums | Dominated by | Answer |
+|---|---|---|---|---|
+| E1, `4T(n/2) + n` | `4/2 = 2` | increasing | leaves | `Theta(n^2)` |
+| E2, `3T(n/2) + n^1.5` | `3/2.83 = 1.06` | increasing | leaves | `Theta(n^(lg 3))` |
+| E3, `9T(n/3) + n^2` | `9/9 = 1` | all equal | every level | `Theta(n^2 log n)` |
+| E4, `5T(n/3) + n^2` | `5/9 = 0.56` | decreasing | root | `Theta(n^2)` |
+
+Note E3 and E4 differ only in `a`, 9 against 5, and that single change moves the answer by a `log n` factor. **Compute the ratio; never guess from the shape of `f(n)`.**
+
+### E5. `T(n) = T(n/4) + T(n/6) + n`
 
 Unequal splits, so the master theorem does not apply. Use the level-ratio lemma from 23.11: for `T(n) = T(an) + T(bn) + n`, consecutive level sums satisfy `L_{i+1} = (a+b) L_i`. Here
 
@@ -426,7 +449,7 @@ Decreasing geometric, so the root dominates, and the root alone costs `n`, which
 
 **`T(n) = Theta(n)`.**
 
-### E5. `T(n) = T(n/7) + T(n/11) + sqrt(n)`
+### E6. `T(n) = T(n/7) + T(n/11) + sqrt(n)`
 
 Same shape, but the combine cost is `sqrt(n)`, not `n`, so the fractions have to be raised to the matching power before they are summed. A subproblem of size `m` hands its children
 
@@ -440,7 +463,7 @@ and `1/sqrt 7 + 1/sqrt 11 = 0.378 + 0.302 = 0.680 < 1`. Decreasing geometric, ro
 
 **The trap this one sets:** summing `1/7 + 1/11` instead of `1/sqrt 7 + 1/sqrt 11`. The comparison has to be between the *costs*, not the sizes. Here both sums are below 1 so the answer survives the error, which is precisely why the habit is dangerous.
 
-### E6. `T(n) = T(sqrt n) + 3`
+### E7. `T(n) = T(sqrt n) + 3`
 
 Every level costs 3, so the answer is `3 * depth` and the only question is the depth. After `i` levels the argument is `n^(1/2^i)`. It reaches a constant `c` when
 
@@ -453,13 +476,13 @@ n^(1/2^i) = c   =>   (1/2^i) lg n = lg c   =>   lg n = 2^i lg c
 
 **The move to remember:** *how many square roots until constant* is `lg lg n`, the same way *how many halvings until constant* is `lg n`. Alternatively, substitute `m = lg n`, which turns `T(n) = T(sqrt n) + 3` into `S(m) = S(m/2) + 3`, immediately `Theta(lg m) = Theta(lg lg n)`. That is the change of variables in 23.9, and it is the faster route once you trust it.
 
-### E7. `T(n) = 2 T(sqrt n) + lg n`
+### E8. `T(n) = 2 T(sqrt n) + lg n`
 
 Same substitution, `m = lg n`, so `S(m) = 2 S(m/2) + m`, which is the mergesort recurrence: `Theta(m lg m)`.
 
 **`T(n) = Theta(lg n * lg lg n)`.**
 
-### E8. `T(n) = T(lg n) + lg n`
+### E9. `T(n) = T(lg n) + lg n`
 
 Now the argument collapses logarithmically, so the costs going down the tree are
 
