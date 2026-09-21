@@ -519,6 +519,10 @@ Now the problems stop being calculations. You are handed a task and a target run
 
 *Proof.* Contrapositive. If `x` appears at most $|L|/3$ times in $L$ and at most $|R|/3$ times in $R$, then it appears at most $(|L| + |R|)/3 = n/3$ times in total, contradicting the assumption. QED
 
+**Why it works, stated so it transfers.** Two properties are doing the work. Occurrence counts are **additive** across a partition of the array, $\mathrm{freq}_A = \mathrm{freq}_L + \mathrm{freq}_R$; and the threshold is **linear in the size**. Together they mean a heavy item cannot hide by spreading itself evenly, because an even spread still leaves it heavy in at least one half.
+
+That is also what tells you the shape of the general result: for a threshold of $n/c$, at most $c - 1$ items can qualify, the same contrapositive goes through unchanged, and the candidate set stays bounded by $2(c-1)$. The algorithm below is the $c = 3$ case and nothing about it is special to 3.
+
 That lemma is the entire algorithm: it says **the recursion cannot lose a heavy item**, so the candidates from the two halves are guaranteed to include every real answer.
 
 **The algorithm.**
@@ -532,6 +536,8 @@ FREQUENT(A[1..n])
 5      count occurrences of c in A by one linear scan using equality tests
 6  return those c with count > n/3
 ```
+
+**The base case is worth one line**, because the threshold is a fraction rather than a count. On an array of size 1 the single item appears once and $1 > 1/3$; on size 2 a distinct item appears at least once and $1 > 2/3$. So returning every distinct item is exactly right at the bottom, and there are at most two of them, which keeps the candidate bound true all the way down.
 
 **Correctness.** By the lemma, every item appearing more than $n/3$ times in $A$ is returned by at least one recursive call, so it is in $C$. Line 5 then verifies each candidate against the true threshold, so nothing false survives. Both directions done.
 
@@ -566,6 +572,10 @@ MERGE-OUTLINES(P, Q)                # P, Q are lists of (x, height), x-increasin
 9  return out
 ```
 
+**Two facts the merge quietly depends on.** First, **no two events ever tie.** Every x-coordinate in any outline is the left or right edge of some box, so every value the merge sees is an input coordinate, and the problem promised those are distinct. That is what lets the comparison be a strict $<$; with ties possible you would need a rule for simultaneous events, and omitting it is a real bug rather than a presentational one. Second, **an outline of `k` boxes has at most $2k$ points**, since each point sits at one of that group's $2k$ edges. That is the bound which keeps the merge linear, and it is worth stating rather than gesturing at.
+
+**The merge invariant.** Just after processing an event at `x`, the running height of the left half is the height of its union immediately to the right of `x`, and likewise for the right half. It holds because each child outline changes height only at its own listed points, and by the time that event is processed we have consumed exactly those points with coordinate at most `x`, in increasing order. The union's height just right of `x` is then the maximum of the two, so scanning every event catches every change.
+
 **Why line 6 is compulsory.** Without it you emit a point at every input x-coordinate, including the ones where the taller box is unchanged and the maximum does not move. That produces a technically-correct-looking list with redundant entries, and a list of segment starts that do not start segments is a wrong answer. The same suppression removes the artefacts where a shorter box begins or ends underneath a taller one.
 
 **Why the pointwise maximum is right.** A point is covered by the union of all boxes iff it is covered by the union of the first half or of the second, and the height of the union at `x` is the max over all covering boxes, which splits over the two halves as `max(max over half 1, max over half 2)`. Maximum is associative, so the recursion is sound.
@@ -593,13 +603,56 @@ count = countLeft + countRight + countSplit
 T(n) = 2 T(n/2) + O(n) = O(n log n)
 ```
 
+**The step that is easy to skip.** The recursive calls *sort* the two halves before the merge runs, so it is fair to ask whether that disturbs the count of split inversions. It does not, and the reason is worth a sentence: reordering within a half never changes which pairs are split across the halves, and it never changes the two **values** in such a pair. The split inversions of the original array are therefore exactly the pairs (left value, right value) with the left one larger, which is a statement about multisets of values rather than about positions, and that is what the merge counts.
+
+**Where the $+= k$ belongs, precisely.** In the branch that fires once the left half is exhausted, adding the same quantity would contribute zero rather than a wrong number, because the left index only advances when an element is copied from the left and so never passes one-past-the-end. The addition still belongs only in the branch that takes from the right *while the left is non-empty*, but the reason is that there is nothing left to count, not that the arithmetic would misfire. Knowing which of the two it is matters if you are asked to justify the placement.
+
 **The general trick, which is the transferable part:** *make the recursion return more than the answer.* Mergesort already sorts; we asked it to also report a count, and the count came for free because the merge already compares exactly the pairs that matter. The same move appears in closest-pair (24.11), where the recursion returns its points in y-order so the combine drops from $n \log n$ to `n`. When a combine step looks too expensive, ask what the recursive calls could hand back that would make it cheap.
 
 ### F4. The k-th smallest in the union of two sorted arrays
 
 > `A[1..n]` and `B[1..m]` are each sorted, and all $n + m$ values are distinct. Find the k-th smallest value of their union in $O(\log(n + m))$.
 
-$O(\log(n+m))$ rules out merging, which is $O(n+m)$. It means each step must discard a **constant fraction of `k`**.
+$O(\log(n+m))$ rules out merging, which is $O(n+m)$. It means each step must discard a **constant fraction** of the work.
+
+There are two standard solutions and they are worth knowing separately, because they generalise differently. Method A searches for the answer's *position*; method B throws away prefixes.
+
+#### Method A: binary search the split
+
+**The reframing, which is the whole solution.** Do not look for the k-th element. Look for **where it splits the two arrays**.
+
+If the `k` smallest values of the union are exactly $A[1 \ldots i]$ together with $B[1 \ldots j]$, then $i + j = k$, so $j = k - i$ is determined by $i$. That leaves **one** unknown ranging over an interval of integers, and one unknown over an interval is precisely what a binary search consumes. Turning a two-array search into a one-parameter search is what gives you something to halve.
+
+**Sentinels.** Treat out-of-range entries as $A[0] = B[0] = -\infty$ and $A[n+1] = B[m+1] = +\infty$. They are never returned; they exist so the comparisons need no special cases at the ends. Writing them down is cheaper than four boundary conditions, and forgetting them is where this problem is usually lost.
+
+**The search range.** We need $0 \le i \le n$ and $0 \le j = k - i \le m$, so $\max(0, k-m) \le i \le \min(k, n)$, and the correct $i$ satisfies both constraints so it lies inside.
+
+```
+SELECT-A(A[1..n], B[1..m], k)
+1  lo = max(0, k-m);  hi = min(k, n)
+2  loop
+3      i = floor((lo + hi)/2);  j = k - i
+4      if A[i] > B[j+1]
+5          hi = i - 1                  # took too many from A
+6      else if B[j] > A[i+1]
+7          lo = i + 1                  # took too few from A
+8      else
+9          return max(A[i], B[j])
+```
+
+**Correctness.** Call `i` **good** if $A[i] \le B[j+1]$ and $B[j] \le A[i+1]$, where $j = k-i$.
+
+*A good `i` gives the answer.* The chosen set has exactly $i + j = k$ elements, so it is enough that every chosen element is at most every unchosen one. Each unchosen element is either some $A[i']$ with $i' > i$, hence at least $A[i+1]$, or some $B[j']$ with $j' > j$, hence at least $B[j+1]$. So it suffices that $\max(A[i], B[j]) \le \min(A[i+1], B[j+1])$, and all four inequalities are in hand: two from sortedness, two from goodness. The answer is then the largest chosen element, $\max(A[i], B[j])$.
+
+*The tests point the right way, monotonically* — and this is the part that licenses a **binary** search rather than a scan, so it is the part to write down. As `i` grows by one, $A[i]$ weakly increases while $j$ drops, so $B[j+1]$ weakly decreases. Hence once $A[i] > B[j+1]$ holds it holds for every larger `i`; since a good index needs $A[i] \le B[j+1]$, no good index is at or above the current one, and discarding the upper half is safe. The second test is the mirror image.
+
+*The two tests cannot both fire*, since that would give $A[i] > B[j+1] \ge B[j] > A[i+1] \ge A[i]$, so $A[i] > A[i]$.
+
+*Termination.* Each iteration returns or strictly shrinks the interval while keeping every good index inside it, and a good index exists, so the interval cannot empty first.
+
+**Running time.** The interval holds at most $\min(n,m) + 1$ values and halves each iteration, so $O(\log(\min(n,m)+1)) = O(\log(n+m))$.
+
+#### Method B: discard prefixes and shrink k
 
 **The idea.** Look $k/2$ deep into each array and compare what you find. Whichever is smaller, everything up to and including it is too small to be the answer, and can be thrown away.
 
@@ -627,6 +680,10 @@ T(k) = T(k/2) + O(1) = O(log k) = O(log(n + m))
 **Two details that cost marks if skipped.** The $\min(|A|, \dots )$ clamps in lines 4 and 5, without which you index off the end of the shorter array. And the $k == 1$ base case, without which the recursion can stall with $i = 0$ and make no progress.
 
 **If the analysis gives $O(\log n + \log m)$**, that is fine and equal: `log n + log m = log(nm) <= 2 log(n+m) = O(log(n+m))`.
+
+#### Which to write
+
+Method A generalises better: it is the one that extends to "median of two sorted arrays" and to more than two arrays, and its monotonicity argument is exactly the kind of justification these questions are marked on. Method B is faster to write under time pressure and its safety argument is shorter. Either earns full credit **provided you actually argue the step that makes it work** — the monotonicity of the predicate in A, the rank bound in B. Stating the algorithm and asserting the bound is the half-answer both versions invite.
 
 ---
 
