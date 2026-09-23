@@ -419,8 +419,8 @@ The tree argument, packaged. Use it to write the answer down fast once you have 
 | $T(n)=4T(n/2)+n$ | 4 | 2 | 2 | $n^2$ | `n` | 1 | $\Theta(n^2)$ |
 | $T(n)=4T(n/2)+n^2$ | 4 | 2 | 2 | $n^2$ | $n^2$ | 2 | $\Theta(n^2 \log n)$ |
 | $T(n)=4T(n/2)+n^3$ | 4 | 2 | 2 | $n^2$ | $n^3$ | 3 | $\Theta(n^3)$ |
-| $T(n)=3T(n/2)+n$ | 3 | 2 | `lg 3 ~ 1.585` | $n^{1.585}$ | `n` | 1 | $\Theta(n^{\lg}3)$ |
-| $T(n)=7T(n/2)+n^2$ | 7 | 2 | `lg 7 ~ 2.807` | $n^{2.807}$ | $n^2$ | 1 | $\Theta(n^{\lg}7)$ |
+| $T(n)=3T(n/2)+n$ | 3 | 2 | `lg 3 ~ 1.585` | $n^{1.585}$ | `n` | 1 | $\Theta(n^{\lg 3})$ |
+| $T(n)=7T(n/2)+n^2$ | 7 | 2 | `lg 7 ~ 2.807` | $n^{2.807}$ | $n^2$ | 1 | $\Theta(n^{\lg 7})$ |
 | $T(n)=8T(n/2)+n^2$ | 8 | 2 | 3 | $n^3$ | $n^2$ | 1 | $\Theta(n^3)$ |
 | $T(n)=9T(n/3)+n$ | 9 | 3 | 2 | $n^2$ | `n` | 1 | $\Theta(n^2)$ |
 | $T(n)=2T(n/4)+\sqrt{n}$ | 2 | 4 | 0.5 | $\sqrt{n}$ | $\sqrt{n}$ | 2 | $\Theta(\sqrt{n} \log n)$ |

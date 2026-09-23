@@ -161,8 +161,24 @@ def _superscripts(text: str) -> str:
     # A word exponent, with the operand it takes: n^lg 7, 2^min(m,n). Without
     # the braces these become \lg and \min with nothing to act on, and KaTeX
     # rejects the whole expression.
-    out = re.sub(r"\^([A-Za-z]+(?:\([^()]*\)|\s+\w+)?)", r"^{\1}", out)
+    #
+    # Only an operator name may swallow the token after it. Letting any word do
+    # so turned "2^n ln 2" into "2^{n ln} 2", which is a different and wrong
+    # expression: the exponent is n, and ln 2 is a factor beside it.
+    # The operand may also be pushed up against the name, as in "n^lg3". That
+    # form used to leave the digit outside the group and print n^{\lg}3, with
+    # the 3 dropped to the baseline, so the operand is normalised here.
+    names = "|".join(OPERATORS)
+    out = re.sub(rf"\^({names})(\s*\([^()]*\)|\s+\w+|\d+)", _operator_exponent, out)
+    out = re.sub(r"\^([A-Za-z]+)", r"^{\1}", out)
     return out
+
+
+def _operator_exponent(m: re.Match[str]) -> str:
+    """``^lg 3``, ``^lg3`` and ``^min(m,n)`` all become one braced group."""
+    name, operand = m.group(1), m.group(2).strip()
+    separator = "" if operand.startswith("(") else " "
+    return "^{" + name + separator + operand + "}"
 
 
 def to_tex(src: str) -> str | None:

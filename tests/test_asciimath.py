@@ -58,6 +58,15 @@ class TestConverts:
             # The arity bug: a macro under ^ needs braces or KaTeX refuses.
             ("n^lg 7", r"n^{\lg 7}"),
             ("2^min(m,n)", r"2^{\min(m,n)}"),
+            # The greed bug: only an operator name may swallow what follows it.
+            # Any word doing so turned "2^n ln 2" into "2^{n \ln} 2", which is
+            # a different expression: the exponent is n, and ln 2 is a factor.
+            ("lim 1/(2^n ln 2)", r"\lim 1/(2^{n} \ln 2)"),
+            ("2^n lg n", r"2^{n} \lg n"),
+            # ...and the operand may be pushed against the name, which used to
+            # leave the digit outside the group and print n^{\lg}3.
+            ("Theta(n^lg3)", r"\Theta(n^{\lg 3})"),
+            ("Theta(n^lg 3)", r"\Theta(n^{\lg 3})"),
         ],
     )
     def test_regressions(self, source: str, expected: str) -> None:
